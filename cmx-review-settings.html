@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMX – Review Settings</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue:       #0076CE;
+  --blue-dark:  #005B99;
+  --blue-light: #E8F4FD;
+  --blue-mid:   #C8E4F5;
+  --green:      #00875A;
+  --green-bg:   #E3FCF0;
+  --amber:      #FF8B00;
+  --amber-bg:   #FFF4E5;
+  --red:        #DE350B;
+  --red-bg:     #FFEBE6;
+  --t1: #111827;
+  --t2: #4B5563;
+  --t3: #9CA3AF;
+  --border:     #DDE3E9;
+  --border-lt:  #EEF1F4;
+  --surface:    #FFFFFF;
+  --s2:         #F7F9FB;
+  --s3:         #EFF3F7;
+  --nav:        #0A1929;
+  --r:  8px;
+  --rsm: 5px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.07);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10), 0 2px 6px rgba(0,0,0,.05);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,.16), 0 8px 24px rgba(0,0,0,.08);
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #D8E6F0;
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* ─── BACKGROUND PAGE MOCK ─────────────────────────────────── */
+.page-bg {
+  position: fixed; inset: 0;
+  background: linear-gradient(160deg, #E8F2FA 0%, #D4E6F2 100%);
+  display: flex; flex-direction: column;
+}
+.mock-topbar {
+  height: 44px; background: var(--nav);
+  display: flex; align-items: center; padding: 0 20px; gap: 10px; flex-shrink: 0;
+}
+.mock-logo { font-size: 16px; font-weight: 700; color: #fff; }
+.mock-badge {
+  font-size: 9px; font-weight: 700; background: rgba(0,118,206,.8);
+  color: #fff; padding: 2px 5px; border-radius: 3px; letter-spacing: .5px; margin-left:5px;
+}
+.mock-subbar {
+  height: 36px; background: var(--s2); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; padding: 0 16px; gap: 6px; flex-shrink: 0;
+}
+.mock-tab {
+  font-size: 11px; padding: 3px 9px; border: 1px solid var(--border);
+  border-radius: 3px; color: var(--t2); background: var(--surface);
+}
+.mock-body { flex:1; display:grid; grid-template-columns:1fr 1fr; }
+.mock-left { padding:50px 40px; display:flex; flex-direction:column; gap:14px; }
+.mock-skel { height:12px; background:#C4D4DE; border-radius:4px; }
+.mock-skel-lg { height:32px; background:#B8CCD8; border-radius:6px; width:80%; }
+.mock-skel-sm { height:10px; background:#D0DDE6; border-radius:3px; }
+.mock-right { background:linear-gradient(135deg,#C8DCEA,#A8CCDE); display:flex; align-items:center; justify-content:center; font-size:60px; opacity:.5; }
+
+/* dim when flyout open */
+.dim { position:fixed; inset:0; background:rgba(10,25,45,.35); backdrop-filter:blur(2px); z-index:5; transition:opacity .25s; }
+
+/* ─── FLYOUT ───────────────────────────────────────────────── */
+.flyout {
+  position: fixed; top:0; right:0; bottom:0;
+  width: 400px; max-width: 100vw;
+  background: var(--surface);
+  box-shadow: var(--shadow-xl);
+  border-left: 1px solid var(--border);
+  z-index: 10;
+  display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform .32s cubic-bezier(.4,0,.2,1);
+}
+.flyout.open { transform: translateX(0); }
+
+/* ─── FLYOUT HEADER ────────────────────────────────────────── */
+.fh {
+  flex-shrink: 0;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+/* crumb row */
+.fh-crumb {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px 0;
+}
+.crumb-back {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 13px; font-weight: 600; color: var(--blue);
+  cursor: pointer; border: none; background: none;
+  font-family: 'DM Sans', sans-serif; padding: 4px 0;
+  transition: color .14s;
+}
+.crumb-back:hover { color: var(--blue-dark); }
+.crumb-sep { color: var(--border); font-size: 16px; }
+.crumb-current {
+  font-size: 13px; color: var(--t2); font-weight: 500;
+}
+
+/* title row */
+.fh-title-row {
+  display: flex; align-items: flex-start; padding: 8px 16px 14px;
+  gap: 10px;
+}
+.fh-icon {
+  width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--blue), #0096FF);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; box-shadow: 0 2px 8px rgba(0,118,206,.3);
+}
+.fh-text { flex:1; min-width:0; }
+.fh-label { font-size: 17px; font-weight: 700; color: var(--t1); line-height:1.2; }
+.fh-sub {
+  font-size: 12px; color: var(--t3); margin-top: 2px;
+  display: flex; align-items: center; gap: 6px;
+}
+.status-chip {
+  font-size: 10.5px; font-weight: 700; padding: 2px 8px;
+  border-radius: 10px; text-transform: uppercase; letter-spacing: .4px;
+}
+.status-chip.new { background: var(--amber-bg); color: var(--amber); }
+.fh-actions { display: flex; align-items: flex-start; gap: 6px; padding-top:4px; }
+.icon-btn {
+  width: 28px; height: 28px; border: none; background: none;
+  cursor: pointer; border-radius: 5px; color: var(--t3); font-size: 16px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .13s, color .13s;
+}
+.icon-btn:hover { background: var(--s3); color: var(--t1); }
+
+/* progress */
+.fh-progress {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 0; border-top: 1px solid var(--border-lt);
+}
+.progress-step {
+  padding: 8px 0 7px;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  border-bottom: 2px solid var(--border-lt);
+  cursor: pointer; transition: all .15s;
+}
+.progress-step.active { border-bottom-color: var(--blue); }
+.progress-step.done   { border-bottom-color: var(--green); }
+.progress-step-num {
+  width: 20px; height: 20px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10.5px; font-weight: 700;
+  background: var(--border-lt); color: var(--t3);
+  transition: all .15s;
+}
+.progress-step.active .progress-step-num { background: var(--blue); color: #fff; }
+.progress-step.done .progress-step-num   { background: var(--green); color: #fff; font-size: 11px; }
+.progress-step-label {
+  font-size: 10.5px; font-weight: 600; color: var(--t3);
+  text-transform: uppercase; letter-spacing: .4px; white-space: nowrap;
+}
+.progress-step.active .progress-step-label { color: var(--blue); }
+.progress-step.done .progress-step-label   { color: var(--green); }
+
+/* ─── FLYOUT BODY ──────────────────────────────────────────── */
+.fb {
+  flex: 1; overflow-y: auto;
+  scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+  background: var(--s2);
+}
+.fb::-webkit-scrollbar { width: 4px; }
+.fb::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* ─── SECTION CARD ─────────────────────────────────────────── */
+.section-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  margin: 12px 14px 0;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .15s;
+}
+.section-card:last-of-type { margin-bottom: 12px; }
+
+/* accordion header */
+.acc-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 13px 14px;
+  cursor: pointer; user-select: none;
+  transition: background .13s;
+  border-bottom: 1px solid transparent;
+}
+.acc-header:hover { background: var(--s2); }
+.acc-header.open { border-bottom-color: var(--border-lt); }
+
+.acc-icon {
+  width: 30px; height: 30px; border-radius: 7px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 14px;
+}
+.acc-icon.identity  { background: var(--blue-light); }
+.acc-icon.scope     { background: var(--green-bg); }
+.acc-icon.people    { background: var(--amber-bg); }
+.acc-icon.schedule  { background: #F0EEFF; }
+.acc-icon.notes     { background: var(--s3); }
+
+.acc-label { flex:1; }
+.acc-title {
+  font-size: 13.5px; font-weight: 700; color: var(--t1);
+}
+.acc-subtitle {
+  font-size: 11.5px; color: var(--t3); margin-top: 1px;
+}
+.acc-complete {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600; color: var(--green);
+}
+.acc-chevron {
+  font-size: 11px; color: var(--t3); flex-shrink: 0;
+  transition: transform .2s cubic-bezier(.4,0,.2,1);
+}
+.acc-header.open .acc-chevron { transform: rotate(180deg); }
+
+/* accordion body */
+.acc-body {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height .28s cubic-bezier(.4,0,.2,1);
+}
+.acc-body.open { max-height: 800px; }
+.acc-inner { padding: 16px 14px; display: flex; flex-direction: column; gap: 14px; }
+
+/* ─── FIELDS ───────────────────────────────────────────────── */
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field-row { display: flex; gap: 10px; }
+.field-row .field { flex: 1; }
+
+.label {
+  font-size: 11.5px; font-weight: 700; color: var(--t2);
+  display: flex; align-items: center; gap: 5px;
+}
+.label-required { color: var(--red); margin-left: 1px; }
+.label-hint {
+  font-size: 10.5px; font-weight: 400; color: var(--t3);
+  margin-left: auto;
+}
+
+.input {
+  width: 100%; padding: 9px 11px;
+  border: 1.5px solid var(--border); border-radius: var(--rsm);
+  font-size: 13.5px; font-family: 'DM Sans', sans-serif;
+  color: var(--t1); background: var(--surface); outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  line-height: 1.4;
+}
+.input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,118,206,.10); }
+.input::placeholder { color: var(--t3); }
+.input:disabled { background: var(--s3); color: var(--t3); cursor: not-allowed; }
+
+textarea.input { resize: vertical; min-height: 72px; }
+
+.input-mono { font-family: 'DM Mono', monospace; font-size: 13px; }
+
+/* select wrapper */
+.select-wrap { position: relative; }
+.select-wrap::after {
+  content: '▾'; position: absolute; right: 11px; top: 50%;
+  transform: translateY(-50%); pointer-events: none; color: var(--t3); font-size: 12px;
+}
+select.input { padding-right: 30px; cursor: pointer; appearance: none; }
+
+/* tag input */
+.tag-input-wrap {
+  display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+  padding: 7px 10px; min-height: 42px;
+  border: 1.5px solid var(--border); border-radius: var(--rsm);
+  background: var(--surface); cursor: text;
+  transition: border-color .15s, box-shadow .15s;
+}
+.tag-input-wrap:focus-within { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,118,206,.10); }
+.tag {
+  display: flex; align-items: center; gap: 4px;
+  background: var(--blue-light); color: var(--blue); border-radius: 4px;
+  padding: 3px 8px; font-size: 12px; font-weight: 600;
+}
+.tag-x {
+  cursor: pointer; opacity: .6; font-size: 13px; line-height: 1;
+  transition: opacity .12s;
+}
+.tag-x:hover { opacity: 1; }
+.tag-input {
+  border: none; outline: none; font-size: 13px;
+  font-family: 'DM Sans', sans-serif; color: var(--t1);
+  background: transparent; min-width: 120px; flex: 1;
+}
+.tag-input::placeholder { color: var(--t3); }
+
+/* Priority selector */
+.priority-row { display: flex; gap: 8px; }
+.priority-opt {
+  flex: 1; border: 1.5px solid var(--border); border-radius: var(--rsm);
+  padding: 9px 10px; text-align: center; cursor: pointer;
+  font-size: 12.5px; font-weight: 600; color: var(--t2);
+  transition: all .14s; user-select: none;
+}
+.priority-opt:hover { border-color: #BDC9D4; background: var(--s2); }
+.priority-opt.sel-low    { border-color: var(--green); background: var(--green-bg); color: var(--green); }
+.priority-opt.sel-medium { border-color: var(--amber); background: var(--amber-bg); color: var(--amber); }
+.priority-opt.sel-high   { border-color: var(--red);   background: var(--red-bg);   color: var(--red); }
+.priority-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+
+/* webparts checklist */
+.webparts-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+}
+.wp-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px;
+  border: 1.5px solid var(--border); border-radius: var(--rsm);
+  cursor: pointer; user-select: none;
+  transition: border-color .14s, background .14s;
+}
+.wp-item:hover { background: var(--s2); border-color: #C0CDD6; }
+.wp-item.checked { border-color: var(--blue); background: var(--blue-light); }
+.wp-checkbox {
+  width: 15px; height: 15px; border-radius: 3px; flex-shrink: 0;
+  border: 1.5px solid var(--border); background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: transparent;
+  transition: all .14s;
+}
+.wp-item.checked .wp-checkbox {
+  background: var(--blue); border-color: var(--blue); color: #fff;
+}
+.wp-name { font-size: 12px; font-weight: 500; color: var(--t2); }
+.wp-item.checked .wp-name { color: var(--blue-dark); font-weight: 600; }
+
+/* read-only meta row */
+.meta-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 11px;
+  border: 1px solid var(--border-lt); border-radius: var(--rsm);
+  background: var(--s2); font-size: 13px; color: var(--t2);
+}
+.meta-row-icon { font-size: 14px; flex-shrink: 0; }
+.meta-row-val { font-weight: 600; color: var(--t1); margin-left: 2px; }
+.meta-row-label { color: var(--t3); font-size: 12px; }
+
+/* info callout */
+.callout {
+  display: flex; align-items: flex-start; gap: 9px;
+  padding: 10px 12px; border-radius: var(--rsm);
+  font-size: 12px; line-height: 1.5;
+}
+.callout.info { background: var(--blue-light); border: 1px solid var(--blue-mid); color: var(--blue-dark); }
+.callout.warn { background: var(--amber-bg); border: 1px solid #FFD699; color: #7A4500; }
+.callout-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+/* ─── FLYOUT FOOTER ────────────────────────────────────────── */
+.ff {
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+  padding: 13px 14px;
+  background: var(--surface);
+  display: flex; gap: 8px;
+}
+.btn {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 10px 18px; border-radius: var(--rsm);
+  font-size: 13.5px; font-weight: 700; cursor: pointer; border: none;
+  font-family: 'DM Sans', sans-serif; transition: all .14s;
+}
+.btn-primary { flex: 1; background: var(--blue); color: #fff; }
+.btn-primary:hover { background: var(--blue-dark); }
+.btn-ghost {
+  background: transparent; color: var(--t2);
+  border: 1.5px solid var(--border);
+}
+.btn-ghost:hover { border-color: var(--t2); color: var(--t1); }
+
+/* ─── SUB-SECTION HEADER (inside accordion) ────────────────── */
+.sub-section-hdr {
+  display: flex; align-items: center; gap: 7px;
+  padding: 4px 0 2px;
+}
+.sub-section-icon { font-size: 13px; flex-shrink: 0; }
+.sub-section-title {
+  font-size: 11px; font-weight: 700; color: var(--t2);
+  text-transform: uppercase; letter-spacing: 0.7px; white-space: nowrap;
+}
+.sub-section-line {
+  flex: 1; height: 1px; background: var(--border);
+}
+
+/* ─── DEMO CONTROLS ────────────────────────────────────────── */
+.demo-bar {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: rgba(10,25,45,.88); backdrop-filter: blur(12px);
+  border-radius: 30px; padding: 8px 6px; display: flex; gap: 4px; z-index: 20;
+  box-shadow: 0 8px 28px rgba(0,0,0,.25);
+}
+.demo-btn {
+  padding: 7px 16px; border-radius: 24px; border: none;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; transition: all .15s;
+  color: rgba(255,255,255,.6); background: transparent;
+}
+.demo-btn.active { background: #fff; color: #1A1A1A; }
+.demo-btn:hover:not(.active) { color: #fff; background: rgba(255,255,255,.15); }
+
+/* toast */
+.toast {
+  position: fixed; bottom: 28px; right: 24px;
+  background: var(--nav, #0A1929); color: #fff;
+  padding: 11px 18px; border-radius: 8px; font-size: 13px; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.22); z-index: 30; pointer-events: none;
+  transform: translateY(20px); opacity: 0;
+  transition: transform .32s cubic-bezier(.34,1.4,.64,1), opacity .2s ease;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- ─── BACKGROUND MOCK ─────────────────────────────────────── -->
+<div class="page-bg">
+  <div class="mock-topbar">
+    <span class="mock-logo">CMX.<span class="mock-badge">LEARN</span></span>
+    <span style="margin-left:16px;font-size:11.5px;color:rgba(255,255,255,.4)">UberHomePage · en-us · corp · Default</span>
+  </div>
+  <div class="mock-subbar">
+    <span class="mock-tab">UberHomePage</span>
+    <span class="mock-tab">en-us</span>
+    <span class="mock-tab">corp</span>
+    <span class="mock-tab">Default</span>
+    <button style="margin-left:auto;background:var(--blue);color:#fff;border:none;padding:5px 12px;border-radius:4px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif" onclick="openFlyout()">+ Start Review</button>
+  </div>
+  <div class="mock-body">
+    <div class="mock-left">
+      <div class="mock-skel" style="width:40%"></div>
+      <div class="mock-skel-lg"></div>
+      <div class="mock-skel-lg" style="width:60%;height:28px"></div>
+      <div class="mock-skel-sm" style="width:90%"></div>
+      <div class="mock-skel-sm" style="width:75%"></div>
+      <div class="mock-skel-sm" style="width:55%"></div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        <div style="width:110px;height:34px;background:#223344;border-radius:4px"></div>
+        <div style="width:90px;height:34px;background:#C4D4DE;border-radius:4px;border:2px solid #B0C4D0"></div>
+      </div>
+    </div>
+    <div class="mock-right">💻</div>
+  </div>
+</div>
+
+<!-- dim -->
+<div class="dim" id="dim" style="opacity:0;pointer-events:none" onclick="closeFlyout()"></div>
+
+<!-- ─── FLYOUT ───────────────────────────────────────────────── -->
+<div class="flyout" id="flyout">
+
+  <!-- HEADER -->
+  <div class="fh">
+    <!-- breadcrumb -->
+    <div class="fh-crumb">
+      <button class="crumb-back" onclick="closeFlyout()">← Reviews</button>
+      <span class="crumb-sep">·</span>
+      <span class="crumb-current" id="fhCurrent">New</span>
+    </div>
+    <!-- title -->
+    <div class="fh-title-row">
+      <div class="fh-icon">📋</div>
+      <div class="fh-text">
+        <div class="fh-label" id="fhLabel">Review Settings</div>
+        <div class="fh-sub">
+          <span>UberHomePage</span>
+          <span id="fhStatus" class="status-chip new">New</span>
+        </div>
+      </div>
+      <div class="fh-actions">
+        <button class="icon-btn" title="More options">☰</button>
+        <button class="icon-btn" title="Close" onclick="closeFlyout()">✕</button>
+      </div>
+    </div>
+    <!-- step progress -->
+    <div class="fh-progress">
+      <div class="progress-step done" id="step1">
+        <div class="progress-step-num">✓</div>
+        <div class="progress-step-label">Overview</div>
+      </div>
+      <div class="progress-step active" id="step2">
+        <div class="progress-step-num">2</div>
+        <div class="progress-step-label">Review Config</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="fb" id="flyoutBody">
+
+    <!-- ══ SECTION A: Overview ══════════════════════════════════
+         Name · Description · Priority · Created On · Comments   -->
+    <div class="section-card">
+      <div class="acc-header open" id="accA-hdr" onclick="toggleAcc('accA')">
+        <div class="acc-icon identity">📋</div>
+        <div class="acc-label">
+          <div class="acc-title">Overview</div>
+          <div class="acc-subtitle">Name, description, priority &amp; notes</div>
+        </div>
+        <div class="acc-complete" id="accA-done" style="display:none">✓ Complete</div>
+        <div class="acc-chevron">▾</div>
+      </div>
+      <div class="acc-body open" id="accA">
+        <div class="acc-inner">
+
+          <!-- Name + Created On — side by side -->
+          <div class="field-row">
+            <div class="field" style="flex:2">
+              <label class="label">Review Name <span class="label-required">*</span></label>
+              <input class="input" type="text" id="reviewName" value="nvidia first review"
+                     placeholder="e.g. Spring Hero Review" oninput="syncName()" />
+            </div>
+            <div class="field" style="flex:1.3">
+              <label class="label">Created On</label>
+              <div class="input" style="background:var(--s3);color:var(--t3);cursor:default;font-family:'DM Mono',monospace;font-size:12px;display:flex;align-items:center;gap:5px">
+                <span>📅</span> 27-04-2026 10:55
+              </div>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="field">
+            <label class="label">Description</label>
+            <textarea class="input" rows="3"
+              placeholder="What should reviewers focus on?">nvidia first review</textarea>
+          </div>
+
+          <!-- Priority -->
+          <div class="field">
+            <label class="label">Priority</label>
+            <div class="priority-row">
+              <div class="priority-opt" id="pri-low" onclick="setPriority('low')">
+                <span class="priority-dot" style="background:var(--green)"></span>Low
+              </div>
+              <div class="priority-opt sel-medium" id="pri-medium" onclick="setPriority('medium')">
+                <span class="priority-dot" style="background:var(--amber)"></span>Medium
+              </div>
+              <div class="priority-opt" id="pri-high" onclick="setPriority('high')">
+                <span class="priority-dot" style="background:var(--red)"></span>High
+              </div>
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div style="height:1px;background:var(--border-lt);margin:2px 0"></div>
+
+          <!-- Comments -->
+          <div class="field">
+            <label class="label">Comments
+              <span class="label-hint">optional</span>
+            </label>
+            <textarea class="input" rows="3"
+              placeholder="Add context, links, or instructions for reviewers…"></textarea>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION B: Review Config ═════════════════════════════
+         Profile · Webparts · Reviewers · Launch Date · Deadline  -->
+    <div class="section-card" style="margin-bottom:12px">
+      <div class="acc-header open" id="accB-hdr" onclick="toggleAcc('accB')">
+        <div class="acc-icon scope">⚙️</div>
+        <div class="acc-label">
+          <div class="acc-title">Review Configuration</div>
+          <div class="acc-subtitle">Scope, reviewers &amp; schedule</div>
+        </div>
+        <div class="acc-complete" id="accB-done" style="display:none">✓ Complete</div>
+        <div class="acc-chevron">▾</div>
+      </div>
+      <div class="acc-body open" id="accB">
+        <div class="acc-inner">
+
+          <!-- ── Scope sub-header ── -->
+          <div class="sub-section-hdr">
+            <span class="sub-section-icon">🗂</span>
+            <span class="sub-section-title">Scope</span>
+            <span class="sub-section-line"></span>
+          </div>
+
+          <!-- Profile -->
+          <div class="field">
+            <label class="label">Profile
+              <span style="font-size:11px;font-weight:400;color:var(--t3)">(locale)</span>
+            </label>
+            <div class="select-wrap">
+              <select class="input" onchange="addProfileTag(this)">
+                <option value="">Select locale…</option>
+                <option value="en/us">en/us</option>
+                <option value="en/gb">en/gb</option>
+                <option value="de/de">de/de</option>
+                <option value="fr/fr">fr/fr</option>
+                <option value="ja/jp">ja/jp</option>
+              </select>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:6px" id="profileTags">
+              <span class="tag">en/us <span class="tag-x" onclick="removeTag(this)">×</span></span>
+            </div>
+          </div>
+
+          <!-- Webparts -->
+          <div class="field">
+            <label class="label">
+              Webparts for Review
+              <span class="label-hint" id="wpCount">3 selected</span>
+            </label>
+            <div class="webparts-grid" id="wpGrid">
+              <div class="wp-item checked" onclick="toggleWp(this)">
+                <div class="wp-checkbox">✓</div>
+                <div class="wp-name">nvidia-gpu-tab-1</div>
+              </div>
+              <div class="wp-item checked" onclick="toggleWp(this)">
+                <div class="wp-checkbox">✓</div>
+                <div class="wp-name">nvidia-gpu-tab2-part-3</div>
+              </div>
+              <div class="wp-item checked" onclick="toggleWp(this)">
+                <div class="wp-checkbox">✓</div>
+                <div class="wp-name">nvidia-gpu-webpart-tab-3</div>
+              </div>
+              <div class="wp-item" onclick="toggleWp(this)">
+                <div class="wp-checkbox"></div>
+                <div class="wp-name">nvidia-gpu-tab2-part-4</div>
+              </div>
+              <div class="wp-item" onclick="toggleWp(this)">
+                <div class="wp-checkbox"></div>
+                <div class="wp-name">hero-banner-main</div>
+              </div>
+              <div class="wp-item" onclick="toggleWp(this)">
+                <div class="wp-checkbox"></div>
+                <div class="wp-name">footer-cta-strip</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Reviewers sub-header ── -->
+          <div class="sub-section-hdr" style="margin-top:4px">
+            <span class="sub-section-icon">👥</span>
+            <span class="sub-section-title">Reviewers</span>
+            <span class="sub-section-line"></span>
+          </div>
+
+          <div class="field">
+            <label class="label">Reviewer Emails <span class="label-required">*</span>
+              <span class="label-hint">Enter or comma to add</span>
+            </label>
+            <div class="tag-input-wrap" onclick="document.getElementById('reviewerInput').focus()">
+              <span class="tag">studio.devs@dell.com
+                <span class="tag-x" onclick="removeTagEl(this)">×</span>
+              </span>
+              <input class="tag-input" id="reviewerInput" type="email"
+                     placeholder="Add email…" onkeydown="addReviewer(event)" />
+            </div>
+          </div>
+
+          <div class="callout info">
+            <div class="callout-icon">ℹ️</div>
+            <div>Reviewers will be notified by email and can comment or approve the selected webparts.</div>
+          </div>
+
+          <!-- ── Schedule sub-header ── -->
+          <div class="sub-section-hdr" style="margin-top:4px">
+            <span class="sub-section-icon">📅</span>
+            <span class="sub-section-title">Schedule</span>
+            <span class="sub-section-line"></span>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label class="label">Launch Date <span class="label-required">*</span></label>
+              <input class="input input-mono" type="datetime-local" value="2026-05-15T10:53" />
+            </div>
+            <div class="field">
+              <label class="label">Review Deadline</label>
+              <input class="input input-mono" type="datetime-local" value="2026-05-01T18:00" />
+            </div>
+          </div>
+
+          <div class="callout warn">
+            <div class="callout-icon">⚠️</div>
+            <div>Launch date should give reviewers enough time to complete their review.</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="ff">
+    <button class="btn btn-ghost" onclick="closeFlyout()">Cancel</button>
+    <button class="btn btn-primary" onclick="save()">💾 &nbsp;Save Review</button>
+  </div>
+
+</div>
+
+<!-- ─── DEMO BAR ─────────────────────────────────────────────── -->
+<div class="demo-bar">
+  <button class="demo-btn active" id="db0" onclick="setDemo(0)">Both Open</button>
+  <button class="demo-btn" id="db1" onclick="setDemo(1)">Both Collapsed</button>
+  <button class="demo-btn" id="db2" onclick="setDemo(2)">Overview Only</button>
+  <button class="demo-btn" id="db3" onclick="setDemo(3)">Config Only</button>
+</div>
+
+<!-- toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── FLYOUT ───────────────────────────────────────────────────
+function openFlyout() {
+  document.getElementById('flyout').classList.add('open');
+  const dim = document.getElementById('dim');
+  dim.style.opacity = '1'; dim.style.pointerEvents = 'all';
+}
+function closeFlyout() {
+  document.getElementById('flyout').classList.remove('open');
+  const dim = document.getElementById('dim');
+  dim.style.opacity = '0'; dim.style.pointerEvents = 'none';
+}
+
+// ─── ACCORDION ────────────────────────────────────────────────
+function toggleAcc(id) {
+  const body = document.getElementById(id);
+  const hdr  = document.getElementById(id + '-hdr');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  hdr.classList.toggle('open', !isOpen);
+}
+function openAcc(id)  {
+  document.getElementById(id).classList.add('open');
+  document.getElementById(id + '-hdr').classList.add('open');
+}
+function closeAcc(id) {
+  document.getElementById(id).classList.remove('open');
+  document.getElementById(id + '-hdr').classList.remove('open');
+}
+
+// ─── PRIORITY ─────────────────────────────────────────────────
+function setPriority(p) {
+  ['low','medium','high'].forEach(x => {
+    document.getElementById('pri-' + x).className =
+      'priority-opt' + (x === p ? ' sel-' + x : '');
+  });
+  toast('Priority set to ' + p.charAt(0).toUpperCase() + p.slice(1));
+}
+
+// ─── WEBPARTS ─────────────────────────────────────────────────
+function toggleWp(el) {
+  el.classList.toggle('checked');
+  el.querySelector('.wp-checkbox').textContent =
+    el.classList.contains('checked') ? '✓' : '';
+  const count = document.querySelectorAll('.wp-item.checked').length;
+  document.getElementById('wpCount').textContent = count + ' selected';
+}
+
+// ─── PROFILE TAGS ─────────────────────────────────────────────
+function addProfileTag(sel) {
+  const val = sel.value;
+  if (!val) return;
+  const existing = [...document.querySelectorAll('#profileTags .tag')]
+    .map(t => t.textContent.replace('×','').trim());
+  if (existing.includes(val)) { sel.value = ''; return; }
+  const tag = document.createElement('span');
+  tag.className = 'tag';
+  tag.innerHTML = val + ' <span class="tag-x" onclick="removeTag(this)">×</span>';
+  document.getElementById('profileTags').appendChild(tag);
+  sel.value = '';
+  toast('Profile added: ' + val);
+}
+function removeTag(x)   { x.closest('.tag').remove(); }
+function removeTagEl(x) { x.closest('.tag').remove(); }
+
+// ─── REVIEWER TAGS ────────────────────────────────────────────
+function addReviewer(e) {
+  if (e.key !== 'Enter' && e.key !== ',') return;
+  e.preventDefault();
+  const inp = document.getElementById('reviewerInput');
+  const val = inp.value.trim().replace(/,$/, '');
+  if (!val) return;
+  const tag = document.createElement('span');
+  tag.className = 'tag';
+  tag.innerHTML = val + ' <span class="tag-x" onclick="removeTagEl(this)">×</span>';
+  inp.parentNode.insertBefore(tag, inp);
+  inp.value = '';
+  toast('Reviewer added');
+}
+
+// ─── SYNC HEADER ──────────────────────────────────────────────
+function syncName() {
+  const v = document.getElementById('reviewName').value.trim();
+  document.getElementById('fhLabel').textContent = v || 'Review Settings';
+  document.getElementById('fhCurrent').textContent = v ? 'Editing' : 'New';
+}
+
+// ─── SAVE ─────────────────────────────────────────────────────
+function save() {
+  document.getElementById('accA-done').style.display = 'flex';
+  document.getElementById('accB-done').style.display = 'flex';
+  // progress: both steps done
+  ['step1','step2'].forEach(id => {
+    const s = document.getElementById(id);
+    s.className = 'progress-step done';
+    s.querySelector('.progress-step-num').textContent = '✓';
+  });
+  const chip = document.getElementById('fhStatus');
+  chip.textContent = 'Saved';
+  chip.style.cssText =
+    'background:var(--green-bg);color:var(--green);font-size:10.5px;font-weight:700;' +
+    'padding:2px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.4px';
+  document.getElementById('fhCurrent').textContent = 'Saved';
+  toast('✅ Review saved and reviewers notified!');
+}
+
+// ─── DEMO MODES ───────────────────────────────────────────────
+function setDemo(n) {
+  document.querySelectorAll('.demo-btn').forEach((b, i) =>
+    b.classList.toggle('active', i === n));
+  if (n === 0) { openAcc('accA');  openAcc('accB');  }
+  if (n === 1) { closeAcc('accA'); closeAcc('accB'); }
+  if (n === 2) { openAcc('accA');  closeAcc('accB'); }
+  if (n === 3) { closeAcc('accA'); openAcc('accB');  }
+}
+
+// ─── TOAST ────────────────────────────────────────────────────
+let tTimer;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  clearTimeout(tTimer);
+  tTimer = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+window.addEventListener('load', openFlyout);
+</script>
+</body>
+</html>
