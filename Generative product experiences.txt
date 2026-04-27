@@ -1,19 +1,17 @@
-* Generative product experiences — pages assembled at request-time by an LLM choosing from a content component library based on user intent
-
-* Attribute-aware content that understands merchandising semantics (e.g., a "Performance" attribute on a laptop drives both filtering and content variation automatically)
-
-* Multi-dimensional taxonomies
-
-* Semantic search and retrieval as a core primitive — every content piece auto-embedded into a vector store in Elastic
-
-* Agentic content operations: a content agent that can draft variations, suggest cross-links, detect gaps, or auto-tag based on your taxonomy
-
+* Generative product experiences - having pages assembled at request-time by an LLM choosing from a content component library based on user intent
+ 
+* Multi-dimensional taxonomies - Attribute-aware content that understands merchandising semantics (e.g., a "Performance" attribute on a laptop drives both filtering and content variation automatically)
+ 
+* Agentic content operations: a content agent that can draft variations, suggest cross-links, detect gaps, or auto-tag based on your taxonomy. 
+ 
+* Exposing content via MCP Server - other agents/apps can integrate - such as integrate with copilot for sales reps, claude code for devs etc  
+ 
 * In-line LLM workflows where authors get suggestions, tone adjustments, SEO scoring, and translation drafts contextually using internal LLMs
-
-* Streaming/Server Side Rendering responses optimized for partial hydration patterns
-
-* Pluggable workflow DSL so business units can define their own approval chains without engineering
-
+ 
+* Streaming/Server Side Rendering responses optimized for partial rendering patterns
+ 
+* Pluggable workflow DSL so business units can define their own approval chains without IT
+ 
 * Time-travel and what-if previews showing the site as it will appear next Tuesday with scheduled changes applied
-
-* Dependency-aware / Lineage tracking publishing — system warns you if publishing this change breaks 47 downstream pages
+ 
+* Dependency-aware / Lineage tracking publishing — system warns you if publishing this change breaks downstream pages
