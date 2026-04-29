@@ -1,0 +1,1589 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1280" />
+<title>Dell AI Solutions Explorer — Reimagined (Mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===========================================================
+   DELL THEME TOKENS
+   Tweak here to retheme. These mirror Dell Technologies' palette.
+   =========================================================== */
+:root{
+  --dell-blue:#0672CB;
+  --dell-blue-hover:#0455A1;
+  --dell-blue-soft:#E6F1FB;
+  --dell-navy-900:#0B1929;
+  --dell-navy-800:#142A43;
+  --dell-navy-700:#1E3A5F;
+  --dell-ink:#1A1A1A;
+  --dell-slate-700:#4A5568;
+  --dell-slate-500:#718096;
+  --dell-slate-300:#CBD5E0;
+  --dell-slate-200:#E2E8F0;
+  --dell-slate-100:#F7FAFC;
+  --dell-white:#FFFFFF;
+  --dell-success:#00A65A;
+  --dell-warn:#E89D3C;
+  --dell-danger:#C8372D;
+  --dell-coming-soon:#6B7280;
+  --shadow-card:0 8px 24px rgba(11,25,41,0.08);
+  --shadow-soft:0 2px 8px rgba(11,25,41,0.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;font-family:'Inter',system-ui,-apple-system,sans-serif;color:var(--dell-ink);background:var(--dell-slate-100);font-size:14px;line-height:1.5}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--dell-blue);outline-offset:2px}
+a{color:var(--dell-blue);text-decoration:none}
+a:hover{text-decoration:underline}
+h1,h2,h3,h4{margin:0;font-weight:600;color:var(--dell-ink);letter-spacing:-0.01em}
+h1{font-size:32px;line-height:1.2}
+h2{font-size:24px;line-height:1.25}
+h3{font-size:20px;line-height:1.3}
+h4{font-size:16px;line-height:1.4}
+p{margin:0}
+
+/* ===========================================================
+   TOP BAR
+   =========================================================== */
+.topbar{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid var(--dell-slate-200);height:64px;display:flex;align-items:center;padding:0 24px;gap:16px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--dell-blue);font-size:15px;letter-spacing:0.02em}
+.brand svg{width:24px;height:24px}
+.stepper{display:flex;flex:1;gap:4px;justify-content:center;flex-wrap:wrap}
+.step{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:6px;font-size:12px;color:var(--dell-slate-500);cursor:pointer}
+.step:hover{background:var(--dell-slate-100)}
+.step .num{width:18px;height:18px;border-radius:50%;background:var(--dell-slate-200);color:var(--dell-slate-700);font-weight:600;display:flex;align-items:center;justify-content:center;font-size:11px}
+.step.active{color:var(--dell-navy-900);font-weight:600}
+.step.active .num{background:var(--dell-blue);color:#fff}
+.topbar-right{display:flex;align-items:center;gap:14px;font-size:13px;color:var(--dell-slate-700)}
+.solution-counter{background:var(--dell-blue-soft);color:var(--dell-blue);font-weight:600;padding:4px 10px;border-radius:12px;font-size:12px}
+.demo-jump{position:relative}
+.demo-jump select{appearance:none;border:1px solid var(--dell-slate-300);background:#fff;padding:6px 28px 6px 12px;border-radius:6px;font-size:12px;color:var(--dell-slate-700);font-family:inherit;cursor:pointer}
+.demo-jump::after{content:'▾';position:absolute;right:10px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--dell-slate-500);font-size:10px}
+
+/* ===========================================================
+   COMMON COMPONENTS
+   =========================================================== */
+.screen{display:none;min-height:calc(100vh - 64px)}
+.screen.active{display:block}
+.container{max-width:1280px;margin:0 auto;padding:32px 32px}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:500;padding:11px 20px;border-radius:4px;font-size:14px;transition:background 150ms ease, transform 150ms ease, border-color 150ms ease;border:1px solid transparent;text-decoration:none}
+.btn-primary{background:var(--dell-blue);color:#fff}
+.btn-primary:hover{background:var(--dell-blue-hover);text-decoration:none}
+.btn-secondary{background:#fff;color:var(--dell-blue);border-color:var(--dell-blue)}
+.btn-secondary:hover{background:var(--dell-blue-soft);text-decoration:none}
+.btn-tertiary{color:var(--dell-blue);padding:8px 0}
+.btn-tertiary:hover{text-decoration:underline}
+.btn-large{padding:14px 28px;font-size:15px}
+.card{background:#fff;border:1px solid var(--dell-slate-200);border-radius:8px;padding:24px;transition:transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease}
+.card.selectable{cursor:pointer}
+.card.selectable:hover{transform:translateY(-2px);box-shadow:var(--shadow-card)}
+.card.selected{background:var(--dell-blue-soft);border-color:var(--dell-blue);border-width:2px;padding:23px}
+.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:12px;font-size:11px;font-weight:500;letter-spacing:0.04em;text-transform:uppercase}
+.pill-info{background:var(--dell-blue-soft);color:var(--dell-blue)}
+.pill-success{background:#E6F4EE;color:var(--dell-success)}
+.pill-coming{background:#EEF1F4;color:var(--dell-coming-soon)}
+.pill-compliance{background:#E8EEF6;color:var(--dell-navy-700)}
+.pill-warn{background:#FDF1E1;color:var(--dell-warn)}
+.kpi{background:#fff;border:1px solid var(--dell-slate-200);border-radius:8px;padding:16px 20px}
+.kpi .label{font-size:11px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;color:var(--dell-slate-500);margin-bottom:6px}
+.kpi .value{font-size:24px;font-weight:600;color:var(--dell-navy-900)}
+.kpi .sub{font-size:12px;color:var(--dell-slate-500);margin-top:2px}
+.divider{height:1px;background:var(--dell-slate-200);margin:24px 0}
+.muted{color:var(--dell-slate-500)}
+.label-mini{font-size:11px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;color:var(--dell-slate-500)}
+
+/* ===========================================================
+   RACK ILLUSTRATION (CSS-only)
+   data-units-lit drives how many U-slots glow.
+   =========================================================== */
+.rack{position:relative;display:inline-block;background:linear-gradient(180deg,var(--dell-navy-800),var(--dell-navy-900));border:1px solid var(--dell-navy-700);border-radius:6px;padding:8px 6px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.06), 0 4px 16px rgba(0,0,0,0.25)}
+.rack .u{height:8px;margin:2px 0;background:#0a1623;border-radius:1px;border:1px solid #112237;position:relative}
+.rack .u.lit{background:linear-gradient(90deg,rgba(6,114,203,0.4),rgba(6,114,203,0.7));border-color:rgba(6,114,203,0.6);box-shadow:0 0 6px rgba(6,114,203,0.4)}
+.rack .u.lit::before{content:'';position:absolute;left:6px;top:50%;transform:translateY(-50%);width:3px;height:3px;background:#7ec0ff;border-radius:50%;box-shadow:0 0 4px #7ec0ff}
+.rack-small{width:60px}
+.rack-small .u{height:5px;margin:1px 0}
+.rack-medium{width:90px}
+.rack-medium .u{height:7px}
+.rack-row{display:flex;gap:8px;align-items:flex-end}
+
+/* ===========================================================
+   SCREEN 1 — LANDING
+   =========================================================== */
+.hero{background:linear-gradient(135deg,var(--dell-navy-900) 0%,var(--dell-navy-800) 50%,var(--dell-navy-700) 100%);color:#fff;padding:80px 32px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 80% 50%, rgba(6,114,203,0.18), transparent 50%), radial-gradient(circle at 20% 90%, rgba(6,114,203,0.10), transparent 40%);pointer-events:none}
+.hero-rack-bg{position:absolute;right:5%;top:50%;transform:translateY(-50%);opacity:0.3;display:flex;gap:12px}
+.hero-inner{position:relative;max-width:1280px;margin:0 auto}
+.hero h1{color:#fff;font-size:48px;line-height:1.1;max-width:680px;margin-bottom:16px}
+.hero p.lead{color:#cbd5e0;font-size:18px;max-width:620px;margin-bottom:0}
+.doors{max-width:1280px;margin:-40px auto 0;padding:0 32px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative;z-index:2}
+.door{background:#fff;border-radius:12px;padding:32px;box-shadow:var(--shadow-card);display:flex;flex-direction:column;gap:16px;transition:transform 200ms ease;cursor:pointer;border:1px solid var(--dell-slate-200)}
+.door:hover{transform:translateY(-4px)}
+.door .door-icon{width:56px;height:56px;background:var(--dell-blue-soft);color:var(--dell-blue);border-radius:12px;display:flex;align-items:center;justify-content:center}
+.door .door-tag{position:absolute;top:24px;right:24px}
+.door h3{font-size:22px}
+.door p{color:var(--dell-slate-700);min-height:60px}
+.door .btn{align-self:flex-start;margin-top:auto}
+.door{position:relative}
+.landing-strip{max-width:1280px;margin:48px auto 0;padding:24px 32px;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--dell-slate-200);font-size:13px;color:var(--dell-slate-700)}
+.trust{max-width:1280px;margin:24px auto 64px;padding:24px 32px;color:var(--dell-slate-500);font-size:13px;text-align:center;border-top:1px solid var(--dell-slate-200);padding-top:32px}
+.trust strong{color:var(--dell-slate-700);font-weight:600}
+
+/* ===========================================================
+   SCREEN 2 — INDUSTRY LENS
+   =========================================================== */
+.crumb{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--dell-slate-200);margin-bottom:24px}
+.crumb-trail{font-size:13px;color:var(--dell-slate-500)}
+.crumb-trail strong{color:var(--dell-ink);font-weight:500}
+.compliance-cluster{display:flex;gap:8px;align-items:center;font-size:13px}
+.industry-grid{display:grid;grid-template-columns:1.2fr 1.4fr 1fr;gap:24px}
+.usecase-list{display:flex;flex-direction:column;gap:12px}
+.usecase-card{background:#fff;border:1px solid var(--dell-slate-200);border-radius:8px;padding:16px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;cursor:pointer;transition:border-color 150ms ease, background 150ms ease}
+.usecase-card.added{background:var(--dell-blue-soft);border-color:var(--dell-blue)}
+.usecase-card .uc-title{font-weight:600;margin-bottom:4px}
+.usecase-card .uc-desc{font-size:12px;color:var(--dell-slate-500)}
+.toggle-add{font-size:12px;font-weight:500;padding:4px 10px;border-radius:12px;border:1px solid var(--dell-slate-300);color:var(--dell-slate-700);background:#fff;flex-shrink:0}
+.toggle-add.added{background:var(--dell-blue);border-color:var(--dell-blue);color:#fff}
+.starting-point{background:#fff;border:1px solid var(--dell-slate-200);border-radius:8px;padding:24px}
+.starting-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.case-studies{display:flex;flex-direction:column;gap:12px}
+.case-card{background:#fff;border:1px solid var(--dell-slate-200);border-radius:8px;padding:14px;display:flex;gap:12px;align-items:flex-start}
+.case-mono{width:36px;height:36px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px;flex-shrink:0}
+.case-card .case-title{font-weight:600;font-size:13px;margin-bottom:2px}
+.case-card .case-meta{font-size:12px;color:var(--dell-slate-500);line-height:1.45}
+.industry-cta{margin-top:24px;display:flex;gap:12px;justify-content:flex-end;padding:20px 0;border-top:1px solid var(--dell-slate-200)}
+.section-title{font-size:13px;font-weight:600;color:var(--dell-slate-700);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:14px}
+
+/* ===========================================================
+   SCREEN 3 — WIZARD
+   =========================================================== */
+.wizard{max-width:720px;margin:0 auto;padding:32px 24px}
+.progress{display:flex;align-items:center;gap:8px;margin-bottom:32px}
+.progress-bar{flex:1;height:6px;background:var(--dell-slate-200);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;background:var(--dell-blue);transition:width 250ms ease;width:12.5%}
+.progress-text{font-size:12px;color:var(--dell-slate-500);font-weight:500}
+.wizard-step{display:none}
+.wizard-step.active{display:block}
+.wizard-step h2{margin-bottom:24px}
+.choice-grid{display:grid;gap:10px}
+.choice{display:flex;align-items:center;gap:12px;padding:16px 18px;border:1px solid var(--dell-slate-300);border-radius:8px;background:#fff;cursor:pointer;transition:border-color 150ms ease, background 150ms ease;text-align:left;width:100%}
+.choice:hover{border-color:var(--dell-blue)}
+.choice.selected{background:var(--dell-blue-soft);border-color:var(--dell-blue);border-width:2px;padding:15px 17px}
+.choice .check{width:18px;height:18px;border:2px solid var(--dell-slate-300);border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.choice.selected .check{border-color:var(--dell-blue);background:var(--dell-blue)}
+.choice.selected .check::after{content:'';width:6px;height:6px;background:#fff;border-radius:50%}
+.choice.multi .check{border-radius:4px}
+.choice.multi.selected .check::after{content:'';width:8px;height:5px;border:2px solid #fff;border-top:none;border-right:none;background:none;border-radius:0;transform:rotate(-45deg) translate(1px,-1px)}
+.choice .choice-label{font-weight:500}
+.choice .choice-sub{font-size:12px;color:var(--dell-slate-500);margin-top:2px}
+.pill-row{display:flex;flex-wrap:wrap;gap:8px}
+.pill-toggle{padding:8px 14px;border-radius:18px;border:1px solid var(--dell-slate-300);background:#fff;font-size:13px;cursor:pointer;font-weight:500;color:var(--dell-slate-700)}
+.pill-toggle.selected{background:var(--dell-blue);border-color:var(--dell-blue);color:#fff}
+.wizard-nav{display:flex;justify-content:space-between;margin-top:32px;align-items:center}
+.wizard-nav .switch-link{font-size:12px}
+
+/* ===========================================================
+   SCREEN 4 — TECHNICAL CONFIGURATOR
+   =========================================================== */
+.config-layout{display:grid;grid-template-columns:1.5fr 1fr;gap:24px;align-items:flex-start}
+.accordion{display:flex;flex-direction:column;gap:12px}
+.acc-section{background:#fff;border:1px solid var(--dell-slate-200);border-radius:8px;overflow:hidden}
+.acc-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;cursor:pointer;background:#fff;font-weight:600}
+.acc-head:hover{background:var(--dell-slate-100)}
+.acc-head .chevron{color:var(--dell-slate-500);transition:transform 150ms ease}
+.acc-section.collapsed .acc-head .chevron{transform:rotate(-90deg)}
+.acc-body{padding:0 20px 20px}
+.acc-section.collapsed .acc-body{display:none}
+.workload-card{border:1px solid var(--dell-slate-200);border-radius:8px;padding:16px;margin-bottom:12px}
+.workload-card.added{background:var(--dell-blue-soft);border-color:var(--dell-blue)}
+.workload-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.workload-knobs{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.knob{display:flex;flex-direction:column;gap:4px}
+.knob label{font-size:12px;font-weight:500;color:var(--dell-slate-700)}
+.knob input[type=number],.knob select,.knob input[type=text]{border:1px solid var(--dell-slate-300);border-radius:4px;padding:8px 10px;font-family:inherit;font-size:13px;background:#fff}
+.knob input[type=range]{width:100%}
+.range-row{display:flex;align-items:center;gap:12px}
+.range-value{min-width:64px;font-weight:600;font-size:13px}
+.radio-row{display:flex;flex-wrap:wrap;gap:8px}
+.radio-tile{padding:10px 14px;border:1px solid var(--dell-slate-300);border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;color:var(--dell-slate-700);background:#fff}
+.radio-tile.selected{background:var(--dell-blue-soft);border-color:var(--dell-blue);color:var(--dell-blue)}
+.toggle-row{display:flex;flex-direction:column;gap:10px}
+.toggle-line{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid var(--dell-slate-200);border-radius:6px}
+.toggle-line .tl-title{font-weight:500;font-size:13px}
+.toggle-line .tl-desc{font-size:12px;color:var(--dell-slate-500)}
+.switch{position:relative;width:36px;height:20px;background:var(--dell-slate-300);border-radius:10px;cursor:pointer;transition:background 150ms ease;flex-shrink:0}
+.switch::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:left 150ms ease;box-shadow:0 1px 3px rgba(0,0,0,0.2)}
+.switch.on{background:var(--dell-blue)}
+.switch.on::after{left:18px}
+.detected-banner{background:#FFF8E6;border:1px solid #F5D67E;border-radius:8px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.detected-banner .det-title{font-weight:600;font-size:13px;color:var(--dell-navy-900)}
+.detected-banner .det-sub{font-size:12px;color:var(--dell-slate-700);margin-top:2px}
+
+.live-preview{position:sticky;top:80px;background:#fff;border:1px solid var(--dell-slate-200);border-radius:8px;padding:20px}
+.live-preview h3{margin-bottom:14px}
+.preview-rack-wrap{background:linear-gradient(135deg,var(--dell-navy-900),var(--dell-navy-800));border-radius:8px;padding:20px;display:flex;justify-content:center;gap:10px;margin-bottom:16px}
+.preview-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.preview-stat{padding:10px 12px;background:var(--dell-slate-100);border-radius:6px}
+.preview-stat .ps-label{font-size:11px;color:var(--dell-slate-500);text-transform:uppercase;letter-spacing:0.04em;font-weight:500}
+.preview-stat .ps-value{font-size:16px;font-weight:600;color:var(--dell-navy-900)}
+.cost-band{background:var(--dell-blue-soft);border:1px solid var(--dell-blue);border-radius:8px;padding:14px;margin-bottom:16px}
+.cost-band .cb-label{font-size:11px;text-transform:uppercase;letter-spacing:0.04em;color:var(--dell-blue);font-weight:600}
+.cost-band .cb-value{font-size:22px;font-weight:600;color:var(--dell-navy-900);margin-top:4px}
+.cost-band .cb-caveat{font-size:11px;color:var(--dell-slate-500);margin-top:4px}
+.preview-actions{display:flex;flex-direction:column;gap:8px}
+.preview-actions .btn{justify-content:center}
+
+/* ===========================================================
+   SCREEN 5 — UNIFIED SOLUTION CANVAS
+   =========================================================== */
+.canvas-topbar{position:sticky;top:64px;z-index:40;background:#fff;border-bottom:1px solid var(--dell-slate-200);padding:12px 24px;display:flex;justify-content:space-between;align-items:center}
+.canvas-title{font-weight:600;font-size:15px}
+.canvas-title .muted{font-weight:400;color:var(--dell-slate-500);margin-left:8px;font-size:13px}
+.canvas-actions{display:flex;gap:10px}
+.canvas-layout{display:grid;grid-template-columns:1fr 220px;gap:32px;padding:32px;max-width:1280px;margin:0 auto}
+.canvas-main{display:flex;flex-direction:column;gap:48px}
+.canvas-section{scroll-margin-top:130px}
+.section-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:16px}
+.section-header h2{font-size:22px}
+.section-header .section-sub{color:var(--dell-slate-500);font-size:13px;margin-top:4px}
+.exec-summary{background:#fff;border:1px solid var(--dell-slate-200);border-radius:12px;padding:32px}
+.exec-summary p{font-size:15px;color:var(--dell-slate-700);line-height:1.7;margin-bottom:24px}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.arch-diagram{background:#fff;border:1px solid var(--dell-slate-200);border-radius:12px;padding:24px}
+.arch-toggle{display:flex;gap:6px;margin-bottom:16px;background:var(--dell-slate-100);padding:4px;border-radius:6px;width:fit-content}
+.arch-toggle button{padding:6px 14px;font-size:12px;font-weight:500;border-radius:4px;color:var(--dell-slate-700)}
+.arch-toggle button.active{background:#fff;color:var(--dell-navy-900);box-shadow:var(--shadow-soft)}
+.bom-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--dell-slate-200);border-radius:12px;overflow:hidden;font-size:13px}
+.bom-table th{background:var(--dell-slate-100);text-align:left;padding:12px 16px;font-weight:600;color:var(--dell-slate-700);text-transform:uppercase;letter-spacing:0.04em;font-size:11px;border-bottom:1px solid var(--dell-slate-200)}
+.bom-table td{padding:14px 16px;border-bottom:1px solid var(--dell-slate-200);vertical-align:top}
+.bom-table tbody tr:hover{background:var(--dell-slate-100)}
+.bom-table tr.group-head td{background:var(--dell-navy-900);color:#fff;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;font-size:11px;padding:8px 16px}
+.bom-table .sku-name{font-weight:600;color:var(--dell-navy-900)}
+.bom-table .sku-role{font-size:12px;color:var(--dell-slate-500);margin-top:2px}
+.bom-table .price-range{color:var(--dell-slate-700);white-space:nowrap}
+.bom-table tr.totals td{font-weight:600;background:var(--dell-blue-soft);color:var(--dell-navy-900);font-size:14px}
+.tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tier-card{background:#fff;border:1px solid var(--dell-slate-200);border-radius:12px;padding:24px;display:flex;flex-direction:column;gap:14px}
+.tier-card.featured{border-color:var(--dell-blue);border-width:2px;padding:23px;position:relative}
+.tier-card.featured::before{content:'RECOMMENDED';position:absolute;top:-10px;left:24px;background:var(--dell-blue);color:#fff;font-size:10px;letter-spacing:0.06em;padding:3px 8px;border-radius:10px;font-weight:600}
+.tier-card .tier-name{font-size:13px;text-transform:uppercase;letter-spacing:0.06em;color:var(--dell-slate-500);font-weight:600}
+.tier-card .tier-price{font-size:30px;font-weight:600;color:var(--dell-navy-900)}
+.tier-card .tier-price small{font-size:13px;font-weight:400;color:var(--dell-slate-500);display:block}
+.tier-card ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--dell-slate-700)}
+.tier-card ul li{padding-left:18px;position:relative}
+.tier-card ul li.in::before{content:'✓';position:absolute;left:0;color:var(--dell-success);font-weight:700}
+.tier-card ul li.out{color:var(--dell-slate-500)}
+.tier-card ul li.out::before{content:'—';position:absolute;left:0;color:var(--dell-slate-300)}
+.tco-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.tco-card{background:#fff;border:1px solid var(--dell-slate-200);border-radius:12px;padding:24px}
+.tco-bar{height:32px;display:flex;border-radius:4px;overflow:hidden;margin:14px 0}
+.tco-seg{display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:600}
+.tco-legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--dell-slate-700)}
+.tco-legend .lg-dot{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.tco-toggle{margin-top:14px;font-size:12px;color:var(--dell-blue);cursor:pointer}
+.tco-cloud{margin-top:12px;padding:12px;background:#FDF1E1;border:1px solid #F5D67E;border-radius:6px;font-size:12px;color:var(--dell-navy-900);display:none}
+.tco-cloud.show{display:block}
+.gantt{background:#fff;border:1px solid var(--dell-slate-200);border-radius:12px;padding:24px;overflow-x:auto}
+.gantt-header{display:grid;grid-template-columns:160px repeat(18,1fr);gap:0;font-size:11px;color:var(--dell-slate-500);font-weight:500;border-bottom:1px solid var(--dell-slate-200);padding-bottom:8px;margin-bottom:8px;min-width:900px}
+.gantt-header .lane-label{text-transform:uppercase;letter-spacing:0.04em}
+.gantt-header .month{text-align:center}
+.gantt-row{display:grid;grid-template-columns:160px repeat(18,1fr);gap:0;align-items:center;padding:6px 0;font-size:12px;min-width:900px;position:relative}
+.gantt-row .lane{font-weight:500;color:var(--dell-slate-700);font-size:12px}
+.gantt-bar{height:18px;border-radius:4px;background:var(--dell-blue);position:relative}
+.gantt-bar.lite{background:var(--dell-blue-soft);border:1px solid var(--dell-blue);color:var(--dell-blue)}
+.gantt-bar.warn{background:var(--dell-warn)}
+.gantt-bar.success{background:var(--dell-success)}
+.gantt-bar .bar-label{position:absolute;left:6px;top:50%;transform:translateY(-50%);color:#fff;font-size:10px;font-weight:600;white-space:nowrap}
+.gantt-bar.lite .bar-label{color:var(--dell-blue)}
+.compliance-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.compliance-badge{background:#fff;border:1px solid var(--dell-slate-200);border-radius:8px;padding:14px;display:flex;align-items:flex-start;gap:10px}
+.compliance-badge .cb-icon{width:32px;height:32px;background:var(--dell-blue-soft);color:var(--dell-blue);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700}
+.compliance-badge .cb-title{font-weight:600;font-size:13px}
+.compliance-badge .cb-evidence{font-size:11px;color:var(--dell-slate-500);margin-top:2px}
+.staff-card{background:#fff;border:1px solid var(--dell-slate-200);border-radius:12px;padding:24px}
+.staff-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
+.staff-item{display:flex;gap:10px;align-items:flex-start;padding:12px;background:var(--dell-slate-100);border-radius:6px}
+.staff-num{font-weight:700;color:var(--dell-blue);font-size:18px;min-width:24px}
+.attach-rail{background:#fff;border:1px solid var(--dell-slate-200);border-radius:12px;padding:24px}
+.attach-scroller{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:8px}
+.attach-card{border:1px solid var(--dell-slate-200);border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:8px;background:var(--dell-slate-100)}
+.attach-card.added{background:var(--dell-blue-soft);border-color:var(--dell-blue)}
+.attach-card .at-title{font-weight:600;font-size:13px}
+.attach-card .at-why{font-size:12px;color:var(--dell-slate-500);min-height:32px}
+.attach-card .at-foot{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+.attach-card .at-price{font-size:13px;color:var(--dell-slate-700)}
+.attach-add{font-size:12px;font-weight:500;padding:5px 10px;border-radius:14px;border:1px solid var(--dell-blue);color:var(--dell-blue);background:#fff}
+.attach-add.added{background:var(--dell-blue);color:#fff}
+.assumptions{background:#fff;border:1px solid var(--dell-slate-200);border-radius:12px;padding:24px}
+.assumptions-body{font-size:13px;color:var(--dell-slate-700);line-height:1.7}
+.canvas-rail{position:sticky;top:130px;align-self:flex-start;background:#fff;border:1px solid var(--dell-slate-200);border-radius:8px;padding:16px;font-size:13px;height:fit-content}
+.canvas-rail .rail-title{font-size:11px;color:var(--dell-slate-500);text-transform:uppercase;letter-spacing:0.05em;font-weight:600;margin-bottom:8px}
+.canvas-rail a{display:block;padding:6px 8px;border-radius:4px;color:var(--dell-slate-700);font-size:13px;text-decoration:none;border-left:2px solid transparent;margin-left:-2px}
+.canvas-rail a:hover{background:var(--dell-slate-100)}
+.canvas-rail a.active{color:var(--dell-blue);background:var(--dell-blue-soft);border-left-color:var(--dell-blue);font-weight:500}
+.canvas-footer{padding:24px 32px;background:var(--dell-navy-900);color:#fff;display:flex;flex-wrap:wrap;justify-content:center;gap:24px;font-size:13px;margin-top:48px}
+.canvas-footer a{color:#cbd5e0}
+.canvas-footer a:hover{color:#fff}
+
+/* ===========================================================
+   SCREEN 6 — COMPARE
+   =========================================================== */
+.compare-grid{display:grid;grid-template-columns:200px 1fr 1fr 1fr;gap:0;background:#fff;border:1px solid var(--dell-slate-200);border-radius:12px;overflow:hidden;font-size:13px}
+.compare-grid .ch{padding:18px 20px;font-weight:600;border-bottom:1px solid var(--dell-slate-200);background:var(--dell-slate-100)}
+.compare-grid .ch.header-col{background:#fff}
+.compare-grid .col-head{padding:24px 20px;text-align:center;background:#fff;border-bottom:2px solid var(--dell-slate-200);border-right:1px solid var(--dell-slate-200)}
+.compare-grid .col-head h3{font-size:18px;margin-bottom:8px}
+.compare-grid .col-head .col-tag{font-size:11px;color:var(--dell-slate-500);text-transform:uppercase;letter-spacing:0.04em;font-weight:600}
+.compare-grid .col-head.featured{background:var(--dell-blue-soft);border-bottom-color:var(--dell-blue)}
+.compare-grid .row-label{padding:14px 20px;color:var(--dell-slate-500);font-size:12px;text-transform:uppercase;letter-spacing:0.04em;font-weight:600;border-bottom:1px solid var(--dell-slate-200);background:var(--dell-slate-100);display:flex;align-items:center}
+.compare-grid .cell{padding:14px 20px;border-bottom:1px solid var(--dell-slate-200);border-right:1px solid var(--dell-slate-200);transition:background 150ms ease}
+.compare-grid .cell.diff{background:#FFFDF5}
+.compare-grid .cell.best{background:#E6F4EE;font-weight:600}
+.compare-grid .cell.bad{background:#FBE9E7;color:var(--dell-danger)}
+.compare-grid .row-actions{padding:24px 20px;border-right:1px solid var(--dell-slate-200);text-align:center}
+.compare-grid .row-actions .btn{width:100%;justify-content:center}
+
+/* ===========================================================
+   SCREEN 7 — SHARE MODAL
+   =========================================================== */
+.modal-backdrop{position:fixed;inset:0;background:rgba(11,25,41,0.6);display:none;align-items:center;justify-content:center;z-index:100;padding:24px}
+.modal-backdrop.show{display:flex}
+.modal{background:#fff;border-radius:12px;max-width:720px;width:100%;max-height:90vh;display:flex;flex-direction:column;overflow:hidden}
+.modal-head{padding:20px 24px;border-bottom:1px solid var(--dell-slate-200);display:flex;justify-content:space-between;align-items:center}
+.modal-head h2{font-size:20px}
+.modal-close{padding:6px;border-radius:4px;color:var(--dell-slate-500);font-size:18px;line-height:1}
+.modal-tabs{display:flex;gap:4px;padding:0 24px;border-bottom:1px solid var(--dell-slate-200)}
+.modal-tab{padding:14px 16px;font-size:13px;font-weight:500;color:var(--dell-slate-500);border-bottom:2px solid transparent;cursor:pointer;background:none}
+.modal-tab.active{color:var(--dell-blue);border-bottom-color:var(--dell-blue)}
+.modal-body{padding:24px;overflow:auto}
+.modal-pane{display:none}
+.modal-pane.active{display:block}
+.url-input{display:flex;gap:8px;margin-bottom:14px}
+.url-input input{flex:1;border:1px solid var(--dell-slate-300);padding:10px 12px;border-radius:6px;font-family:'SF Mono',Menlo,monospace;font-size:13px;background:var(--dell-slate-100)}
+.note-input{width:100%;border:1px solid var(--dell-slate-300);border-radius:6px;padding:10px 12px;font-family:inherit;font-size:13px;min-height:80px;resize:vertical;margin-top:8px}
+.checkbox-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dell-slate-700);margin-bottom:12px}
+.pdf-preview{display:flex;gap:20px;align-items:flex-start}
+.pdf-thumb{width:160px;height:200px;background:#fff;border:1px solid var(--dell-slate-200);border-radius:6px;box-shadow:var(--shadow-soft);padding:12px;display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+.pdf-thumb-head{height:8px;background:var(--dell-navy-900);border-radius:2px}
+.pdf-thumb-line{height:4px;background:var(--dell-slate-300);border-radius:2px}
+.pdf-thumb-line.short{width:60%}
+.pdf-thumb-block{height:30px;background:var(--dell-slate-100);border-radius:2px;margin:6px 0}
+.am-card{display:flex;gap:14px;align-items:center;padding:16px;background:var(--dell-slate-100);border-radius:8px;margin-bottom:14px}
+.am-avatar{width:48px;height:48px;border-radius:50%;background:var(--dell-blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.am-info .am-name{font-weight:600}
+.am-info .am-meta{font-size:12px;color:var(--dell-slate-500)}
+.form-row{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.form-row label{font-size:12px;font-weight:500;color:var(--dell-slate-700)}
+.form-row input,.form-row select,.form-row textarea{border:1px solid var(--dell-slate-300);border-radius:6px;padding:10px 12px;font-family:inherit;font-size:13px;background:#fff}
+.modal-foot{padding:16px 24px;border-top:1px solid var(--dell-slate-200);display:flex;justify-content:flex-end;gap:10px}
+
+/* ===========================================================
+   TOAST
+   =========================================================== */
+.toast{position:fixed;bottom:24px;left:24px;background:var(--dell-navy-900);color:#fff;padding:14px 18px;border-radius:8px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,0.25);transform:translateY(100px);opacity:0;transition:all 250ms ease;z-index:200;max-width:320px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast .toast-title{font-weight:600;margin-bottom:2px}
+.toast .toast-body{color:#cbd5e0;font-size:12px}
+
+/* ===========================================================
+   SVG ICONS
+   =========================================================== */
+.icon{width:20px;height:20px;flex-shrink:0}
+.icon-lg{width:32px;height:32px}
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     TOP BAR (sticky, same on all screens)
+     ========================================================= -->
+<header class="topbar">
+  <div class="brand" aria-label="Dell Technologies">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="6" y1="18" x2="18" y2="6"/></svg>
+    <span>Dell Technologies</span>
+  </div>
+  <nav class="stepper" id="stepper">
+    <button class="step active" data-target="1"><span class="num">1</span> Start</button>
+    <button class="step" data-target="2"><span class="num">2</span> Industry</button>
+    <button class="step" data-target="3"><span class="num">3</span> Wizard</button>
+    <button class="step" data-target="4"><span class="num">4</span> Configurator</button>
+    <button class="step" data-target="5"><span class="num">5</span> Solution</button>
+    <button class="step" data-target="6"><span class="num">6</span> Compare</button>
+    <button class="step" data-target="7"><span class="num">7</span> Share</button>
+  </nav>
+  <div class="topbar-right">
+    <span class="solution-counter" id="solutionCounter">Items in solution: 27</span>
+    <a href="#" tabindex="0">Saved solutions</a>
+    <a href="#" tabindex="0">Sign in</a>
+    <div class="demo-jump">
+      <select id="demoJump" aria-label="Demo: jump to screen">
+        <option value="">Demo: jump to…</option>
+        <option value="1">1 — Landing</option>
+        <option value="2">2 — Industry Lens</option>
+        <option value="3">3 — Guided Wizard</option>
+        <option value="4">4 — Technical Configurator</option>
+        <option value="5">5 — Solution Canvas</option>
+        <option value="6">6 — Compare</option>
+        <option value="7">7 — Share &amp; Handoff</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<!-- =========================================================
+     SCREEN 1 — LANDING
+     ========================================================= -->
+<section class="screen active" data-screen="1">
+  <div class="hero">
+    <div class="hero-rack-bg">
+      <div class="rack rack-medium">
+        <div class="u lit"></div><div class="u"></div><div class="u lit"></div><div class="u"></div><div class="u lit"></div><div class="u"></div><div class="u"></div><div class="u lit"></div><div class="u"></div><div class="u"></div><div class="u lit"></div><div class="u lit"></div><div class="u"></div><div class="u"></div>
+      </div>
+      <div class="rack rack-medium">
+        <div class="u"></div><div class="u lit"></div><div class="u lit"></div><div class="u"></div><div class="u"></div><div class="u lit"></div><div class="u"></div><div class="u lit"></div><div class="u"></div><div class="u lit"></div><div class="u"></div><div class="u"></div><div class="u lit"></div><div class="u"></div>
+      </div>
+      <div class="rack rack-medium">
+        <div class="u lit"></div><div class="u"></div><div class="u"></div><div class="u lit"></div><div class="u"></div><div class="u lit"></div><div class="u lit"></div><div class="u"></div><div class="u"></div><div class="u lit"></div><div class="u"></div><div class="u"></div><div class="u"></div><div class="u lit"></div>
+      </div>
+    </div>
+    <div class="hero-inner">
+      <h1>Build your AI Factory.</h1>
+      <p class="lead">From pilot to scale — across your data center, your edge, and your endpoints. Reference architectures validated by Dell + NVIDIA.</p>
+    </div>
+  </div>
+
+  <div class="doors">
+    <div class="door" onclick="goToScreen(2)">
+      <div class="door-icon">
+        <svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21V12h6v9"/></svg>
+      </div>
+      <h3>By Industry</h3>
+      <p>Start from your industry's reference architecture. Pre-configured for your compliance and workload mix.</p>
+      <a class="btn btn-primary" onclick="event.stopPropagation();goToScreen(2)">Choose your industry →</a>
+    </div>
+    <div class="door" onclick="goToScreen(3)">
+      <div class="door-icon">
+        <svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <span class="pill pill-info door-tag">For non-technical buyers</span>
+      <h3>By Need</h3>
+      <p>Answer 8 plain-language questions. We'll translate them into a working configuration — you'll never need to pick a SKU.</p>
+      <a class="btn btn-primary" onclick="event.stopPropagation();goToScreen(3)">Start guided setup →</a>
+    </div>
+    <div class="door" onclick="goToScreen(4)">
+      <div class="door-icon">
+        <svg class="icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+      </div>
+      <span class="pill pill-info door-tag">For architects</span>
+      <h3>By Configuration</h3>
+      <p>Go straight to the technical configurator. Every knob, smart defaults, full control over compute, fabric, storage, and stack.</p>
+      <a class="btn btn-primary" onclick="event.stopPropagation();goToScreen(4)">Open configurator →</a>
+    </div>
+  </div>
+
+  <div class="landing-strip">
+    <span>Already have a saved solution? <a href="#">Open it →</a></span>
+    <a href="#">Sign in to Dell Premier →</a>
+  </div>
+  <div class="trust">
+    <strong>Reference architectures validated by Dell + NVIDIA</strong> &nbsp;·&nbsp; <strong>1,200+ enterprise AI deployments</strong> &nbsp;·&nbsp; <strong>ProDeploy services in 70+ countries</strong>
+  </div>
+</section>
+
+<!-- =========================================================
+     SCREEN 2 — INDUSTRY LENS (Healthcare)
+     ========================================================= -->
+<section class="screen" data-screen="2">
+  <div class="container">
+    <div class="crumb">
+      <div class="crumb-trail">Build your AI Factory <span style="color:var(--dell-slate-300);margin:0 6px">›</span> Industry: <strong>Healthcare</strong> <span style="color:var(--dell-slate-300);margin:0 6px">›</span> Northridge Health</div>
+      <div class="compliance-cluster">
+        <span class="label-mini">Compliance:</span>
+        <span class="pill pill-compliance">✓ HIPAA</span>
+        <span class="pill pill-compliance">✓ HITRUST</span>
+        <span class="pill pill-compliance">✓ On-prem</span>
+        <a href="#" style="margin-left:6px;font-size:12px">Edit</a>
+      </div>
+    </div>
+
+    <h1 style="margin-bottom:8px">Healthcare AI Factory — Northridge Health</h1>
+    <p class="muted" style="margin-bottom:32px;font-size:15px">A 6-hospital reference architecture, with HIPAA and HITRUST compliance posture pre-applied. Adjust the use-case mix on the left; your starting point updates live.</p>
+
+    <div class="industry-grid">
+      <div>
+        <div class="section-title">Common AI use cases in Healthcare</div>
+        <div class="usecase-list" id="usecaseList">
+          <div class="usecase-card added" data-uc="ka" data-users="2400" data-storage="160">
+            <div>
+              <div class="uc-title">Clinical knowledge assistant</div>
+              <div class="uc-desc">Physician-facing Q&amp;A over EHR + clinical guidelines.</div>
+            </div>
+            <button class="toggle-add added">Added ✓</button>
+          </div>
+          <div class="usecase-card added" data-uc="ad" data-users="600" data-storage="220">
+            <div>
+              <div class="uc-title">Ambient clinical documentation</div>
+              <div class="uc-desc">Passive scribe for visits, generates draft notes.</div>
+            </div>
+            <button class="toggle-add added">Added ✓</button>
+          </div>
+          <div class="usecase-card added" data-uc="cv" data-users="40" data-storage="100">
+            <div>
+              <div class="uc-title">Medical imaging triage <span class="pill pill-info" style="margin-left:4px">CV</span></div>
+              <div class="uc-desc">Flags critical findings on chest X-rays and head CTs.</div>
+            </div>
+            <button class="toggle-add added">Added ✓</button>
+          </div>
+          <div class="usecase-card" data-uc="rev" data-users="200" data-storage="40">
+            <div>
+              <div class="uc-title">Revenue cycle automation</div>
+              <div class="uc-desc">Coding assist, denial prediction, prior-auth drafting.</div>
+            </div>
+            <button class="toggle-add">+ Add</button>
+          </div>
+          <div class="usecase-card" data-uc="gen" data-users="80" data-storage="600">
+            <div>
+              <div class="uc-title">Genomics research</div>
+              <div class="uc-desc">Variant calling and discovery pipelines.</div>
+            </div>
+            <button class="toggle-add">+ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-title">Your starting point</div>
+        <div class="starting-point">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div>
+              <h3 id="ucCount">3 use cases selected</h3>
+              <p class="muted" style="font-size:13px;margin-top:4px">Sized for Northridge Health (6 hospitals, ~12,000 staff).</p>
+            </div>
+            <div class="rack rack-small" aria-hidden="true">
+              <div class="u lit"></div><div class="u lit"></div><div class="u lit"></div><div class="u"></div><div class="u lit"></div><div class="u"></div><div class="u lit"></div><div class="u"></div><div class="u lit"></div><div class="u lit"></div>
+            </div>
+          </div>
+          <div class="starting-stats">
+            <div class="kpi"><div class="label">Estimated user base</div><div class="value" id="estUsers">3,040</div><div class="sub">across all use cases</div></div>
+            <div class="kpi"><div class="label">Peak concurrent</div><div class="value" id="estPeak">2,400</div><div class="sub">physician load</div></div>
+            <div class="kpi"><div class="label">Storage need</div><div class="value" id="estStorage">~480 TB</div><div class="sub">incl. RAG corpus + audio</div></div>
+            <div class="kpi"><div class="label">Indicative cost band</div><div class="value">$4.2M – $5.8M</div><div class="sub">capex, year 1–2</div></div>
+          </div>
+          <div style="margin-top:18px"><a href="#" class="btn-tertiary" onclick="goToScreen(5);return false;">View detailed configuration →</a></div>
+        </div>
+
+        <div style="margin-top:24px;background:var(--dell-blue-soft);border:1px solid var(--dell-blue);border-radius:8px;padding:16px;font-size:13px;color:var(--dell-navy-900)">
+          <strong>Existing Dell footprint detected.</strong> 18× PowerEdge R650 and 2× PowerScale H700 are tied to your Premier account. We can extend the existing cluster — saves <strong>~$340K</strong> vs greenfield.
+        </div>
+      </div>
+
+      <div>
+        <div class="section-title">Healthcare customers like you</div>
+        <div class="case-studies">
+          <div class="case-card">
+            <div class="case-mono" style="background:#0672CB">MR</div>
+            <div>
+              <div class="case-title">Midwest Regional Health</div>
+              <div class="case-meta">4-hospital ambient documentation rollout · 6-month pilot to production</div>
+            </div>
+          </div>
+          <div class="case-card">
+            <div class="case-mono" style="background:#1E3A5F">SC</div>
+            <div>
+              <div class="case-title">Southern Coast Medical</div>
+              <div class="case-meta">Imaging triage across 9 ERs · 38% reduction in time-to-read for stroke CT</div>
+            </div>
+          </div>
+          <div class="case-card">
+            <div class="case-mono" style="background:#00A65A">PV</div>
+            <div>
+              <div class="case-title">Pacific Valley Health</div>
+              <div class="case-meta">Clinical knowledge assistant for 3,200 physicians · HITRUST CSF v11 certified</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="industry-cta">
+      <a class="btn btn-secondary" onclick="goToScreen(3)">Refine with the wizard</a>
+      <a class="btn btn-primary" onclick="goToScreen(5)">Continue with these defaults →</a>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     SCREEN 3 — GUIDED WIZARD
+     ========================================================= -->
+<section class="screen" data-screen="3">
+  <div class="wizard">
+    <div class="progress">
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <span class="progress-text" id="progressText">Step 1 of 8</span>
+    </div>
+
+    <div class="wizard-step active" data-step="1">
+      <h2>How many people will use this?</h2>
+      <p class="muted" style="margin-bottom:24px">Across all the workloads you're planning. Rough is fine.</p>
+      <div class="choice-grid">
+        <button class="choice"><span class="check"></span><span class="choice-label">Fewer than 100</span></button>
+        <button class="choice"><span class="check"></span><span class="choice-label">100 to 1,000</span></button>
+        <button class="choice selected"><span class="check"></span><span class="choice-label">1,000 to 5,000<span class="choice-sub">A regional health system, mid-size enterprise.</span></span></button>
+        <button class="choice"><span class="check"></span><span class="choice-label">5,000 to 25,000</span></button>
+        <button class="choice"><span class="check"></span><span class="choice-label">More than 25,000</span></button>
+      </div>
+    </div>
+
+    <div class="wizard-step" data-step="2">
+      <h2>What kind of work is the AI doing?</h2>
+      <p class="muted" style="margin-bottom:24px">Select all that apply.</p>
+      <div class="pill-row">
+        <button class="pill-toggle selected">Answering questions</button>
+        <button class="pill-toggle selected">Drafting documents</button>
+        <button class="pill-toggle selected">Analyzing images / video</button>
+        <button class="pill-toggle">Writing code</button>
+        <button class="pill-toggle">Forecasting / prediction</button>
+        <button class="pill-toggle">Designing / simulating</button>
+      </div>
+    </div>
+
+    <div class="wizard-step" data-step="3">
+      <h2>How much data does it need to work with?</h2>
+      <p class="muted" style="margin-bottom:24px">Including the corpus you'll be searching, models, and any retained outputs.</p>
+      <div class="choice-grid">
+        <button class="choice"><span class="check"></span><span class="choice-label">Less than 10 TB <span class="choice-sub">a few document libraries</span></span></button>
+        <button class="choice"><span class="check"></span><span class="choice-label">10 to 100 TB <span class="choice-sub">a department's records</span></span></button>
+        <button class="choice selected"><span class="check"></span><span class="choice-label">100 TB to 1 PB <span class="choice-sub">an enterprise's records, several years</span></span></button>
+        <button class="choice"><span class="check"></span><span class="choice-label">More than 1 PB</span></button>
+      </div>
+    </div>
+
+    <div class="wizard-step" data-step="4">
+      <h2>How fast does it need to feel?</h2>
+      <div class="choice-grid">
+        <button class="choice selected"><span class="check"></span><span class="choice-label">Real-time conversational <span class="choice-sub">under 2 seconds — clinicians won't wait</span></span></button>
+        <button class="choice"><span class="check"></span><span class="choice-label">Interactive <span class="choice-sub">2 to 10 seconds</span></span></button>
+        <button class="choice"><span class="check"></span><span class="choice-label">Batch overnight is fine</span></button>
+        <button class="choice"><span class="check"></span><span class="choice-label">Mixed</span></button>
+      </div>
+    </div>
+
+    <div class="wizard-step" data-step="5">
+      <h2>Where do users work from?</h2>
+      <div class="choice-grid">
+        <button class="choice"><span class="check"></span><span class="choice-label">One main site</span></button>
+        <button class="choice selected"><span class="check"></span><span class="choice-label">Multiple sites in one country <span class="choice-sub">6 hospitals, one state</span></span></button>
+        <button class="choice"><span class="check"></span><span class="choice-label">Globally distributed</span></button>
+        <button class="choice"><span class="check"></span><span class="choice-label">Lots of edge locations</span></button>
+      </div>
+    </div>
+
+    <div class="wizard-step" data-step="6">
+      <h2>Are there compliance requirements?</h2>
+      <p class="muted" style="margin-bottom:24px">We've pre-checked typical Healthcare ones. Adjust as needed.</p>
+      <div class="pill-row">
+        <button class="pill-toggle selected">HIPAA</button>
+        <button class="pill-toggle selected">HITRUST CSF</button>
+        <button class="pill-toggle">SOC 2</button>
+        <button class="pill-toggle">PCI</button>
+        <button class="pill-toggle">GDPR</button>
+        <button class="pill-toggle">FedRAMP</button>
+        <button class="pill-toggle">CMMC</button>
+        <button class="pill-toggle">ITAR</button>
+        <button class="pill-toggle">ISO 27001</button>
+      </div>
+    </div>
+
+    <div class="wizard-step" data-step="7">
+      <h2>What's your timeline?</h2>
+      <div class="choice-grid">
+        <button class="choice selected"><span class="check"></span><span class="choice-label">Pilot in 90 days <span class="choice-sub">production rollout to follow over ~9 months</span></span></button>
+        <button class="choice"><span class="check"></span><span class="choice-label">Production in 6 months</span></button>
+        <button class="choice"><span class="check"></span><span class="choice-label">Production in 12 months</span></button>
+        <button class="choice"><span class="check"></span><span class="choice-label">Multi-year program</span></button>
+      </div>
+    </div>
+
+    <div class="wizard-step" data-step="8">
+      <h2>Budget band <span class="muted" style="font-weight:400;font-size:14px">(optional, helps us tier the recommendation)</span></h2>
+      <div class="choice-grid">
+        <button class="choice"><span class="check"></span><span class="choice-label">Under $500K</span></button>
+        <button class="choice"><span class="check"></span><span class="choice-label">$500K – $2M</span></button>
+        <button class="choice selected"><span class="check"></span><span class="choice-label">$2M – $10M <span class="choice-sub">aligns with a 6-hospital production rollout</span></span></button>
+        <button class="choice"><span class="check"></span><span class="choice-label">$10M+</span></button>
+        <button class="choice"><span class="check"></span><span class="choice-label">I'd rather not say</span></button>
+      </div>
+    </div>
+
+    <div class="wizard-nav">
+      <button class="btn btn-secondary" id="wizBack" onclick="wizardStep(-1)">← Back</button>
+      <a class="switch-link" href="#" onclick="goToScreen(4);return false;">Switch to technical configurator →</a>
+      <button class="btn btn-primary" id="wizNext" onclick="wizardStep(1)">Next →</button>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     SCREEN 4 — TECHNICAL CONFIGURATOR
+     ========================================================= -->
+<section class="screen" data-screen="4">
+  <div class="container">
+    <div style="margin-bottom:24px">
+      <h1>Technical configurator</h1>
+      <p class="muted" style="font-size:15px;margin-top:4px">Northridge Health · Healthcare reference architecture · HIPAA + HITRUST.</p>
+    </div>
+
+    <div class="detected-banner">
+      <div>
+        <div class="det-title">Existing Dell footprint detected</div>
+        <div class="det-sub">18× PowerEdge R650, 2× PowerScale H700, Dell PowerSwitch S5248F-ON. Extend existing cluster — saves ~$340K vs greenfield.</div>
+      </div>
+      <div><span class="pill pill-success">✓ Extend existing</span></div>
+    </div>
+
+    <div class="config-layout">
+      <div class="accordion">
+
+        <div class="acc-section">
+          <div class="acc-head">Workloads <span class="chevron">▾</span></div>
+          <div class="acc-body">
+            <div class="workload-card added">
+              <div class="workload-head">
+                <div><strong>Clinical knowledge assistant</strong> <span class="muted" style="font-size:12px">· RAG over EHR + guidelines</span></div>
+                <button class="toggle-add added">Added ✓</button>
+              </div>
+              <div class="workload-knobs">
+                <div class="knob"><label>Concurrent users</label><div class="range-row"><input type="range" min="500" max="5000" step="100" value="2400" oninput="updateKa(this.value)"><span class="range-value" id="kaUsers">2,400</span></div></div>
+                <div class="knob"><label>Large language model</label><select><option>70B — Llama 3.3 (selected)</option><option>8B — Llama 3.x</option><option>120B — Mixtral</option></select></div>
+                <div class="knob"><label>Response time</label><select><option>2 seconds (selected)</option><option>4 seconds</option><option>10 seconds</option></select></div>
+                <div class="knob"><label>RAG corpus size</label><select><option>240 TB (selected)</option><option>120 TB</option><option>500 TB</option></select></div>
+              </div>
+            </div>
+            <div class="workload-card added">
+              <div class="workload-head">
+                <div><strong>Ambient clinical documentation</strong> <span class="muted" style="font-size:12px">· passive scribe</span></div>
+                <button class="toggle-add added">Added ✓</button>
+              </div>
+              <div class="workload-knobs">
+                <div class="knob"><label>Concurrent encounters</label><div class="range-row"><input type="range" min="100" max="2000" step="50" value="600"><span class="range-value">600</span></div></div>
+                <div class="knob"><label>Model size</label><select><option>13B (selected)</option><option>8B</option><option>34B</option></select></div>
+                <div class="knob"><label>Audio retention</label><select><option>30 days (selected)</option><option>7 days</option><option>90 days</option></select></div>
+                <div class="knob"><label>Languages</label><select><option>EN, ES (selected)</option><option>EN only</option><option>EN, ES, ZH, VI</option></select></div>
+              </div>
+            </div>
+            <div class="workload-card added">
+              <div class="workload-head">
+                <div><strong>Medical imaging triage</strong> <span class="muted" style="font-size:12px">· chest X-ray + head CT</span></div>
+                <button class="toggle-add added">Added ✓</button>
+              </div>
+              <div class="workload-knobs">
+                <div class="knob"><label>Studies / minute (peak)</label><div class="range-row"><input type="range" min="10" max="120" step="5" value="40"><span class="range-value">40</span></div></div>
+                <div class="knob"><label>Models loaded</label><select><option>Chest-Xray + Head-CT (selected)</option><option>Chest-Xray only</option><option>Full body protocol</option></select></div>
+              </div>
+            </div>
+            <button class="btn btn-secondary" style="margin-top:8px">+ Add workload</button>
+          </div>
+        </div>
+
+        <div class="acc-section">
+          <div class="acc-head">Data center &amp; networking <span class="chevron">▾</span></div>
+          <div class="acc-body">
+            <div class="workload-knobs">
+              <div class="knob"><label>Number of sites</label><select><option>2 (primary + DR) — selected</option><option>1</option><option>3</option></select></div>
+              <div class="knob"><label>Networking fabric</label>
+                <div class="radio-row"><div class="radio-tile selected">NVIDIA Spectrum-X</div><div class="radio-tile">Dell PowerSwitch</div></div>
+              </div>
+              <div class="knob"><label>Fabric speed</label>
+                <div class="radio-row"><div class="radio-tile">200 Gb</div><div class="radio-tile selected">400 Gb</div><div class="radio-tile">800 Gb</div></div>
+              </div>
+              <div class="knob"><label>Power envelope per rack</label><div class="range-row"><input type="range" min="15" max="60" step="5" value="30"><span class="range-value">30 kW</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-section">
+          <div class="acc-head">Compute <span class="chevron">▾</span></div>
+          <div class="acc-body">
+            <div class="knob" style="margin-bottom:12px"><label>GPU family</label>
+              <div class="radio-row">
+                <div class="radio-tile selected" onclick="selectGpu(this,'h200')">NVIDIA H200 SXM</div>
+                <div class="radio-tile" onclick="selectGpu(this,'rtx')">RTX PRO 6000</div>
+                <div class="radio-tile" onclick="selectGpu(this,'l40s')">L40S</div>
+                <div class="radio-tile" onclick="selectGpu(this,'mi300')">AMD MI300X</div>
+              </div>
+            </div>
+            <div class="workload-knobs">
+              <div class="knob"><label>CPU class</label><div class="radio-row"><div class="radio-tile selected">Xeon 6</div><div class="radio-tile">EPYC 9005</div></div></div>
+              <div class="knob"><label>Node density</label><select><option>8-GPU air-cooled (selected)</option><option>8-GPU liquid-cooled</option><option>4-GPU PCIe</option></select></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-section">
+          <div class="acc-head">Storage <span class="chevron">▾</span></div>
+          <div class="acc-body">
+            <div class="knob" style="margin-bottom:12px"><label>Tier mix (hot / warm / cold)</label>
+              <div class="range-row" style="font-size:13px">
+                <div style="flex:1;height:24px;border-radius:4px;display:flex;overflow:hidden;border:1px solid var(--dell-slate-300)">
+                  <div style="width:20%;background:var(--dell-blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600">Hot 20%</div>
+                  <div style="width:50%;background:var(--dell-blue-soft);color:var(--dell-blue);display:flex;align-items:center;justify-content:center;font-weight:600">Warm 50%</div>
+                  <div style="width:30%;background:var(--dell-slate-200);color:var(--dell-slate-700);display:flex;align-items:center;justify-content:center;font-weight:600">Cold 30%</div>
+                </div>
+              </div>
+            </div>
+            <div class="workload-knobs">
+              <div class="knob"><label>Hot tier</label><select><option>PowerScale F710 (selected)</option></select></div>
+              <div class="knob"><label>Warm tier</label><select><option>PowerScale F210 (selected)</option></select></div>
+              <div class="knob"><label>Cold tier</label><select><option>Apex archive (selected)</option></select></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-section">
+          <div class="acc-head">Software stack <span class="chevron">▾</span></div>
+          <div class="acc-body">
+            <div class="toggle-row">
+              <div class="toggle-line"><div><div class="tl-title">NVIDIA AI Enterprise</div><div class="tl-desc">Per-GPU license, includes NIM microservices, support.</div></div><div class="switch on" onclick="toggleSwitch(this)"></div></div>
+              <div class="toggle-line"><div><div class="tl-title">Red Hat OpenShift AI</div><div class="tl-desc">Kubernetes-based orchestration, MLOps, Jupyter.</div></div><div class="switch on" onclick="toggleSwitch(this)"></div></div>
+              <div class="toggle-line"><div><div class="tl-title">VMware Private AI</div><div class="tl-desc">Alternative to OpenShift if you're standardized on vSphere.</div></div><div class="switch" onclick="toggleSwitch(this)"></div></div>
+              <div class="toggle-line"><div><div class="tl-title">Datadog observability</div><div class="tl-desc">Suggested — your AM has flagged this as a common attach for Healthcare.</div></div><div class="switch" onclick="toggleSwitch(this)"></div></div>
+              <div class="toggle-line"><div><div class="tl-title">Run:ai MLOps</div><div class="tl-desc">GPU scheduling and quota across teams.</div></div><div class="switch on" onclick="toggleSwitch(this)"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-section">
+          <div class="acc-head">Endpoints — AI PCs <span class="chevron">▾</span></div>
+          <div class="acc-body">
+            <div class="toggle-line">
+              <div>
+                <div class="tl-title">Dell Pro Max 16 with Intel NPU</div>
+                <div class="tl-desc">2,400 physicians × ~$2,400 = ~$5.8M (separate budget line). On-device documentation drafting reduces upstream load.</div>
+              </div>
+              <button class="btn btn-secondary" style="padding:8px 14px;font-size:13px" onclick="this.classList.toggle('btn-primary');this.textContent=this.textContent.includes('Added')?'+ Add to estimate':'Added ✓'">+ Add to estimate</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="acc-section">
+          <div class="acc-head">Services &amp; support <span class="chevron">▾</span></div>
+          <div class="acc-body">
+            <div class="toggle-row">
+              <div class="toggle-line"><div><div class="tl-title">ProDeploy for AI Infrastructure</div><div class="tl-desc">Dell-led deployment, racks &amp; stacks both sites.</div></div><div class="switch on" onclick="toggleSwitch(this)"></div></div>
+              <div class="toggle-line"><div><div class="tl-title">ProSupport Plus (4-hr response)</div><div class="tl-desc">24/7 hardware + software support for 5 years.</div></div><div class="switch on" onclick="toggleSwitch(this)"></div></div>
+              <div class="toggle-line"><div><div class="tl-title">Residency Services — 3 months</div><div class="tl-desc">On-site Dell engineer through go-live.</div></div><div class="switch on" onclick="toggleSwitch(this)"></div></div>
+              <div class="toggle-line"><div><div class="tl-title">Education credits — 200 hours</div><div class="tl-desc">For your platform team — covers MLOps, Kubernetes, GPU ops.</div></div><div class="switch on" onclick="toggleSwitch(this)"></div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="live-preview">
+        <h3>Live preview</h3>
+        <div class="preview-rack-wrap">
+          <div class="rack rack-medium" id="previewRack1">
+            <div class="u lit"></div><div class="u lit"></div><div class="u lit"></div><div class="u lit"></div><div class="u"></div><div class="u lit"></div><div class="u lit"></div><div class="u"></div><div class="u lit"></div><div class="u lit"></div><div class="u lit"></div><div class="u"></div><div class="u lit"></div><div class="u"></div>
+          </div>
+          <div class="rack rack-medium" id="previewRack2">
+            <div class="u"></div><div class="u lit"></div><div class="u lit"></div><div class="u"></div><div class="u lit"></div><div class="u lit"></div><div class="u"></div><div class="u lit"></div><div class="u"></div><div class="u lit"></div><div class="u"></div><div class="u lit"></div><div class="u"></div><div class="u"></div>
+          </div>
+        </div>
+        <div class="preview-stats">
+          <div class="preview-stat"><div class="ps-label">Racks</div><div class="ps-value" id="prevRacks">4</div></div>
+          <div class="preview-stat"><div class="ps-label">Power</div><div class="ps-value" id="prevPower">78 kW</div></div>
+          <div class="preview-stat"><div class="ps-label">GPU servers</div><div class="ps-value" id="prevServers">12</div></div>
+          <div class="preview-stat"><div class="ps-label">GPUs</div><div class="ps-value" id="prevGpus">96× H200</div></div>
+          <div class="preview-stat"><div class="ps-label">Storage</div><div class="ps-value" id="prevStorage">1.2 PB</div></div>
+          <div class="preview-stat"><div class="ps-label">Sites</div><div class="ps-value">2</div></div>
+        </div>
+        <div class="cost-band">
+          <div class="cb-label">Indicative range (capex)</div>
+          <div class="cb-value" id="prevCost">$4.2M – $5.8M</div>
+          <div class="cb-caveat">Final pricing requires Sales review. DFS lease available from $86K/month.</div>
+        </div>
+        <div class="preview-actions">
+          <button class="btn btn-primary btn-large" onclick="goToScreen(5)">View full solution →</button>
+          <button class="btn btn-secondary" onclick="openShare()">Save &amp; share</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     SCREEN 5 — UNIFIED SOLUTION CANVAS
+     ========================================================= -->
+<section class="screen" data-screen="5">
+  <div class="canvas-topbar">
+    <div class="canvas-title">Northridge Health — Production tier <span class="muted">· Healthcare · HIPAA + HITRUST · 6 hospitals · 18 months</span></div>
+    <div class="canvas-actions">
+      <button class="btn btn-secondary" onclick="goToScreen(6)">Compare</button>
+      <button class="btn btn-secondary" onclick="openShare()">Share package</button>
+      <button class="btn btn-primary" onclick="openShare(3)">Request quote</button>
+    </div>
+  </div>
+
+  <div class="canvas-layout">
+    <div class="canvas-main">
+
+      <!-- 1. Executive summary -->
+      <section class="canvas-section" id="sec-exec">
+        <div class="section-header">
+          <div><h2>Executive summary</h2><div class="section-sub">For Dr. Maya Chen, CIO · prepared April 30, 2026</div></div>
+          <span class="pill pill-info">Production tier</span>
+        </div>
+        <div class="exec-summary">
+          <p>Northridge Health's three-workload AI Factory: a clinical knowledge assistant for 2,400 concurrent physicians, ambient documentation for 600 concurrent encounters, and imaging triage at 40 studies per minute. Two-site deployment with disaster recovery, fully on-prem to meet HIPAA and HITRUST. Phased pilot → production → scale over 18 months. Indicative capex <strong>$4.8M</strong>, or <strong>$86K/month</strong> over 60 months via Dell Financial Services.</p>
+          <div class="kpi-row">
+            <div class="kpi"><div class="label">Concurrent users</div><div class="value">3,000</div><div class="sub">peak across 3 workloads</div></div>
+            <div class="kpi"><div class="label">Storage</div><div class="value">1.2 PB</div><div class="sub">hot/warm/cold tiered</div></div>
+            <div class="kpi"><div class="label">Power footprint</div><div class="value">78 kW</div><div class="sub">across 4 racks, 2 sites</div></div>
+            <div class="kpi"><div class="label">Time to pilot</div><div class="value">90 days</div><div class="sub">from signed quote</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Architecture -->
+      <section class="canvas-section" id="sec-arch">
+        <div class="section-header">
+          <div><h2>Live architecture</h2><div class="section-sub">Hover any component for sizing notes.</div></div>
+          <div class="arch-toggle">
+            <button class="active">Logical view</button>
+            <button>Physical rack view</button>
+          </div>
+        </div>
+        <div class="arch-diagram">
+          <svg viewBox="0 0 1100 360" style="width:100%;height:auto" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="navy" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#142A43"/><stop offset="100%" stop-color="#0B1929"/></linearGradient>
+              <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><polygon points="0 0, 10 3, 0 6" fill="#0672CB"/></marker>
+            </defs>
+            <!-- Site A -->
+            <rect x="20" y="20" width="500" height="320" rx="12" fill="url(#navy)" stroke="#1E3A5F"/>
+            <text x="40" y="48" fill="#fff" font-size="14" font-weight="600">Site A — Primary data center</text>
+            <text x="40" y="66" fill="#7e9bbf" font-size="11">Northridge HQ · 4 racks · 56 kW</text>
+
+            <!-- GPU cluster A -->
+            <rect x="40" y="84" width="200" height="100" rx="8" fill="#0672CB" opacity="0.85"/>
+            <text x="50" y="106" fill="#fff" font-size="12" font-weight="600">GPU cluster</text>
+            <text x="50" y="124" fill="#dbeafe" font-size="10">8× PowerEdge XE9680</text>
+            <text x="50" y="138" fill="#dbeafe" font-size="10">64× NVIDIA H200 SXM</text>
+            <text x="50" y="152" fill="#dbeafe" font-size="10">Spectrum-X 400Gb fabric</text>
+            <text x="50" y="170" fill="#dbeafe" font-size="10">NIM + Run:ai scheduler</text>
+
+            <!-- Storage A -->
+            <rect x="260" y="84" width="240" height="100" rx="8" fill="#1E3A5F" stroke="#0672CB"/>
+            <text x="270" y="106" fill="#fff" font-size="12" font-weight="600">Storage tier</text>
+            <text x="270" y="124" fill="#7e9bbf" font-size="10">PowerScale F710 — 300 TB hot</text>
+            <text x="270" y="138" fill="#7e9bbf" font-size="10">PowerScale F210 — 600 TB warm</text>
+            <text x="270" y="152" fill="#7e9bbf" font-size="10">Apex archive — 300 TB cold</text>
+            <text x="270" y="170" fill="#7e9bbf" font-size="10">Encrypted at rest, FIPS 140-3</text>
+
+            <!-- Inference / general purpose A -->
+            <rect x="40" y="200" width="460" height="60" rx="8" fill="#142A43" stroke="#0672CB"/>
+            <text x="50" y="222" fill="#fff" font-size="12" font-weight="600">General-purpose compute (extends existing)</text>
+            <text x="50" y="240" fill="#7e9bbf" font-size="10">8× PowerEdge R660 (new) + 18× R650 (existing) · OpenShift control plane · Datadog observability</text>
+
+            <!-- Network A -->
+            <rect x="40" y="276" width="460" height="48" rx="8" fill="#0B1929" stroke="#1E3A5F"/>
+            <text x="50" y="298" fill="#fff" font-size="12" font-weight="600">Networking</text>
+            <text x="50" y="314" fill="#7e9bbf" font-size="10">NVIDIA Spectrum SN5600 spine · Dell PowerSwitch S5248F-ON leaf</text>
+
+            <!-- Site B (DR) -->
+            <rect x="580" y="20" width="380" height="220" rx="12" fill="url(#navy)" stroke="#1E3A5F"/>
+            <text x="600" y="48" fill="#fff" font-size="14" font-weight="600">Site B — DR</text>
+            <text x="600" y="66" fill="#7e9bbf" font-size="11">Co-located 80 mi · 22 kW · async replication</text>
+
+            <rect x="600" y="84" width="160" height="60" rx="6" fill="#0672CB" opacity="0.6"/>
+            <text x="610" y="106" fill="#fff" font-size="11" font-weight="600">2× XE9680</text>
+            <text x="610" y="122" fill="#dbeafe" font-size="10">16× H200 (warm standby)</text>
+
+            <rect x="780" y="84" width="160" height="60" rx="6" fill="#1E3A5F" stroke="#0672CB"/>
+            <text x="790" y="106" fill="#fff" font-size="11" font-weight="600">F710 + F210</text>
+            <text x="790" y="122" fill="#7e9bbf" font-size="10">Replicated 1.2 PB</text>
+
+            <rect x="600" y="160" width="340" height="60" rx="6" fill="#142A43" stroke="#0672CB"/>
+            <text x="610" y="182" fill="#fff" font-size="11" font-weight="600">DR control plane</text>
+            <text x="610" y="200" fill="#7e9bbf" font-size="10">RPO 15 min · RTO 4 hr · Failover tested quarterly</text>
+
+            <!-- Replication arrow -->
+            <path d="M 510 130 Q 545 130 580 130" stroke="#0672CB" stroke-width="2" stroke-dasharray="6 4" fill="none" marker-end="url(#arrow)"/>
+            <text x="525" y="120" fill="#0672CB" font-size="10" font-weight="600">replication</text>
+
+            <!-- AI PCs at edge -->
+            <rect x="580" y="260" width="380" height="80" rx="12" fill="#E6F1FB" stroke="#0672CB"/>
+            <text x="600" y="282" fill="#0B1929" font-size="13" font-weight="600">Edge — AI PC fleet</text>
+            <text x="600" y="300" fill="#0455A1" font-size="11">2,400× Dell Pro Max 16 (Intel NPU)</text>
+            <text x="600" y="316" fill="#0455A1" font-size="11">On-device drafting · MDM via Workspace ONE</text>
+            <text x="600" y="332" fill="#0455A1" font-size="11" font-style="italic">Optional add-on · separate budget line</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- 3. BOM -->
+      <section class="canvas-section" id="sec-bom">
+        <div class="section-header"><div><h2>Bill of materials</h2><div class="section-sub">Indicative pricing — final pricing requires Sales review.</div></div></div>
+        <table class="bom-table">
+          <thead><tr><th style="width:38%">Product</th><th>Role in solution</th><th style="width:7%">Qty</th><th style="width:18%">Unit price (range)</th><th style="width:15%">Line total</th><th style="width:5%"></th></tr></thead>
+          <tbody>
+            <tr class="group-head"><td colspan="6">Compute</td></tr>
+            <tr><td><div class="sku-name">PowerEdge XE9680</div><div class="sku-role">Air-cooled 8-GPU AI server</div></td><td>GPU cluster — knowledge assistant + ambient docs inference</td><td>10</td><td class="price-range">$280K – $340K</td><td>$3.0M – $3.4M</td><td>⋯</td></tr>
+            <tr><td><div class="sku-name">PowerEdge R660</div><div class="sku-role">1U dense rack server</div></td><td>OpenShift control plane, vector DB, RAG retrieval</td><td>8</td><td class="price-range">$14K – $18K</td><td>$112K – $144K</td><td>⋯</td></tr>
+            <tr><td><div class="sku-name">PowerEdge R650 (existing)</div><div class="sku-role">Detected in your fleet</div></td><td>Extended into cluster — saves greenfield buy</td><td>18</td><td class="price-range">— (in fleet)</td><td>−$340K</td><td>⋯</td></tr>
+            <tr class="group-head"><td colspan="6">Storage</td></tr>
+            <tr><td><div class="sku-name">PowerScale F710</div><div class="sku-role">All-flash NVMe</div></td><td>Hot tier — 300 TB usable for active RAG corpus</td><td>4 nodes</td><td class="price-range">$210K – $260K</td><td>$840K – $1.04M</td><td>⋯</td></tr>
+            <tr><td><div class="sku-name">PowerScale F210</div><div class="sku-role">Hybrid scale-out</div></td><td>Warm tier — 600 TB for documentation, audio</td><td>6 nodes</td><td class="price-range">$95K – $115K</td><td>$570K – $690K</td><td>⋯</td></tr>
+            <tr><td><div class="sku-name">Apex archive</div><div class="sku-role">As-a-service cold storage</div></td><td>Cold tier — 300 TB, audio retention 30 days</td><td>1</td><td class="price-range">$3,400/mo</td><td>$204K (5-yr)</td><td>⋯</td></tr>
+            <tr class="group-head"><td colspan="6">Networking</td></tr>
+            <tr><td><div class="sku-name">NVIDIA Spectrum SN5600</div><div class="sku-role">400Gb spine switch</div></td><td>AI-optimized fabric for GPU east-west traffic</td><td>4</td><td class="price-range">$72K – $86K</td><td>$288K – $344K</td><td>⋯</td></tr>
+            <tr><td><div class="sku-name">Dell PowerSwitch S5248F-ON</div><div class="sku-role">25/100Gb leaf switch</div></td><td>General networking + DR replication</td><td>6</td><td class="price-range">$22K – $28K</td><td>$132K – $168K</td><td>⋯</td></tr>
+            <tr class="group-head"><td colspan="6">Software</td></tr>
+            <tr><td><div class="sku-name">NVIDIA AI Enterprise</div><div class="sku-role">Per-GPU annual subscription</div></td><td>NIM microservices, support, security updates</td><td>80 GPUs · 5 yrs</td><td class="price-range">$4,500/GPU/yr</td><td>$1.8M (5-yr)</td><td>⋯</td></tr>
+            <tr><td><div class="sku-name">Red Hat OpenShift AI</div><div class="sku-role">Container orchestration</div></td><td>MLOps, Jupyter, model serving</td><td>16 cores · 5 yrs</td><td class="price-range">$80K/yr</td><td>$400K (5-yr)</td><td>⋯</td></tr>
+            <tr><td><div class="sku-name">Run:ai</div><div class="sku-role">GPU scheduling</div></td><td>Quota and prioritization across teams</td><td>80 GPUs · 5 yrs</td><td class="price-range">$1,200/GPU/yr</td><td>$480K (5-yr)</td><td>⋯</td></tr>
+            <tr class="group-head"><td colspan="6">Services &amp; support</td></tr>
+            <tr><td><div class="sku-name">ProDeploy for AI Infrastructure</div><div class="sku-role">Dell-led deployment</div></td><td>Racks &amp; stacks both sites · network bring-up · validation</td><td>1</td><td class="price-range">$220K</td><td>$220K</td><td>⋯</td></tr>
+            <tr><td><div class="sku-name">ProSupport Plus (5 yr)</div><div class="sku-role">24/7, 4-hr on-site</div></td><td>Hardware + software · keep-your-drive</td><td>5 yrs</td><td class="price-range">$640K</td><td>$640K</td><td>⋯</td></tr>
+            <tr><td><div class="sku-name">Residency Services</div><div class="sku-role">On-site Dell engineer</div></td><td>3 months through go-live</td><td>1</td><td class="price-range">$180K</td><td>$180K</td><td>⋯</td></tr>
+            <tr><td><div class="sku-name">Education credits</div><div class="sku-role">Platform team enablement</div></td><td>200 hours — MLOps, GPU ops, K8s</td><td>1</td><td class="price-range">$48K</td><td>$48K</td><td>⋯</td></tr>
+            <tr class="totals"><td>Indicative subtotal — capex + 5-yr software/support</td><td colspan="3"></td><td>$8.6M – $9.5M</td><td></td></tr>
+            <tr class="totals"><td>DFS 60-month financing equivalent</td><td colspan="3"></td><td>~$166K / month</td><td></td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:16px;display:flex;gap:12px"><button class="btn btn-secondary">Get exact pricing →</button><button class="btn btn-tertiary">Explain sizing math</button></div>
+      </section>
+
+      <!-- 4. Pricing tiers -->
+      <section class="canvas-section" id="sec-tier">
+        <div class="section-header"><div><h2>Three deployment tiers</h2><div class="section-sub">Phase your spend. Each tier is its own signed package.</div></div></div>
+        <div class="tier-grid">
+          <div class="tier-card">
+            <div class="tier-name">Pilot</div>
+            <div class="tier-price">$740K<small>capex · 90 days</small></div>
+            <ul>
+              <li class="in">1 hospital · knowledge assistant only</li>
+              <li class="in">2× XE9680 · 16× H200</li>
+              <li class="in">120 TB hot storage</li>
+              <li class="in">ProDeploy + 3-mo Residency</li>
+              <li class="out">Ambient documentation</li>
+              <li class="out">Imaging triage</li>
+              <li class="out">DR site</li>
+            </ul>
+            <button class="btn btn-secondary">Start with Pilot</button>
+          </div>
+          <div class="tier-card featured">
+            <div class="tier-name">Production</div>
+            <div class="tier-price">$4.8M<small>capex · 9 months</small></div>
+            <ul>
+              <li class="in">All 6 hospitals · all 3 workloads</li>
+              <li class="in">10× XE9680 · 80× H200</li>
+              <li class="in">1.2 PB tiered storage</li>
+              <li class="in">Full software stack · 5-yr support</li>
+              <li class="in">Extends existing R650 fleet</li>
+              <li class="out">DR site (add in Scale)</li>
+            </ul>
+            <button class="btn btn-primary">Start with Production</button>
+          </div>
+          <div class="tier-card">
+            <div class="tier-name">Scale + DR</div>
+            <div class="tier-price">$7.2M<small>capex · 18 months total</small></div>
+            <ul>
+              <li class="in">Production tier, plus —</li>
+              <li class="in">DR site (Site B) online</li>
+              <li class="in">2× XE9680 warm standby · 16× H200</li>
+              <li class="in">Full storage replication</li>
+              <li class="in">RPO 15 min · RTO 4 hr</li>
+              <li class="in">Quarterly failover testing</li>
+            </ul>
+            <button class="btn btn-secondary">Plan Scale tier</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. TCO -->
+      <section class="canvas-section" id="sec-tco">
+        <div class="section-header"><div><h2>Total cost of ownership</h2><div class="section-sub">Capex + 5 yrs of support + power + staffing + financing.</div></div></div>
+        <div class="tco-grid">
+          <div class="tco-card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-end"><div><div class="label-mini">3-year TCO</div><div style="font-size:32px;font-weight:600;color:var(--dell-navy-900);margin-top:4px">$6.4M</div></div><div class="muted" style="font-size:12px">Production tier, capex purchase</div></div>
+            <div class="tco-bar">
+              <div class="tco-seg" style="width:55%;background:#0672CB">Hardware 55%</div>
+              <div class="tco-seg" style="width:18%;background:#1E3A5F">Software 18%</div>
+              <div class="tco-seg" style="width:14%;background:#4A5568">Support 14%</div>
+              <div class="tco-seg" style="width:8%;background:#E89D3C">Power 8%</div>
+              <div class="tco-seg" style="width:5%;background:#00A65A">Staff 5%</div>
+            </div>
+          </div>
+          <div class="tco-card">
+            <div style="display:flex;justify-content:space-between;align-items:flex-end"><div><div class="label-mini">5-year TCO</div><div style="font-size:32px;font-weight:600;color:var(--dell-navy-900);margin-top:4px">$9.1M</div></div><div class="muted" style="font-size:12px">Production tier, capex purchase</div></div>
+            <div class="tco-bar">
+              <div class="tco-seg" style="width:42%;background:#0672CB">Hardware 42%</div>
+              <div class="tco-seg" style="width:24%;background:#1E3A5F">Software 24%</div>
+              <div class="tco-seg" style="width:18%;background:#4A5568">Support 18%</div>
+              <div class="tco-seg" style="width:10%;background:#E89D3C">Power 10%</div>
+              <div class="tco-seg" style="width:6%;background:#00A65A">Staff 6%</div>
+            </div>
+          </div>
+        </div>
+        <div class="tco-toggle" onclick="document.getElementById('tcoCloud').classList.toggle('show')">▸ Compare to public-cloud equivalent</div>
+        <div class="tco-cloud" id="tcoCloud"><strong>Public cloud equivalent (3-yr): ~$14.7M</strong> — assumes equivalent GPU-hours on H100 instances at list, plus egress and managed services. <em>Note: PHI residency requires dedicated tenancy in select regions; assumptions <a href="#sec-assume">documented below</a>.</em></div>
+      </section>
+
+      <!-- 6. Gantt -->
+      <section class="canvas-section" id="sec-gantt">
+        <div class="section-header"><div><h2>Deployment timeline</h2><div class="section-sub">18 months · pilot → production → scale.</div></div></div>
+        <div class="gantt">
+          <div class="gantt-header">
+            <div class="lane-label">Workstream</div>
+            <div class="month">M1</div><div class="month">M2</div><div class="month">M3</div><div class="month">M4</div><div class="month">M5</div><div class="month">M6</div><div class="month">M7</div><div class="month">M8</div><div class="month">M9</div><div class="month">M10</div><div class="month">M11</div><div class="month">M12</div><div class="month">M13</div><div class="month">M14</div><div class="month">M15</div><div class="month">M16</div><div class="month">M17</div><div class="month">M18</div>
+          </div>
+          <div class="gantt-row"><div class="lane">Procurement</div><div></div><div class="gantt-bar lite" style="grid-column:3 / span 1"><span class="bar-label">PO</span></div></div>
+          <div class="gantt-row"><div class="lane">Site prep</div><div></div><div class="gantt-bar" style="grid-column:3 / span 2"><span class="bar-label">Power, cooling</span></div></div>
+          <div class="gantt-row"><div class="lane">Hardware install</div><div></div><div class="gantt-bar" style="grid-column:4 / span 2"><span class="bar-label">ProDeploy</span></div></div>
+          <div class="gantt-row"><div class="lane">Software stack</div><div></div><div class="gantt-bar" style="grid-column:5 / span 2"><span class="bar-label">OpenShift, NIM, Run:ai</span></div></div>
+          <div class="gantt-row"><div class="lane">Pilot — KA</div><div></div><div class="gantt-bar success" style="grid-column:6 / span 3"><span class="bar-label">90-day pilot</span></div></div>
+          <div class="gantt-row"><div class="lane">Pilot review</div><div></div><div class="gantt-bar lite" style="grid-column:9 / span 1"><span class="bar-label">Go/no-go</span></div></div>
+          <div class="gantt-row"><div class="lane">Production rollout</div><div></div><div class="gantt-bar" style="grid-column:9 / span 6"><span class="bar-label">6 hospitals · all 3 workloads</span></div></div>
+          <div class="gantt-row"><div class="lane">Training</div><div></div><div class="gantt-bar warn" style="grid-column:8 / span 3"><span class="bar-label">200-hr Education</span></div></div>
+          <div class="gantt-row"><div class="lane">DR site</div><div></div><div class="gantt-bar" style="grid-column:14 / span 4"><span class="bar-label">Site B online</span></div></div>
+          <div class="gantt-row"><div class="lane">Failover testing</div><div></div><div class="gantt-bar success" style="grid-column:18 / span 1"><span class="bar-label">Go-live</span></div></div>
+        </div>
+      </section>
+
+      <!-- 7. Compliance -->
+      <section class="canvas-section" id="sec-compliance">
+        <div class="section-header"><div><h2>Compliance &amp; assurance</h2><div class="section-sub">Pre-applied for Healthcare on-prem deployments.</div></div></div>
+        <div class="compliance-grid">
+          <div class="compliance-badge"><div class="cb-icon">✓</div><div><div class="cb-title">HIPAA</div><div class="cb-evidence">BAA available · administrative, physical, technical safeguards documented</div></div></div>
+          <div class="compliance-badge"><div class="cb-icon">✓</div><div><div class="cb-title">HITRUST CSF v11</div><div class="cb-evidence">Reference architecture maps to 156 control objectives</div></div></div>
+          <div class="compliance-badge"><div class="cb-icon">✓</div><div><div class="cb-title">On-premises</div><div class="cb-evidence">PHI never leaves your data centers; no cloud telemetry on patient data</div></div></div>
+          <div class="compliance-badge"><div class="cb-icon">✓</div><div><div class="cb-title">Encryption</div><div class="cb-evidence">At-rest (FIPS 140-3 capable SED) and in-transit (TLS 1.3)</div></div></div>
+          <div class="compliance-badge"><div class="cb-icon">✓</div><div><div class="cb-title">Audit logging</div><div class="cb-evidence">Tamper-evident logs · 7-yr retention · forwarded to your SIEM</div></div></div>
+          <div class="compliance-badge"><div class="cb-icon">✓</div><div><div class="cb-title">Identity</div><div class="cb-evidence">SAML / OIDC integration · SCIM provisioning · MFA required for admin</div></div></div>
+        </div>
+      </section>
+
+      <!-- 8. Skills & staffing -->
+      <section class="canvas-section" id="sec-staff">
+        <div class="section-header"><div><h2>Skills &amp; staffing</h2><div class="section-sub">What your team will need on Day 1.</div></div></div>
+        <div class="staff-card">
+          <p style="font-size:14px;color:var(--dell-slate-700)">Recommended internal roles for a deployment of this scale. Dell Residency Services covers months 1–3 to bridge ramp-up, and the included 200 Education hours are sized for these roles.</p>
+          <div class="staff-list">
+            <div class="staff-item"><div class="staff-num">1</div><div><strong>AI platform lead</strong><div class="muted" style="font-size:12px">Owns the architecture and roadmap. Existing infra director (Raj) likely fits.</div></div></div>
+            <div class="staff-item"><div class="staff-num">2</div><div><strong>MLOps engineers</strong><div class="muted" style="font-size:12px">OpenShift AI, Run:ai, model deployment, observability. Hire or upskill.</div></div></div>
+            <div class="staff-item"><div class="staff-num">1</div><div><strong>Clinical informaticist liaison</strong><div class="muted" style="font-size:12px">Bridge between CMIO and platform team. Existing role.</div></div></div>
+            <div class="staff-item"><div class="staff-num">1</div><div><strong>Security &amp; compliance partner</strong><div class="muted" style="font-size:12px">Existing CISO function — adds AI risk review.</div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 9. Attach rail -->
+      <section class="canvas-section" id="sec-attach">
+        <div class="section-header"><div><h2>Complete your solution</h2><div class="section-sub">Contextual to your build — quietly recommended, no urgency.</div></div></div>
+        <div class="attach-rail">
+          <div class="attach-scroller">
+            <div class="attach-card">
+              <div class="at-title">Dell Pro Max 16 AI PCs</div>
+              <div class="at-why">On-device drafting reduces inference load. ~30% of ambient documentation stays at the edge.</div>
+              <div class="at-foot"><span class="at-price">2,400 units · ~$5.8M (separate budget)</span><button class="attach-add" onclick="toggleAttach(this)">+ Add</button></div>
+            </div>
+            <div class="attach-card">
+              <div class="at-title">UltraSharp 27" 4K monitors</div>
+              <div class="at-why">Documentation rooms and reading rooms. Quiet, color-accurate, dual-monitor ready.</div>
+              <div class="at-foot"><span class="at-price">600 units · ~$420K</span><button class="attach-add" onclick="toggleAttach(this)">+ Add</button></div>
+            </div>
+            <div class="attach-card">
+              <div class="at-title">NVIDIA AI Enterprise — additional licenses</div>
+              <div class="at-why">If you expect to add the imaging research workload in year 2, license headroom is cheaper now.</div>
+              <div class="at-foot"><span class="at-price">+16 GPUs · $360K (5-yr)</span><button class="attach-add" onclick="toggleAttach(this)">+ Add</button></div>
+            </div>
+            <div class="attach-card">
+              <div class="at-title">Dell Managed Services for AI Ops</div>
+              <div class="at-why">Outsource Day-2 ops if your hiring plan slips. 24/7, SLA-backed.</div>
+              <div class="at-foot"><span class="at-price">From $42K/month</span><button class="attach-add" onclick="toggleAttach(this)">+ Add</button></div>
+            </div>
+            <div class="attach-card">
+              <div class="at-title">Education credits — extra 200 hrs</div>
+              <div class="at-why">Recommended if any of your MLOps engineers are net-new hires.</div>
+              <div class="at-foot"><span class="at-price">$48K</span><button class="attach-add" onclick="toggleAttach(this)">+ Add</button></div>
+            </div>
+            <div class="attach-card">
+              <div class="at-title">Dell Financial Services</div>
+              <div class="at-why">60-month lease at $86K/month preserves capex for the imaging modality refresh.</div>
+              <div class="at-foot"><span class="at-price">Lease vs. buy</span><button class="attach-add" onclick="toggleAttach(this)">Compare</button></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10. Assumptions -->
+      <section class="canvas-section" id="sec-assume">
+        <div class="section-header"><div><h2>Assumptions &amp; sizing math</h2><div class="section-sub">Open to scrutiny. Change any of these and the BOM ripples.</div></div></div>
+        <div class="assumptions">
+          <div class="assumptions-body">
+            We assumed <strong>70% peak GPU utilization</strong>, <strong>fp8 quantization on the 70B model</strong>, an <strong>8K context window</strong>, RAG retrieval over a <strong>240 TB indexed corpus</strong>, <strong>30-day audio retention</strong> for ambient documentation, and <strong>10:1 average compression ratio</strong> on cold-tier storage. Power assumes typical PUE of 1.4 in your existing data centers. Staffing model assumes 1 AI platform lead and 2 MLOps engineers shared across all three workloads. Public-cloud comparison assumes equivalent H100 instance hours at published list prices, plus egress and PHI-residency-compatible dedicated tenancy.
+            <div style="margin-top:16px"><button class="btn btn-secondary" onclick="showToast('3-yr TCO updated','Assumptions changed — TCO recomputed: $6.4M → $6.7M')">Change assumptions →</button></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="canvas-rail">
+      <div class="rail-title">On this page</div>
+      <a href="#sec-exec" class="active">Executive summary</a>
+      <a href="#sec-arch">Architecture</a>
+      <a href="#sec-bom">Bill of materials</a>
+      <a href="#sec-tier">Deployment tiers</a>
+      <a href="#sec-tco">TCO 3 / 5 yr</a>
+      <a href="#sec-gantt">Timeline</a>
+      <a href="#sec-compliance">Compliance</a>
+      <a href="#sec-staff">Skills &amp; staffing</a>
+      <a href="#sec-attach">Complete your solution</a>
+      <a href="#sec-assume">Assumptions</a>
+    </aside>
+  </div>
+
+  <div class="canvas-footer">
+    <a href="#" onclick="openShare(3);return false;">Request formal quote</a>
+    <a href="#" onclick="openShare(2);return false;">Send to my Dell account team</a>
+    <a href="#" onclick="openShare(1);return false;">Download PDF</a>
+    <a href="#">Export BOM (CSV)</a>
+    <a href="#" onclick="openShare(0);return false;">Copy solution link</a>
+  </div>
+</section>
+
+<!-- =========================================================
+     SCREEN 6 — COMPARE
+     ========================================================= -->
+<section class="screen" data-screen="6">
+  <div class="container">
+    <div style="margin-bottom:24px">
+      <h1>Compare configurations</h1>
+      <p class="muted" style="margin-top:6px">Three side-by-side configurations for Northridge Health. Differentiating cells highlighted.</p>
+    </div>
+    <div class="compare-grid" id="compareGrid">
+      <div class="ch header-col"></div>
+      <div class="col-head featured"><div class="col-tag">Option A</div><h3>Production · H200</h3><div class="muted" style="font-size:12px">Recommended baseline</div></div>
+      <div class="col-head"><div class="col-tag">Option B</div><h3>Production · RTX PRO 6000</h3><div class="muted" style="font-size:12px">Cheaper GPU, slower</div></div>
+      <div class="col-head"><div class="col-tag">Option C</div><h3>Public cloud equivalent</h3><div class="muted" style="font-size:12px">Illustrative</div></div>
+
+      <div class="row-label">Indicative price (capex / 3-yr)</div>
+      <div class="cell best">$4.8M capex</div>
+      <div class="cell">$3.6M capex</div>
+      <div class="cell bad">~$14.7M / 3-yr</div>
+
+      <div class="row-label">3-year TCO</div>
+      <div class="cell best">$6.4M</div>
+      <div class="cell diff">$5.5M</div>
+      <div class="cell bad">~$14.7M</div>
+
+      <div class="row-label">Peak concurrent users</div>
+      <div class="cell best">3,000</div>
+      <div class="cell diff">1,800 (longer queues)</div>
+      <div class="cell">3,000</div>
+
+      <div class="row-label">P95 response time (KA)</div>
+      <div class="cell best">1.8 s</div>
+      <div class="cell diff">3.2 s</div>
+      <div class="cell">2.1 s</div>
+
+      <div class="row-label">Power footprint</div>
+      <div class="cell">78 kW</div>
+      <div class="cell best">62 kW</div>
+      <div class="cell">— (cloud)</div>
+
+      <div class="row-label">Time to pilot</div>
+      <div class="cell best">90 days</div>
+      <div class="cell">90 days</div>
+      <div class="cell diff">45 days</div>
+
+      <div class="row-label">Compliance posture</div>
+      <div class="cell best">HIPAA + HITRUST · on-prem ✓</div>
+      <div class="cell best">HIPAA + HITRUST · on-prem ✓</div>
+      <div class="cell bad">PHI residency depends on cloud region</div>
+
+      <div class="row-label">Upgrade headroom</div>
+      <div class="cell best">+50% in same racks</div>
+      <div class="cell diff">+20% (GPU-bound)</div>
+      <div class="cell">Elastic but expensive</div>
+
+      <div class="row-label">Primary tradeoff</div>
+      <div class="cell">Highest perf · highest capex</div>
+      <div class="cell">Cost-optimized · slower P95</div>
+      <div class="cell">Fastest start · highest 3-yr cost &amp; residency risk</div>
+
+      <div class="row-actions"></div>
+      <div class="row-actions"><button class="btn btn-primary" onclick="goToScreen(5)">Pick this →</button></div>
+      <div class="row-actions"><button class="btn btn-secondary" onclick="goToScreen(5)">Pick this →</button></div>
+      <div class="row-actions"><button class="btn btn-secondary" onclick="goToScreen(5)">Pick this →</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     SCREEN 7 — PLACEHOLDER (the modal opens over any screen)
+     ========================================================= -->
+<section class="screen" data-screen="7">
+  <div class="container" style="text-align:center;padding:80px 32px">
+    <h1>Share &amp; handoff</h1>
+    <p class="muted" style="margin:12px 0 24px;font-size:15px">The share dialog opens as a modal over your solution. Click below to see it.</p>
+    <button class="btn btn-primary btn-large" onclick="openShare()">Open share dialog</button>
+    <div style="margin-top:48px"><a href="#" onclick="goToScreen(5);return false;">← Back to solution canvas</a></div>
+  </div>
+</section>
+
+<!-- =========================================================
+     SHARE MODAL (overlays any screen)
+     ========================================================= -->
+<div class="modal-backdrop" id="shareModal" role="dialog" aria-modal="true" aria-labelledby="shareTitle">
+  <div class="modal" tabindex="-1">
+    <div class="modal-head"><h2 id="shareTitle">Share your solution package</h2><button class="modal-close" onclick="closeShare()" aria-label="Close">×</button></div>
+    <div class="modal-tabs" role="tablist">
+      <button class="modal-tab active" data-mtab="0">Link</button>
+      <button class="modal-tab" data-mtab="1">PDF</button>
+      <button class="modal-tab" data-mtab="2">Send to Dell account team</button>
+      <button class="modal-tab" data-mtab="3">Request formal quote</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-pane active" data-mpane="0">
+        <p class="muted" style="margin-bottom:14px">Anyone with this link can view your solution. They'll see the same canvas, with read-only access.</p>
+        <div class="url-input">
+          <input type="text" readonly value="https://www.dell.com/aise/s/HC-NRH-2024-7K3M" id="shareUrl">
+          <button class="btn btn-primary" onclick="copyUrl()">Copy</button>
+        </div>
+        <label class="checkbox-row"><input type="checkbox"> Allow recipients to edit a copy</label>
+        <label class="label-mini">Optional note</label>
+        <textarea class="note-input" placeholder="e.g., Sarah — for our Tuesday architecture review."></textarea>
+      </div>
+      <div class="modal-pane" data-mpane="1">
+        <div class="pdf-preview">
+          <div class="pdf-thumb">
+            <div class="pdf-thumb-head"></div>
+            <div class="pdf-thumb-line"></div>
+            <div class="pdf-thumb-line short"></div>
+            <div class="pdf-thumb-block"></div>
+            <div class="pdf-thumb-line"></div>
+            <div class="pdf-thumb-line short"></div>
+            <div class="pdf-thumb-block"></div>
+            <div class="pdf-thumb-line"></div>
+            <div class="pdf-thumb-line short"></div>
+          </div>
+          <div>
+            <h3 style="margin-bottom:8px">6-page solution package</h3>
+            <p class="muted" style="margin-bottom:14px;font-size:13px">Executive summary, architecture diagram, bill of materials, deployment timeline, compliance attestation, assumptions. Branded for Northridge Health.</p>
+            <button class="btn btn-primary">Download PDF (1.4 MB)</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-pane" data-mpane="2">
+        <div class="am-card">
+          <div class="am-avatar">SD</div>
+          <div class="am-info">
+            <div class="am-name">Sarah Diaz</div>
+            <div class="am-meta">Account Executive · Northridge Health · sarah.diaz@dell.com</div>
+          </div>
+        </div>
+        <div class="form-row">
+          <label>What would you like Sarah to do?</label>
+          <select><option>Review and respond by email</option><option>Schedule a working session this week</option><option>Schedule a site visit (Site A)</option><option>Bring in a Healthcare specialist SE</option></select>
+        </div>
+        <div class="form-row"><label>Note for Sarah</label><textarea class="note-input" placeholder="We're targeting board approval by June 15..."></textarea></div>
+      </div>
+      <div class="modal-pane" data-mpane="3">
+        <p class="muted" style="margin-bottom:14px">Convert this configuration into a CPQ-grade quote with firm pricing. Typical turnaround 3–5 business days.</p>
+        <div class="form-row"><label>Preferred contact</label><input type="text" value="Dr. Maya Chen, CIO · maya.chen@northridge-health.org"></div>
+        <div class="form-row"><label>Decision timeline</label><select><option>30 days</option><option>60 days</option><option>90 days (selected)</option><option>6 months</option></select></div>
+        <div class="form-row"><label>Procurement vehicle preference</label>
+          <select><option>Capex (selected)</option><option>Dell Financial Services lease</option><option>Apex consumption</option><option>Open to discuss</option></select>
+        </div>
+        <div class="form-row"><label>Additional notes</label><textarea class="note-input" placeholder="Board review June 15. Need 5-yr TCO comparison vs cloud."></textarea></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-secondary" onclick="closeShare()">Cancel</button>
+      <button class="btn btn-primary" onclick="closeShare();showToast('Sent','Your package was shared. Sarah Diaz has been notified.')">Send</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div class="toast" id="toast" role="status" aria-live="polite">
+  <div class="toast-title" id="toastTitle">Updated</div>
+  <div class="toast-body" id="toastBody">3-yr TCO recomputed.</div>
+</div>
+
+<script>
+/* =================== Screen switching =================== */
+function goToScreen(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelector(`.screen[data-screen="${n}"]`).classList.add('active');
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.querySelector(`.step[data-target="${n}"]`)?.classList.add('active');
+  window.scrollTo(0,0);
+  document.getElementById('demoJump').value='';
+}
+document.querySelectorAll('.step').forEach(s=>s.addEventListener('click',()=>goToScreen(s.dataset.target)));
+document.getElementById('demoJump').addEventListener('change',e=>{if(e.target.value)goToScreen(e.target.value)});
+
+/* =================== Industry lens — usecase toggles =================== */
+document.querySelectorAll('#usecaseList .usecase-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    card.classList.toggle('added');
+    const btn = card.querySelector('.toggle-add');
+    btn.classList.toggle('added');
+    btn.textContent = btn.classList.contains('added') ? 'Added ✓' : '+ Add';
+    recomputeIndustry();
+  });
+});
+function recomputeIndustry(){
+  const added = document.querySelectorAll('#usecaseList .usecase-card.added');
+  let users=0, peak=0, storage=0;
+  added.forEach(c=>{
+    users += parseInt(c.dataset.users)||0;
+    peak = Math.max(peak, parseInt(c.dataset.users)||0);
+    storage += parseInt(c.dataset.storage)||0;
+  });
+  document.getElementById('ucCount').textContent = `${added.length} use case${added.length===1?'':'s'} selected`;
+  document.getElementById('estUsers').textContent = users.toLocaleString();
+  document.getElementById('estPeak').textContent = peak.toLocaleString();
+  document.getElementById('estStorage').textContent = `~${storage} TB`;
+}
+
+/* =================== Wizard =================== */
+let wizStep = 1;
+function wizardStep(delta){
+  const next = wizStep + delta;
+  if(next < 1) return;
+  if(next > 8){ goToScreen(5); return; }
+  document.querySelector(`.wizard-step[data-step="${wizStep}"]`).classList.remove('active');
+  wizStep = next;
+  document.querySelector(`.wizard-step[data-step="${wizStep}"]`).classList.add('active');
+  document.getElementById('progressFill').style.width = (wizStep/8*100)+'%';
+  document.getElementById('progressText').textContent = `Step ${wizStep} of 8`;
+  document.getElementById('wizBack').style.visibility = wizStep===1?'hidden':'visible';
+  document.getElementById('wizNext').textContent = wizStep===8 ? 'Build my solution →' : 'Next →';
+}
+// choice cards (single-select within step)
+document.querySelectorAll('.wizard-step').forEach(step=>{
+  step.querySelectorAll('.choice').forEach(c=>{
+    c.addEventListener('click',()=>{
+      step.querySelectorAll('.choice').forEach(x=>x.classList.remove('selected'));
+      c.classList.add('selected');
+    });
+  });
+  step.querySelectorAll('.pill-toggle').forEach(p=>{
+    p.addEventListener('click',()=>p.classList.toggle('selected'));
+  });
+});
+
+/* =================== Configurator =================== */
+function toggleSwitch(el){ el.classList.toggle('on'); recomputePreview(); }
+function selectGpu(el, kind){
+  el.parentElement.querySelectorAll('.radio-tile').forEach(t=>t.classList.remove('selected'));
+  el.classList.add('selected');
+  const labels = {h200:'96× H200', rtx:'128× RTX PRO 6000', l40s:'160× L40S', mi300:'96× MI300X'};
+  const costs = {h200:'$4.2M – $5.8M', rtx:'$3.1M – $4.2M', l40s:'$2.6M – $3.4M', mi300:'$3.8M – $4.9M'};
+  document.getElementById('prevGpus').textContent = labels[kind];
+  document.getElementById('prevCost').textContent = costs[kind];
+  showToast('Configuration updated', `GPU family changed — preview refreshed.`);
+}
+document.querySelectorAll('.acc-head').forEach(h=>{
+  h.addEventListener('click',()=>h.parentElement.classList.toggle('collapsed'));
+});
+function updateKa(v){
+  document.getElementById('kaUsers').textContent = parseInt(v).toLocaleString();
+  recomputePreview();
+}
+document.querySelectorAll('.workload-knobs input[type=range]').forEach(r=>{
+  r.addEventListener('input',()=>{
+    const span = r.parentElement.querySelector('.range-value');
+    if(span && !span.id) span.textContent = r.value + (r.previousElementSibling?.textContent?.includes('Power')?' kW':'');
+    recomputePreview();
+  });
+});
+function recomputePreview(){
+  // simple deterministic update
+  const ka = parseInt(document.querySelector('input[oninput*=updateKa]')?.value || 2400);
+  const racks = ka > 3000 ? 5 : ka > 1500 ? 4 : 3;
+  const power = racks * 19.5;
+  const servers = Math.ceil(ka/200);
+  document.getElementById('prevRacks').textContent = racks;
+  document.getElementById('prevPower').textContent = power.toFixed(0) + ' kW';
+  document.getElementById('prevServers').textContent = servers;
+}
+
+/* =================== Canvas anchor nav =================== */
+const railLinks = document.querySelectorAll('.canvas-rail a');
+railLinks.forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+// observe sections to highlight rail
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){
+      railLinks.forEach(a=>a.classList.toggle('active', a.getAttribute('href')==='#'+en.target.id));
+    }
+  });
+},{rootMargin:'-30% 0px -60% 0px'});
+document.querySelectorAll('.canvas-section').forEach(s=>obs.observe(s));
+
+/* =================== Attach toggles =================== */
+function toggleAttach(btn){
+  const card = btn.closest('.attach-card');
+  card.classList.toggle('added');
+  const added = card.classList.contains('added');
+  btn.classList.toggle('added', added);
+  btn.textContent = added ? 'Added ✓' : '+ Add';
+  // bump counter
+  const c = document.getElementById('solutionCounter');
+  const m = c.textContent.match(/(\d+)/);
+  let n = parseInt(m[1]);
+  n = added ? n+1 : Math.max(0, n-1);
+  c.textContent = `Items in solution: ${n}`;
+  showToast(added?'Added to solution':'Removed from solution', card.querySelector('.at-title').textContent);
+}
+
+/* =================== Share modal =================== */
+function openShare(tab){
+  const m = document.getElementById('shareModal');
+  m.classList.add('show');
+  if(typeof tab === 'number') switchModalTab(tab);
+  m.querySelector('.modal').focus();
+}
+function closeShare(){ document.getElementById('shareModal').classList.remove('show'); }
+function switchModalTab(i){
+  document.querySelectorAll('.modal-tab').forEach((t,idx)=>t.classList.toggle('active', idx===i));
+  document.querySelectorAll('.modal-pane').forEach((p,idx)=>p.classList.toggle('active', idx===i));
+}
+document.querySelectorAll('.modal-tab').forEach((t,i)=>t.addEventListener('click',()=>switchModalTab(i)));
+document.getElementById('shareModal').addEventListener('click',e=>{
+  if(e.target.id==='shareModal') closeShare();
+});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeShare(); });
+function copyUrl(){
+  const i = document.getElementById('shareUrl');
+  i.select(); document.execCommand('copy');
+  showToast('Link copied','Solution URL is on your clipboard.');
+}
+
+/* =================== Toast =================== */
+let toastT;
+function showToast(title, body){
+  document.getElementById('toastTitle').textContent = title;
+  document.getElementById('toastBody').textContent = body;
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(toastT);
+  toastT = setTimeout(()=>t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
