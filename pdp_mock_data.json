@@ -1,0 +1,272 @@
+{
+  "data": {
+
+    "breadcrumb": {
+      "crumbs": [
+        { "label": "Home",                      "url": "/" },
+        { "label": "Laptops & 2-in-1 PCs",      "url": "/laptops-2-in-1-pcs" },
+        { "label": "Dell Laptops & 2-in-1 PCs", "url": "/dell-laptops-2-in-1-pcs" },
+        { "label": "Dell 16 Plus",              "url": null }
+      ]
+    },
+
+    "platform": {
+      "id": "platform-db16250",
+      "name": "Dell 16 Plus Laptop",
+      "modelCode": "DB16250",
+      "rating": {
+        "score": 4.5,
+        "reviewCount": 3539
+      },
+      "description": "AI enabled creation — Built-in AI with a spacious display and Intel Arc graphics designed for creators and developers who demand performance and style.",
+      "images": [
+        {
+          "url": "/images/db16250/hero-front.jpg",
+          "altText": "Dell 16 Plus Laptop front view",
+          "sortOrder": 1,
+          "type": "HERO"
+        },
+        {
+          "url": "/images/db16250/gallery-angle.jpg",
+          "altText": "Dell 16 Plus Laptop angled view",
+          "sortOrder": 2,
+          "type": "GALLERY"
+        },
+        {
+          "url": "/images/db16250/gallery-side.jpg",
+          "altText": "Dell 16 Plus Laptop side view",
+          "sortOrder": 3,
+          "type": "GALLERY"
+        },
+        {
+          "url": "/images/db16250/gallery-keyboard.jpg",
+          "altText": "Dell 16 Plus Laptop keyboard close-up",
+          "sortOrder": 4,
+          "type": "GALLERY"
+        },
+        {
+          "url": "/images/db16250/thumb-front.jpg",
+          "altText": "Dell 16 Plus Laptop thumbnail",
+          "sortOrder": 1,
+          "type": "THUMBNAIL"
+        }
+      ],
+      "badges": [
+        {
+          "label": "Copilot+ PC",
+          "imageUrl": "/images/badges/copilot-plus-pc.svg"
+        }
+      ],
+      "orderCode": "usedb16250hbtshmgx"
+    },
+
+    "microcontent": [
+      {
+        "id": "mc_promo_price_match",
+        "key": "promo_price_match",
+        "value": "Price Match Guarantee"
+      },
+      {
+        "id": "mc_promo_free_shipping",
+        "key": "promo_free_shipping",
+        "value": "Free Shipping"
+      },
+      {
+        "id": "mc_windows_banner",
+        "key": "windows_banner",
+        "value": "Get to know Windows 11 devices"
+      },
+      {
+        "id": "mc_intel_badge",
+        "key": "intel_badge",
+        "value": "Intel® Core™ Ultra Processors — Learn More about Intel"
+      },
+      {
+        "id": "mc_financing_title",
+        "key": "financing_title",
+        "value": "Financing Offers"
+      },
+      {
+        "id": "mc_financing_body",
+        "key": "financing_body",
+        "value": "Take advantage of 12 months special financing on purchases of $799+ and earn $50 (5,000 points) when you open a Dell Pay Credit Account and are enrolled in Dell Rewards. Valid through 7/29/2026."
+      },
+      {
+        "id": "mc_financing_cta_1",
+        "key": "financing_cta_1",
+        "value": "Pre-Qualify"
+      },
+      {
+        "id": "mc_financing_cta_2",
+        "key": "financing_cta_2",
+        "value": "Learn More"
+      },
+      {
+        "id": "mc_rewards_promo",
+        "key": "rewards_promo",
+        "value": "Earn up to 3x (9%) on select Alienware monitors for a limited time."
+      },
+      {
+        "id": "mc_special_offers",
+        "key": "special_offers",
+        "value": "Special Offers"
+      }
+    ],
+
+    "modelGroups": [
+      {
+        "id": "modelgroup-16in",
+        "label": "16 in.",
+        "sortOrder": 1,
+        "isDefault": true,
+        "defaultOfferId": "offer-db16250-001",
+
+        "offers": [
+          {
+            "id": "offer-db16250-001",
+            "name": "Ultimate College Offer",
+            "badge": "Ultimate College Offer",
+            "isDefault": true,
+            "sortOrder": 1,
+
+            "pricing": {
+              "currentPrice": 1059.99,
+              "originalPrice": 1429.99,
+              "savingsAmount": 370.00,
+              "monthlyPayment": 89.00,
+              "monthlyTerm": 12,
+              "monthlyProvider": "Dell Pay",
+              "monthlyDetailsUrl": "/financing/details",
+              "currencyCode": "USD"
+            },
+
+            "specs": [
+              { "specKey": "Processor",        "specValue": "Intel® Core™ Ultra 7 256V, 8 cores", "sortOrder": 1 },
+              { "specKey": "Operating System", "specValue": "Windows 11 Home",                     "sortOrder": 2 },
+              { "specKey": "Graphics Card",    "specValue": "Intel® Arc™ Graphics",                "sortOrder": 3 },
+              { "specKey": "Memory",           "specValue": "16 GB LPDDR5X",                       "sortOrder": 4 },
+              { "specKey": "Storage",          "specValue": "1 TB SSD",                            "sortOrder": 5 },
+              { "specKey": "Display",          "specValue": "16\" Non-Touch 2.5K",                 "sortOrder": 6 }
+            ],
+
+            "shippingDetails": {
+              "estimatedDate": "Friday, May 15",
+              "postalCode": "90230",
+              "deliveryDatesUrl": "/delivery/dates?zip=90230&offerId=offer-db16250-001"
+            }
+          },
+          {
+            "id": "offer-db16250-002",
+            "name": null,
+            "badge": null,
+            "isDefault": false,
+            "sortOrder": 2,
+
+            "pricing": {
+              "currentPrice": 1189.99,
+              "originalPrice": 1609.99,
+              "savingsAmount": 420.00,
+              "monthlyPayment": 100.00,
+              "monthlyTerm": 12,
+              "monthlyProvider": "Dell Pay",
+              "monthlyDetailsUrl": "/financing/details",
+              "currencyCode": "USD"
+            },
+
+            "specs": [
+              { "specKey": "Processor",        "specValue": "Intel® Core™ Ultra 7 258V, 8 cores", "sortOrder": 1 },
+              { "specKey": "Operating System", "specValue": "Windows 11 Home",                     "sortOrder": 2 },
+              { "specKey": "Graphics Card",    "specValue": "Intel® Arc™ Graphics",                "sortOrder": 3 },
+              { "specKey": "Memory",           "specValue": "32 GB LPDDR5X",                       "sortOrder": 4 },
+              { "specKey": "Storage",          "specValue": "1 TB SSD",                            "sortOrder": 5 },
+              { "specKey": "Display",          "specValue": "16\" Non-Touch 2.5K",                 "sortOrder": 6 }
+            ],
+
+            "shippingDetails": {
+              "estimatedDate": "Friday, May 15",
+              "postalCode": "90230",
+              "deliveryDatesUrl": "/delivery/dates?zip=90230&offerId=offer-db16250-002"
+            }
+          },
+          {
+            "id": "offer-db16250-003",
+            "name": null,
+            "badge": "Includes Microsoft 365 with AI, McAfee+ Premium & 1 Year Dell Care Premium",
+            "isDefault": false,
+            "sortOrder": 3,
+
+            "pricing": {
+              "currentPrice": 1599.99,
+              "originalPrice": 1876.68,
+              "savingsAmount": 276.69,
+              "monthlyPayment": 134.00,
+              "monthlyTerm": 12,
+              "monthlyProvider": "Dell Pay",
+              "monthlyDetailsUrl": "/financing/details",
+              "currencyCode": "USD"
+            },
+
+            "specs": [
+              { "specKey": "Processor",        "specValue": "Intel® Core™ Ultra 7 258V, 8 cores", "sortOrder": 1 },
+              { "specKey": "Operating System", "specValue": "Windows 11 Home",                     "sortOrder": 2 },
+              { "specKey": "Graphics Card",    "specValue": "Intel® Arc™ Graphics",                "sortOrder": 3 },
+              { "specKey": "Memory",           "specValue": "32 GB LPDDR5X",                       "sortOrder": 4 },
+              { "specKey": "Storage",          "specValue": "1 TB SSD",                            "sortOrder": 5 },
+              { "specKey": "Display",          "specValue": "16\" Non-Touch 2.5K",                 "sortOrder": 6 }
+            ],
+
+            "shippingDetails": {
+              "estimatedDate": "Friday, May 15",
+              "postalCode": "90230",
+              "deliveryDatesUrl": "/delivery/dates?zip=90230&offerId=offer-db16250-003"
+            }
+          }
+        ]
+      },
+      {
+        "id": "modelgroup-14in",
+        "label": "14 in.",
+        "sortOrder": 2,
+        "isDefault": false,
+        "defaultOfferId": "offer-db14250-001",
+
+        "offers": [
+          {
+            "id": "offer-db14250-001",
+            "name": null,
+            "badge": null,
+            "isDefault": true,
+            "sortOrder": 1,
+
+            "pricing": {
+              "currentPrice": 999.99,
+              "originalPrice": 1299.99,
+              "savingsAmount": 300.00,
+              "monthlyPayment": 84.00,
+              "monthlyTerm": 12,
+              "monthlyProvider": "Dell Pay",
+              "monthlyDetailsUrl": "/financing/details",
+              "currencyCode": "USD"
+            },
+
+            "specs": [
+              { "specKey": "Processor",        "specValue": "Intel® Core™ Ultra 7 256V, 8 cores", "sortOrder": 1 },
+              { "specKey": "Operating System", "specValue": "Windows 11 Home",                     "sortOrder": 2 },
+              { "specKey": "Graphics Card",    "specValue": "Intel® Arc™ Graphics",                "sortOrder": 3 },
+              { "specKey": "Memory",           "specValue": "16 GB LPDDR5X",                       "sortOrder": 4 },
+              { "specKey": "Storage",          "specValue": "512 GB SSD",                          "sortOrder": 5 },
+              { "specKey": "Display",          "specValue": "14\" Non-Touch 2.5K",                 "sortOrder": 6 }
+            ],
+
+            "shippingDetails": {
+              "estimatedDate": "Friday, May 15",
+              "postalCode": "90230",
+              "deliveryDatesUrl": "/delivery/dates?zip=90230&offerId=offer-db14250-001"
+            }
+          }
+        ]
+      }
+    ]
+
+  }
+}
