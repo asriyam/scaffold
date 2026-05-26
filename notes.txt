@@ -1,5 +1,10 @@
-The swagger-import component, loads the swagger json. I use the "Extract" link in desired api method item, to open the "Extract AI Response" flyout. In the flyout, I can see the query string parameters are shown in the "Sample Request (JSON)" but not showing the requestbody. This is wrong. Each querystring parameter should be shown as separate textbox input and the requestbody should be loaded in the "Sample Request (JSON)" box. When the user uses "Send Request" button, the request parameters should be updated in the API url and the requestbody json posted to the API.  Analyze and plan this change. 
-
+ {
+      "name": "body",
+      "in": "body",
+      "type": "object",
+      "required": false,
+      "description": ""
+    }
 
 ==
 Functional
