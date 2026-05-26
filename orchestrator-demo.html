@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#0672cb;--blue-dark:#002a58;--blue-hover:#0a5fa5;--blue-soft:#e6f1fb;
+    --ink:#444444;--ink-strong:#1a1a1a;--grey:#6e7884;
+    --line:#d6dbe1;--line-soft:#e7eaee;--surface:#f4f6f8;--surface-2:#eeeeee;
+    --white:#ffffff;--green:#1a8a3f;--amber:#f2af00;--red:#c33;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{font-family:'Inter',Arial,sans-serif;background:var(--surface);color:var(--ink);
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;font-size:14px;}
+  ::selection{background:var(--blue);color:#fff;}
+  .shell{max-width:1120px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;}
+
+  .topnav{background:var(--white);border-bottom:1px solid var(--line);display:flex;
+    align-items:center;justify-content:space-between;padding:0 28px;height:62px;}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .brand .mark{width:34px;height:34px;border-radius:50%;border:2.5px solid var(--blue);
+    display:grid;place-items:center;}
+  .brand .mark span{font-weight:700;color:var(--blue);font-size:15px;transform:skewX(-12deg);}
+  .brand h1{font-weight:600;font-size:18px;color:var(--ink-strong);}
+  .brand .sub{font-size:10px;color:var(--grey);border:1px solid var(--line);
+    padding:2px 7px;border-radius:3px;letter-spacing:.06em;text-transform:uppercase;}
+  .nav-right{font-size:12.5px;color:var(--grey);}
+
+  .rail{background:var(--white);border-bottom:1px solid var(--line);padding:0 28px;
+    display:flex;align-items:center;height:48px;}
+  .pip{display:flex;align-items:center;gap:9px;font-size:12.5px;color:var(--grey);padding-right:14px;}
+  .pip b{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;
+    background:var(--surface-2);font-weight:600;font-size:11px;color:var(--grey);
+    transition:.25s;border:1px solid var(--line);}
+  .pip.on{color:var(--ink-strong);font-weight:600;}
+  .pip.on b{background:var(--blue);color:#fff;border-color:var(--blue);}
+  .pip.done b{background:var(--green);color:#fff;border-color:var(--green);}
+  .pip .arrow{margin-right:14px;color:var(--line);font-size:13px;}
+
+  .stage{flex:1;padding:38px 28px 56px;}
+  .screen{display:none;animation:fade .4s ease both;}
+  .screen.active{display:block;}
+  @keyframes fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+
+  .eyebrow{font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--blue);font-weight:700;margin-bottom:11px;}
+  .headline{font-size:30px;line-height:1.2;font-weight:600;letter-spacing:-.02em;
+    color:var(--ink-strong);max-width:20ch;}
+  .lead{margin-top:11px;font-size:14.5px;color:var(--grey);max-width:52ch;line-height:1.6;}
+
+  .intent-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px;}
+  .intent{background:var(--white);border:1px solid var(--line);border-radius:6px;
+    padding:22px 20px;cursor:pointer;transition:.18s ease;position:relative;}
+  .intent:hover{border-color:var(--blue);box-shadow:0 4px 16px -6px rgba(6,114,203,.4);
+    transform:translateY(-2px);}
+  .intent::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+    background:var(--blue);border-radius:6px 0 0 6px;opacity:0;transition:.18s;}
+  .intent:hover::before{opacity:1;}
+  .intent .glyph{width:42px;height:42px;border-radius:6px;background:var(--blue-soft);
+    display:grid;place-items:center;font-size:20px;margin-bottom:14px;}
+  .intent h3{font-size:15px;font-weight:600;color:var(--ink-strong);margin-bottom:6px;}
+  .intent p{font-size:12.5px;color:var(--grey);line-height:1.55;}
+  .intent .pickline{margin-top:14px;font-size:12px;font-weight:600;color:var(--blue);
+    opacity:0;transition:.18s;}
+  .intent:hover .pickline{opacity:1;}
+  .intent.featured{border-color:var(--blue);border-width:1.5px;}
+  .intent.featured .tagrec{position:absolute;top:-9px;right:14px;background:var(--blue);
+    color:#fff;font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    padding:3px 9px;border-radius:3px;}
+
+  .describe-wrap{margin-top:26px;display:grid;grid-template-columns:1.5fr 1fr;gap:22px;align-items:start;}
+  .panel{background:var(--white);border:1px solid var(--line);border-radius:6px;padding:22px;}
+  .panel label{font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--grey);}
+  .talk-box{width:100%;margin-top:11px;border:1px solid var(--line);border-radius:5px;
+    padding:14px;font-family:inherit;font-size:14.5px;line-height:1.6;color:var(--ink-strong);
+    resize:none;background:var(--white);min-height:128px;transition:.15s;}
+  .talk-box:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft);}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px;}
+  .chip{font-size:12px;border:1px solid var(--line);background:var(--white);
+    padding:7px 12px;border-radius:4px;cursor:pointer;color:var(--grey);transition:.15s;}
+  .chip:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-soft);}
+  .chip::before{content:"+ ";font-weight:700;}
+  .help-card{background:var(--blue-soft);border:1px solid #c5def4;border-radius:6px;padding:20px;}
+  .help-card .q{width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;
+    display:grid;place-items:center;font-size:17px;margin-bottom:12px;}
+  .help-card h4{font-size:14.5px;color:var(--blue-dark);margin-bottom:8px;font-weight:600;}
+  .help-card p{font-size:12.5px;color:#1f4c75;line-height:1.6;}
+
+  .btn-primary{background:var(--blue);color:#fff;border:none;font-family:inherit;
+    font-weight:600;font-size:13.5px;padding:13px 26px;border-radius:4px;cursor:pointer;transition:.15s;}
+  .btn-primary:hover{background:var(--blue-hover);}
+  .btn-primary:disabled{background:var(--surface-2);color:var(--grey);cursor:not-allowed;}
+  .btn-ghost{background:var(--white);border:1px solid var(--line);color:var(--ink-strong);
+    font-family:inherit;font-weight:600;font-size:13.5px;padding:12px 22px;
+    border-radius:4px;cursor:pointer;transition:.15s;margin-left:9px;}
+  .btn-ghost:hover{border-color:var(--blue);color:var(--blue);}
+  .btn-row{margin-top:20px;}
+
+  .think{max-width:600px;margin:24px 0 0;background:var(--white);border:1px solid var(--line);
+    border-radius:6px;padding:8px 22px;}
+  .think-line{display:flex;gap:14px;align-items:center;padding:15px 0;
+    border-bottom:1px solid var(--line-soft);opacity:0;}
+  .think-line:last-child{border-bottom:none;}
+  .think-line.show{animation:fade .4s ease both;}
+  .think-line .ic{width:32px;height:32px;border-radius:5px;background:var(--surface-2);
+    display:grid;place-items:center;flex-shrink:0;font-size:15px;transition:.3s;}
+  .think-line.ok .ic{background:var(--green);color:#fff;}
+  .think-line .tx b{font-size:13.5px;font-weight:600;color:var(--ink-strong);display:block;margin-bottom:2px;}
+  .think-line .tx span{font-size:12.5px;color:var(--grey);line-height:1.5;}
+  .think-line .tag{margin-left:auto;font-size:10.5px;color:var(--green);font-weight:700;
+    text-transform:uppercase;letter-spacing:.05em;opacity:0;}
+  .think-line.ok .tag{opacity:1;}
+
+  .decisions{margin-top:26px;display:flex;flex-direction:column;gap:11px;max-width:700px;}
+  .decision{background:var(--white);border:1px solid var(--line);border-radius:6px;
+    padding:17px 20px;display:flex;align-items:center;gap:16px;}
+  .decision .num{width:26px;height:26px;border-radius:50%;background:var(--blue-soft);
+    color:var(--blue);font-weight:700;font-size:13px;display:grid;place-items:center;flex-shrink:0;}
+  .decision .body{flex:1;}
+  .decision .body .k{font-size:11px;color:var(--grey);letter-spacing:.05em;
+    text-transform:uppercase;margin-bottom:3px;font-weight:600;}
+  .decision .body .v{font-size:15px;font-weight:600;color:var(--ink-strong);}
+  .decision .body .v small{font-size:11px;color:var(--green);font-weight:600;
+    margin-left:8px;letter-spacing:0;}
+  .pickbtn{background:var(--white);border:1px solid var(--line);border-radius:4px;
+    padding:8px 10px;cursor:pointer;transition:.15s;}
+  .pickbtn:hover{border-color:var(--blue);}
+  .pickbtn select{border:none;background:none;font-family:inherit;font-size:12.5px;
+    cursor:pointer;color:var(--ink-strong);font-weight:500;}
+  .pickbtn select:focus{outline:none;}
+  .reassure{margin-top:18px;font-size:12.5px;color:var(--grey);display:flex;gap:9px;
+    align-items:center;background:var(--white);border:1px solid var(--line);
+    border-left:3px solid var(--blue);padding:13px 16px;border-radius:4px;max-width:700px;}
+
+  .result-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px;}
+  .preview-frame{margin-top:22px;border:1px solid var(--line);border-radius:6px;overflow:hidden;
+    background:#fff;box-shadow:0 10px 30px -14px rgba(0,42,88,.35);}
+  .browser-bar{background:var(--surface-2);padding:9px 14px;display:flex;align-items:center;
+    gap:6px;border-bottom:1px solid var(--line);}
+  .browser-bar i{width:10px;height:10px;border-radius:50%;background:#c4cbd2;display:inline-block;}
+  .browser-bar .url{margin-left:10px;background:#fff;border:1px solid var(--line);border-radius:4px;
+    font-size:11px;color:var(--grey);padding:4px 12px;flex:1;}
+
+  .store-hero{padding:40px 38px;background:linear-gradient(110deg,var(--blue-dark),var(--blue));
+    color:#fff;position:relative;overflow:hidden;}
+  .store-hero::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;
+    border:40px solid rgba(255,255,255,.06);border-radius:50%;}
+  .store-hero .badge{display:inline-block;background:var(--amber);color:var(--blue-dark);
+    font-size:10.5px;font-weight:700;padding:5px 11px;border-radius:3px;letter-spacing:.05em;
+    text-transform:uppercase;margin-bottom:13px;}
+  .store-hero h2{font-size:30px;font-weight:600;letter-spacing:-.02em;max-width:18ch;line-height:1.2;}
+  .store-hero p{margin-top:10px;font-size:13px;color:#bcd4ea;max-width:44ch;line-height:1.55;}
+  .store-hero .cd{margin-top:17px;display:inline-flex;gap:8px;}
+  .store-hero .cd div{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);
+    border-radius:4px;padding:7px 13px;text-align:center;}
+  .store-hero .cd b{font-size:18px;display:block;font-weight:700;}
+  .store-hero .cd span{font-size:8.5px;letter-spacing:.09em;text-transform:uppercase;color:#bcd4ea;}
+  .store-strip{display:flex;gap:18px;padding:13px 38px;background:var(--surface);
+    font-size:11.5px;color:var(--grey);border-bottom:1px solid var(--line);flex-wrap:wrap;}
+  .store-strip b{color:var(--ink-strong);}
+  .store-body{padding:28px 38px 36px;}
+  .store-body .secttl{font-size:17px;font-weight:600;color:var(--ink-strong);margin-bottom:3px;}
+  .store-body .sectsub{font-size:12px;color:var(--grey);margin-bottom:18px;}
+  .pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .pcard{border:1px solid var(--line);border-radius:5px;overflow:hidden;background:#fff;transition:.15s;
+    display:flex;flex-direction:column;}
+  .pcard:hover{box-shadow:0 6px 18px -8px rgba(0,42,88,.3);border-color:var(--blue);}
+  .pcard .img{height:120px;position:relative;display:grid;place-items:center;
+    background:linear-gradient(160deg,#f7f9fb,#e3e9ef);}
+  .pcard .img .ph{font-size:38px;opacity:.55;}
+  .pcard .img span.tag{position:absolute;top:8px;left:8px;background:var(--red);color:#fff;
+    font-size:9px;font-weight:700;padding:3px 7px;border-radius:3px;letter-spacing:.03em;}
+  .pcard .img span.hot{background:var(--amber);color:var(--blue-dark);}
+  .pcard .meta{padding:11px 12px;flex:1;display:flex;flex-direction:column;}
+  .pcard .meta .nm{font-size:12.5px;font-weight:600;color:var(--ink-strong);margin-bottom:4px;line-height:1.3;}
+  .pcard .meta .stars{font-size:10px;color:var(--amber);margin-bottom:6px;}
+  .pcard .meta .stars em{color:var(--grey);font-style:normal;}
+  .pcard .meta .spec{font-size:10.5px;color:var(--grey);line-height:1.45;margin-bottom:8px;flex:1;}
+  .pcard .meta .pr{font-size:13.5px;font-weight:700;color:var(--ink-strong);margin-top:auto;}
+  .pcard .meta .pr s{color:var(--grey);font-weight:400;font-size:11px;margin-left:5px;}
+  .pcard .meta .save{font-size:10px;color:var(--green);font-weight:600;margin-top:2px;}
+
+  .callout-row{display:flex;gap:11px;margin-top:20px;flex-wrap:wrap;}
+  .mini-note{background:var(--white);border:1px solid var(--line);border-top:3px solid var(--blue);
+    border-radius:4px;padding:13px 15px;font-size:12px;color:var(--grey);
+    flex:1;min-width:210px;line-height:1.5;}
+  .mini-note b{color:var(--ink-strong);}
+
+  .demo-foot{border-top:1px solid var(--line);background:var(--white);padding:15px 28px;
+    display:flex;justify-content:space-between;align-items:center;font-size:11.5px;color:var(--grey);}
+  .restart{background:none;border:none;color:var(--blue);font-family:inherit;
+    font-weight:600;font-size:12px;cursor:pointer;}
+  .restart:hover{text-decoration:underline;}
+  .pulse{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);
+    margin-right:6px;animation:pp 1.5s infinite;}
+  @keyframes pp{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+  @media(max-width:840px){
+    .intent-grid{grid-template-columns:1fr;}
+    .describe-wrap{grid-template-columns:1fr;}
+    .pgrid{grid-template-columns:repeat(2,1fr);}
+    .headline{font-size:24px;}
+    .rail{overflow-x:auto;}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="topnav">
+    <div class="brand">
+      <div class="mark"><span>PS</span></div>
+      <h1>Page Studio</h1>
+      <span class="sub">Prototype</span>
+    </div>
+    <div class="nav-right">Storefront Tools</div>
+  </div>
+
+  <div class="rail" id="rail">
+    <div class="pip on" data-s="1"><b>1</b>Goal</div><span class="arrow">›</span>
+    <div class="pip" data-s="2"><b>2</b>Describe</div><span class="arrow">›</span>
+    <div class="pip" data-s="3"><b>3</b>Build</div><span class="arrow">›</span>
+    <div class="pip" data-s="4"><b>4</b>Done</div>
+  </div>
+
+  <div class="stage">
+
+    <!-- SCREEN 1 -->
+    <section class="screen active" id="screen1">
+      <div class="eyebrow">Start here</div>
+      <h1 class="headline">What do you want this page to do?</h1>
+      <p class="lead">Pick the closest one. Don't overthink it — you can change everything later.</p>
+      <div class="intent-grid">
+        <div class="intent featured" onclick="pickIntent('deals')">
+          <span class="tagrec">Popular</span>
+          <span class="glyph">🏷️</span>
+          <h3>Run a deals or clearance event</h3>
+          <p>A campaign page built around discounts and limited-time offers.</p>
+          <div class="pickline">Choose this →</div>
+        </div>
+        <div class="intent" onclick="pickIntent('category')">
+          <span class="glyph">💻</span>
+          <h3>Show off a product category</h3>
+          <p>A browsable landing page for one part of your range, like laptops.</p>
+          <div class="pickline">Choose this →</div>
+        </div>
+        <div class="intent" onclick="pickIntent('launch')">
+          <span class="glyph">🚀</span>
+          <h3>Spotlight a new technology</h3>
+          <p>A feature page built around a theme — like AI PCs or Copilot+.</p>
+          <div class="pickline">Choose this →</div>
+        </div>
+        <div class="intent" onclick="pickIntent('bestseller')">
+          <span class="glyph">⭐</span>
+          <h3>Push your top-rated products</h3>
+          <p>A page that leads with your best-reviewed models.</p>
+          <div class="pickline">Choose this →</div>
+        </div>
+        <div class="intent" onclick="pickIntent('segment')">
+          <span class="glyph">🎓</span>
+          <h3>Target a customer segment</h3>
+          <p>A page tuned for students, business, gamers or creators.</p>
+          <div class="pickline">Choose this →</div>
+        </div>
+        <div class="intent" onclick="pickIntent('compare')">
+          <span class="glyph">📊</span>
+          <h3>Help shoppers compare</h3>
+          <p>A side-by-side page for buyers weighing a few models.</p>
+          <div class="pickline">Choose this →</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 2 -->
+    <section class="screen" id="screen2">
+      <div class="eyebrow" id="s2-eyebrow">Deals event</div>
+      <h1 class="headline">Tell us about it — like you'd tell a colleague.</h1>
+      <p class="lead">Plain words. No need to be precise. We'll pull out the details ourselves.</p>
+      <div class="describe-wrap">
+        <div class="panel">
+          <label>In your own words</label>
+          <textarea class="talk-box" id="desc" placeholder="e.g. I want a deals page for our AI laptops, leading with the biggest discounts, aimed at shoppers looking for a bargain this month…"></textarea>
+          <div class="chips" id="chips">
+            <span class="chip" onclick="addChip(this)">Deals on AI laptops</span>
+            <span class="chip" onclick="addChip(this)">Lead with biggest discounts</span>
+            <span class="chip" onclick="addChip(this)">Limited-time offer</span>
+            <span class="chip" onclick="addChip(this)">For US shoppers</span>
+          </div>
+          <div class="btn-row">
+            <button class="btn-primary" id="buildBtn" disabled onclick="goBuild()">Build my page →</button>
+            <button class="btn-ghost" onclick="show(1)">Back</button>
+          </div>
+        </div>
+        <div class="help-card">
+          <div class="q">💡</div>
+          <h4>You don't need to know the "how"</h4>
+          <p>Just say what the page is for and who it's for. If you mention a type of product, a discount, or an audience, we'll wire all of that up for you automatically.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 3 -->
+    <section class="screen" id="screen3">
+      <div class="eyebrow"><span class="pulse"></span>Working on it</div>
+      <h1 class="headline">Putting your page together…</h1>
+      <p class="lead">Here's what we understood and where we're getting things from.</p>
+      <div class="think" id="thinkList">
+        <div class="think-line" data-i="0">
+          <div class="ic">🧠</div>
+          <div class="tx"><b>Read what you wrote</b><span>A limited-time deals page for AI laptops, biggest discounts first.</span></div>
+          <div class="tag">Understood</div>
+        </div>
+        <div class="think-line" data-i="1">
+          <div class="ic">💻</div>
+          <div class="tx"><b>Found your laptop range</b><span>Matched to the Laptops part of your catalogue.</span></div>
+          <div class="tag">Connected</div>
+        </div>
+        <div class="think-line" data-i="2">
+          <div class="ic">🤖</div>
+          <div class="tx"><b>Narrowed to AI PCs</b><span>Kept Copilot+ and AI-capable models only.</span></div>
+          <div class="tag">Connected</div>
+        </div>
+        <div class="think-line" data-i="3">
+          <div class="ic">🏷️</div>
+          <div class="tx"><b>Pulled the active discounts</b><span>Found current offers and sorted by biggest saving.</span></div>
+          <div class="tag">Connected</div>
+        </div>
+        <div class="think-line" data-i="4">
+          <div class="ic">🎨</div>
+          <div class="tx"><b>Chose a deals layout</b><span>Banner with a countdown, savings badges on every card.</span></div>
+          <div class="tag">Ready</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 4 -->
+    <section class="screen" id="screen4">
+      <div class="eyebrow">Almost there</div>
+      <h1 class="headline">We made a few calls. Happy with these?</h1>
+      <p class="lead">These are the only things that needed a real decision. Change any if you like.</p>
+      <div class="decisions">
+        <div class="decision">
+          <span class="num">1</span>
+          <div class="body">
+            <div class="k">Page is about</div>
+            <div class="v">AI Laptops <small>· from what you wrote</small></div>
+          </div>
+          <div class="pickbtn">
+            <select><option>AI Laptops</option><option>All Laptops</option><option>Copilot+ PCs</option></select>
+          </div>
+        </div>
+        <div class="decision">
+          <span class="num">2</span>
+          <div class="body">
+            <div class="k">What to lead with</div>
+            <div class="v">Biggest discount first <small>· from what you wrote</small></div>
+          </div>
+          <div class="pickbtn">
+            <select><option>Biggest discount first</option><option>Lowest price first</option><option>Highest rated first</option></select>
+          </div>
+        </div>
+        <div class="decision">
+          <span class="num">3</span>
+          <div class="body">
+            <div class="k">Who it's for</div>
+            <div class="v">United States <small>· from what you wrote</small></div>
+          </div>
+          <div class="pickbtn">
+            <select><option>United States</option><option>United Kingdom</option><option>All regions</option></select>
+          </div>
+        </div>
+      </div>
+      <div class="reassure">
+        <span>🔒</span>
+        <span>Everything else — how many products show, the countdown, delivery text — we set sensible defaults. You'll be able to tweak it all on the next screen.</span>
+      </div>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="show(5)">Looks good — show me the page →</button>
+        <button class="btn-ghost" onclick="show(3)">Back</button>
+      </div>
+    </section>
+
+    <!-- SCREEN 5 -->
+    <section class="screen" id="screen5">
+      <div class="result-head">
+        <div>
+          <div class="eyebrow" style="color:var(--green);">✓ Built &amp; connected to live data</div>
+          <h1 class="headline" style="font-size:26px;">Here's your AI Laptop Deals page.</h1>
+        </div>
+        <button class="btn-primary" onclick="alert('In the real product → opens your existing customise & preview editor.')">Customise this page →</button>
+      </div>
+      <div class="preview-frame">
+        <div class="browser-bar">
+          <i></i><i></i><i></i>
+          <span class="url">store.dell.com/deals/ai-laptops</span>
+        </div>
+        <div class="store">
+          <div class="store-hero">
+            <span class="badge">Limited-Time Deals · Ends Soon</span>
+            <h2>Save big on AI Laptops &amp; Copilot+ PCs</h2>
+            <p>On-device AI, all-day battery, and our deepest discounts of the season — built for the way you work now.</p>
+            <div class="cd">
+              <div><b>04</b><span>Days</span></div>
+              <div><b>11</b><span>Hrs</span></div>
+              <div><b>27</b><span>Min</span></div>
+            </div>
+          </div>
+          <div class="store-strip">
+            <span>🇺🇸 <b>Free US shipping</b></span>
+            <span>↩︎ Easy returns</span>
+            <span>$ Prices in USD</span>
+            <span>💳 <b>Financing available</b></span>
+          </div>
+          <div class="store-body">
+            <div class="secttl">Today's biggest savings on AI laptops</div>
+            <div class="sectsub">4 AI-capable models with an active discount · biggest saving first</div>
+            <div class="pgrid">
+              <div class="pcard">
+                <div class="img"><span class="ph">💻</span><span class="tag hot">Hot Deal</span></div>
+                <div class="meta">
+                  <div class="nm">Dell Pro Max 16 Laptop</div>
+                  <div class="stars">★★★★☆ <em>4.3 (393)</em></div>
+                  <div class="spec">Intel® Core™ Ultra · AI PC · 16" display · RTX Pro graphics options</div>
+                  <div class="pr">$1,731.84 <s>$2,431.84</s></div>
+                  <div class="save">Save $700.00</div>
+                </div>
+              </div>
+              <div class="pcard">
+                <div class="img"><span class="ph">💻</span><span class="tag">Save $666</span></div>
+                <div class="meta">
+                  <div class="nm">Dell 14 Plus Laptop</div>
+                  <div class="stars">★★★★☆ <em>4.4 (1,261)</em></div>
+                  <div class="spec">Intel® Core™ Ultra · Copilot+ PC · 14" QHD+ · up to 22 hrs battery</div>
+                  <div class="pr">$799.99 <s>$1,466.68</s></div>
+                  <div class="save">Save $666.69</div>
+                </div>
+              </div>
+              <div class="pcard">
+                <div class="img"><span class="ph">💻</span><span class="tag hot">Hot Deal</span></div>
+                <div class="meta">
+                  <div class="nm">Dell 16 Plus Laptop</div>
+                  <div class="stars">★★★★☆ <em>4.5 (3,472)</em></div>
+                  <div class="spec">Intel® Core™ Ultra · Copilot+ PC · 16" QHD+ Mini LED · 20 hrs battery</div>
+                  <div class="pr">$799.99 <s>$1,416.68</s></div>
+                  <div class="save">Save $616.69</div>
+                </div>
+              </div>
+              <div class="pcard">
+                <div class="img"><span class="ph">💻</span><span class="tag">Save $320</span></div>
+                <div class="meta">
+                  <div class="nm">Dell 16 Plus Laptop (AMD)</div>
+                  <div class="stars">★★★★☆ <em>4.5 (310)</em></div>
+                  <div class="spec">AMD Ryzen™ AI · Copilot+ PC · 16" FHD+ · up to 22 hrs battery</div>
+                  <div class="pr">$699.99 <s>$1,019.99</s></div>
+                  <div class="save">Save $320.00</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="callout-row">
+        <div class="mini-note"><b>Nothing was typed twice.</b> The laptop range, the AI filter and the discounts all came from your one description.</div>
+        <div class="mini-note"><b>No mappings, no settings.</b> The page knew what data it needed and fetched it itself.</div>
+        <div class="mini-note"><b>Familiar from here.</b> "Customise" drops you into the same editor your team already uses.</div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="demo-foot">
+    <span>Interactive prototype · uses real Dell.com product data · for discussion only</span>
+    <button class="restart" onclick="restart()">↻ Start the demo over</button>
+  </div>
+</div>
+
+<script>
+  let chosenIntent='deals';
+  const intentLabels={
+    deals:'Deals event',category:'Category landing page',launch:'Technology spotlight',
+    bestseller:'Top-rated products',segment:'Customer segment page',compare:'Comparison page'
+  };
+  function setSteps(active){
+    const map={1:1,2:2,3:3,4:3,5:4};const cur=map[active];
+    document.querySelectorAll('.pip').forEach(p=>{
+      const s=+p.dataset.s;p.classList.remove('on','done');
+      if(s<cur)p.classList.add('done');else if(s===cur)p.classList.add('on');
+    });
+  }
+  function show(n){
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById('screen'+n).classList.add('active');
+    setSteps(n);window.scrollTo({top:0,behavior:'smooth'});
+    if(n===3)runThinking();
+  }
+  function pickIntent(key){
+    chosenIntent=key;
+    document.getElementById('s2-eyebrow').textContent=intentLabels[key];
+    show(2);
+  }
+  function addChip(el){
+    const box=document.getElementById('desc');
+    box.value=(box.value?box.value.trim()+'. ':'')+el.textContent;
+    el.style.display='none';checkDesc();box.focus();
+  }
+  function checkDesc(){
+    document.getElementById('buildBtn').disabled=
+      document.getElementById('desc').value.trim().length<4;
+  }
+  document.getElementById('desc').addEventListener('input',checkDesc);
+  function goBuild(){show(3);}
+  function runThinking(){
+    const lines=document.querySelectorAll('#thinkList .think-line');
+    lines.forEach(l=>l.classList.remove('show','ok'));
+    let i=0;
+    function step(){
+      if(i>=lines.length){setTimeout(()=>show(4),650);return;}
+      const l=lines[i];l.classList.add('show');
+      setTimeout(()=>l.classList.add('ok'),520);
+      i++;setTimeout(step,820);
+    }
+    setTimeout(step,300);
+  }
+  function restart(){
+    document.getElementById('desc').value='';
+    document.querySelectorAll('.chip').forEach(c=>c.style.display='');
+    checkDesc();show(1);
+  }
+</script>
+</body>
+</html>
