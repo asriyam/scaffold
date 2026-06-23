@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMX · SnP Offer Content</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#0672CB; --blue-strong:#0063B8; --link:#0077CD;
+  --band:#D9F5FD; --band-line:#BfeAf7; --footer:#4DA1D9;
+  --text:#23272E; --text-2:#5B6573; --text-3:#8A94A3;
+  --border:#E4E7EC; --border-2:#D3D8DF;
+  --row-hover:#F4F9FE; --head-bg:#F8FAFC; --surface:#FFFFFF;
+  --chip-bg:#E8F3FC; --chip-text:#0A5CA8;
+  --warn:#A86713; --warn-bg:#FBF1DE;
+  --ok:#1C7A50; --ok-bg:#E6F4EC;
+  --miss-bg:#F4F2EE; --miss-text:#6A7180; --miss-border:#DCD7CE;
+  --radius:6px;
+  --sans:"Roboto","Segoe UI",system-ui,Arial,sans-serif;
+  --mono:"Roboto Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--sans);color:var(--text);font-size:13px;background:#fff;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+
+/* ---------- top app bar ---------- */
+.appbar{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid var(--border);background:#fff}
+.brand{display:flex;align-items:center;gap:16px}
+.logo{display:flex;align-items:center;gap:2px;font-weight:700;font-size:22px;letter-spacing:.5px}
+.logo .c1{color:var(--blue)} .logo .c2{color:#16365C}
+.logo-dot{width:22px;height:22px;border-radius:50%;border:3px solid var(--blue);display:inline-block;margin-right:4px;position:relative}
+.logo-dot::after{content:"";position:absolute;inset:3px;border-radius:50%;border:2px solid #16365C;clip-path:inset(0 0 50% 0)}
+.offers-pill{border:1px solid var(--border-2);border-radius:18px;padding:6px 16px;font-weight:500;color:var(--text);font-size:13px;background:#fff}
+.topnav{display:flex;align-items:center;gap:20px;color:var(--text-2);font-size:12.5px}
+.topnav .item{display:flex;align-items:center;gap:6px;cursor:pointer}
+.topnav .item:hover{color:var(--blue)}
+.ic{width:15px;height:15px;display:inline-block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px}
+
+/* ---------- header band ---------- */
+.band{background:var(--band);border-bottom:1px solid var(--band-line);padding:12px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.band .title{display:flex;align-items:center;gap:12px;font-size:18px;font-weight:500;color:#10406B;white-space:nowrap}
+.band .title .burger{stroke:#10406B}
+.band .tools{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ctl{height:34px;border:1px solid var(--border-2);background:#fff;border-radius:var(--radius);font-size:12.5px;color:var(--text);display:inline-flex;align-items:center}
+select.ctl{padding:0 28px 0 10px;-webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%235B6573' stroke-width='1.6'><path d='M2 4l4 4 4-4'/></svg>");
+  background-repeat:no-repeat;background-position:right 9px center}
+.searchbox{position:relative;display:inline-flex;align-items:center}
+.searchbox input{height:34px;width:230px;border:1px solid var(--border-2);border-radius:var(--radius);padding:0 34px 0 12px;font-size:12.5px;font-family:inherit;color:var(--text);outline:none}
+.searchbox input:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(6,114,203,.15)}
+.searchbox .go{position:absolute;right:4px;height:26px;width:26px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;color:var(--blue)}
+.btn{height:34px;border-radius:var(--radius);padding:0 14px;font-size:12.5px;font-weight:500;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border-2);background:#fff;color:var(--text)}
+.btn:hover{background:#fbfdff}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.primary:hover{background:var(--blue-strong)}
+.badge{background:var(--blue);color:#fff;border-radius:10px;font-size:11px;min-width:18px;height:18px;padding:0 5px;display:inline-flex;align-items:center;justify-content:center;font-weight:500}
+
+/* ---------- layout ---------- */
+.layout{display:flex;align-items:stretch;min-height:calc(100vh - 52px - 47px - 47px)}
+.sidebar{width:248px;flex:none;border-right:1px solid var(--border);padding:14px 0;background:#fff}
+.sb-top{display:flex;align-items:center;gap:8px;padding:0 16px 12px;font-weight:500;color:var(--text);border-bottom:1px solid var(--border)}
+.sb-top .chev{stroke:var(--text-2)}
+.clear-link{display:block;padding:12px 16px 6px;color:var(--link);font-weight:500;font-size:12.5px;cursor:pointer}
+.fgroup{border-bottom:1px solid var(--border);padding:6px 0}
+.fhead{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;cursor:pointer;user-select:none}
+.fhead .lbl{font-weight:500;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:8px}
+.fhead .chev{stroke:var(--blue);transition:transform .15s}
+.fgroup.collapsed .chev{transform:rotate(-90deg)}
+.fgroup.collapsed .fbody{display:none}
+.fbody{padding:2px 16px 8px}
+.fsearch{position:relative;margin:4px 0 8px}
+.fsearch input{width:100%;height:32px;border:1px solid var(--border-2);border-radius:var(--radius);padding:0 30px 0 10px;font-size:12.5px;font-family:inherit;outline:none}
+.fsearch input:focus{border-color:var(--blue)}
+.fsearch svg{position:absolute;right:9px;top:8px;color:var(--text-3)}
+.opt{display:flex;align-items:center;gap:9px;padding:5px 2px;font-size:12.5px;color:var(--text-2);cursor:pointer}
+.opt:hover{color:var(--text)}
+.opt input{width:15px;height:15px;accent-color:var(--blue);cursor:pointer}
+.opt .ct{margin-left:auto;color:var(--text-3);font-size:11.5px}
+
+/* ---------- content ---------- */
+.content{flex:1;min-width:0;display:flex;flex-direction:column}
+.toolbar2{padding:14px 18px 6px;display:flex;flex-direction:column;gap:12px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:560px}
+.card{background:var(--head-bg);border:1px solid var(--border);border-radius:8px;padding:10px 14px}
+.card .k{font-size:11.5px;color:var(--text-2);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.card .v{font-size:23px;font-weight:500;line-height:1}
+.card.warn .v{color:var(--warn)}
+.subrow{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.toggle{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;color:var(--text-2);cursor:pointer;user-select:none}
+.switch{width:34px;height:19px;border-radius:999px;background:#C9D0D9;position:relative;transition:background .15s;flex:none}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:#fff;transition:left .15s}
+.toggle.on .switch{background:var(--blue)}
+.toggle.on .switch::after{left:17px}
+.chips{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-height:24px}
+.chips .lab{font-size:11.5px;color:var(--text-3)}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--chip-bg);color:var(--chip-text);border-radius:var(--radius);padding:4px 9px;font-size:11.5px}
+.chip svg{cursor:pointer}
+.grouphint{display:flex;align-items:center;gap:9px;margin:6px 18px 0;padding:9px 12px;background:var(--head-bg);border:1px dashed var(--border-2);border-radius:var(--radius);color:var(--text-3);font-size:12px}
+
+/* ---------- table ---------- */
+.tablewrap{margin:8px 0 0;overflow-x:auto;flex:1}
+table.grid{border-collapse:collapse;width:100%;min-width:1080px;font-size:12.5px}
+.grid thead th{position:sticky;top:0;background:var(--head-bg);text-align:left;font-weight:500;color:var(--text-2);padding:10px 12px;border-bottom:1px solid var(--border-2);white-space:nowrap}
+.grid th.cbx,.grid td.cbx{width:36px;padding-left:18px}
+.grid tbody td{padding:11px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+.grid tbody tr:hover{background:var(--row-hover)}
+.grid input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue)}
+td.ellip{max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.keylink{font-family:var(--mono);color:var(--link);font-weight:500}
+.offers-cell{white-space:nowrap}
+.mono{font-family:var(--mono);font-size:12px}
+.offers-cell .more{margin-left:6px;color:var(--link);cursor:pointer;font-weight:500}
+.status{display:inline-block;font-size:11px;padding:2px 9px;border-radius:11px;font-weight:500}
+.status.draft{background:var(--warn-bg);color:var(--warn)}
+.status.published{background:var(--ok-bg);color:var(--ok)}
+.status.missing{background:#EDEFF2;color:var(--miss-text)}
+tr.missing td{background:var(--miss-bg);color:var(--miss-text)}
+tr.missing:hover td{background:#F0EDE7}
+tr.missing td.ellip{font-style:italic}
+.mini-create{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--border-2);background:#fff;border-radius:var(--radius);padding:4px 10px;color:var(--link);font-size:11.5px;font-weight:500}
+.empty{padding:48px 18px;text-align:center;color:var(--text-2)}
+.empty b{color:var(--text);font-weight:500}
+
+/* ---------- grid footer ---------- */
+.gfooter{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--border);flex-wrap:wrap;gap:10px}
+.showmore{border:1px solid var(--border-2);border-radius:var(--radius);background:#fff;color:var(--link);font-weight:500;height:32px;padding:0 14px;display:inline-flex;align-items:center;gap:7px}
+.gfooter .right{display:flex;align-items:center;gap:14px;color:var(--text-2);font-size:12.5px}
+.pager{display:inline-flex;align-items:center;gap:6px}
+.pager button{border:1px solid var(--border-2);background:#fff;border-radius:var(--radius);width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-2)}
+.pager button:disabled{opacity:.4;cursor:default}
+
+/* ---------- dell footer ---------- */
+.dell-footer{background:var(--footer);color:#fff;text-align:center;padding:13px;font-size:12.5px;letter-spacing:.2px}
+.dell-cap{height:1px;background:#fff;opacity:.6}
+
+/* popover */
+#pop{position:fixed;z-index:50;background:#fff;border:1px solid var(--border-2);border-radius:8px;box-shadow:0 6px 22px rgba(20,40,70,.16);padding:10px 12px;max-width:280px;display:none}
+#pop h5{margin:0 0 6px;font-size:11.5px;font-weight:500;color:var(--text-2)}
+#pop .o{font-family:var(--mono);font-size:12px;padding:3px 0;color:var(--text);border-top:1px solid var(--border)}
+#pop .o:first-of-type{border-top:none}
+@media(max-width:880px){.cards{max-width:none}.sidebar{display:none}}
+</style>
+</head>
+<body>
+<h2 class="sr-only">Prototype of the CMX SnP Offer Content dashboard. Rows are content records; a three-part count bar shows content records, offers with content, and offers missing content; a toggle reveals offers without content as create rows.</h2>
+
+<!-- TOP APP BAR -->
+<div class="appbar">
+  <div class="brand">
+    <div class="logo"><span class="logo-dot"></span><span class="c1">CM</span><span class="c2">X</span></div>
+    <button class="offers-pill">OFFERS</button>
+  </div>
+  <div class="topnav">
+    <span class="item"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>SITG4</span>
+    <span class="item"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20a7 7 0 0114 0"/></svg>My Stuff</span>
+    <span class="item"><svg class="ic" viewBox="0 0 24 24"><path d="M7 8h10M7 12h6"/><rect x="3" y="4" width="18" height="14" rx="2"/></svg>Collaboration</span>
+    <span class="item"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20a7 7 0 0114 0"/></svg>S_Krishnamachari</span>
+    <span class="item"><svg class="ic" viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M10 21a2 2 0 004 0"/></svg>Notifications</span>
+  </div>
+</div>
+
+<!-- HEADER BAND -->
+<div class="band">
+  <div class="title">
+    <svg class="ic burger" viewBox="0 0 24 24" width="20" height="20"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    SnP Offer Content
+  </div>
+  <div class="tools">
+    <select class="ctl"><option>Contains Any</option><option>Contains All</option><option>Equals</option></select>
+    <select class="ctl" id="searchBy">
+      <option value="auto">Search By: Auto</option>
+      <option value="key">Search By: Content key</option>
+      <option value="offer">Search By: Offer number</option>
+    </select>
+    <span class="searchbox">
+      <input id="search" type="text" placeholder="Search content key or offer number">
+      <button class="go" id="searchGo" aria-label="Search"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></button>
+    </span>
+    <select class="ctl"><option>Default View</option></select>
+    <button class="btn" id="filtersBtn"><svg class="ic" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7z"/></svg>Filters <span class="badge" id="filtersCount">0</span></button>
+    <button class="btn primary"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Create</button>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-top"><svg class="ic chev" viewBox="0 0 24 24" width="16"><path d="M15 6l-6 6 6 6"/></svg>SnP Dashboard</div>
+    <span class="clear-link" id="clearAll">Clear All Filters</span>
+
+    <div class="fgroup" data-group="offerType">
+      <div class="fhead"><span class="lbl">Offer Type <span class="badge sel" hidden>0</span></span><svg class="ic chev" viewBox="0 0 24 24" width="16"><path d="M6 15l6-6 6 6"/></svg></div>
+      <div class="fbody" data-facet="offerType"></div>
+    </div>
+    <div class="fgroup" data-group="scope">
+      <div class="fhead"><span class="lbl">Config Type <span class="badge sel" hidden>0</span></span><svg class="ic chev" viewBox="0 0 24 24" width="16"><path d="M6 15l6-6 6 6"/></svg></div>
+      <div class="fbody" data-facet="scope"></div>
+    </div>
+    <div class="fgroup" data-group="profile">
+      <div class="fhead"><span class="lbl">Profile <span class="badge sel" hidden>0</span></span><svg class="ic chev" viewBox="0 0 24 24" width="16"><path d="M6 15l6-6 6 6"/></svg></div>
+      <div class="fbody">
+        <div class="fsearch"><input data-psearch placeholder="Search profile"><svg class="ic" viewBox="0 0 24 24" width="15"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></div>
+        <div data-facet="profile"></div>
+      </div>
+    </div>
+    <div class="fgroup" data-group="category">
+      <div class="fhead"><span class="lbl">CMX Category <span class="badge sel" hidden>0</span></span><svg class="ic chev" viewBox="0 0 24 24" width="16"><path d="M6 15l6-6 6 6"/></svg></div>
+      <div class="fbody">
+        <div class="fsearch"><input data-csearch placeholder="Search category"><svg class="ic" viewBox="0 0 24 24" width="15"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></div>
+        <div data-facet="category"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <section class="content">
+    <div class="toolbar2">
+      <div class="cards">
+        <div class="card"><div class="k">Content records</div><div class="v" id="cCount">0</div></div>
+        <div class="card"><div class="k">Offers with content</div><div class="v" id="oCount">0</div></div>
+        <div class="card warn"><div class="k">Offers missing content</div><div class="v" id="mCount">0</div></div>
+      </div>
+      <div class="subrow">
+        <span class="toggle" id="missToggle"><span class="switch"></span> Include offers without content <span style="color:var(--text-3)">(shows as “create” rows)</span></span>
+      </div>
+      <div class="chips" id="chips"><span class="lab">No filters applied</span></div>
+    </div>
+
+    <div class="grouphint"><svg class="ic" viewBox="0 0 24 24" width="15"><rect x="3" y="4" width="7" height="7"/><rect x="14" y="4" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Drag a column header here to group rows</div>
+
+    <div class="tablewrap">
+      <table class="grid">
+        <thead>
+          <tr>
+            <th class="cbx"><input type="checkbox" id="selAll"></th>
+            <th>Id</th><th>Profile</th><th>Short Description</th><th>Long Description</th>
+            <th>OfferNumber</th><th>CMXCategory</th><th>OfferType</th><th>Config Type</th><th>Publish Status</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+
+    <div class="gfooter">
+      <button class="showmore" id="showMore"><svg class="ic" viewBox="0 0 24 24" width="15"><path d="M6 9l6 6 6-6"/></svg>Show More</button>
+      <div class="right">
+        <span class="pager"><button id="prev">‹</button><span id="pageLbl">Page 1</span><button id="next">›</button></span>
+        <span>Items Per Page:
+          <select class="ctl" id="pageSize" style="height:30px"><option>10</option><option selected>25</option><option>50</option></select>
+        </span>
+        <span id="countLbl">0 of 0 items</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="dell-cap"></div>
+<div class="dell-footer">© 2025 Dell. All Rights Reserved.</div>
+
+<div id="pop"></div>
+
+<script>
+/* ============================================================================
+   DATA-ACCESS MODULE  —  drop-in for your backend
+   ----------------------------------------------------------------------------
+   • Emits the REAL Elasticsearch query DSL (Phase 1 offer agg, Phase 2 content
+     search, search-token resolution) using the confirmed field paths.
+   • esSearch() is the only transport. It has two modes:
+       CONFIG.mode = 'mock'  -> in-browser fake ES (returns ES-shaped JSON)
+       CONFIG.mode = 'live'  -> POST {index}/_search to your backend proxy
+   • The parsers + fetchView() are identical in both modes, so going live is:
+       1. set CONFIG.mode = 'live' and CONFIG.endpoint = your proxy base URL
+       2. delete the "MOCK BACKEND" section at the bottom of this module
+   • Do NOT expose Elasticsearch directly to the browser — point CONFIG.endpoint
+     at a thin server route that injects auth and forwards the body to ES.
+   ========================================================================== */
+const DataAccess = (function () {
+
+  const CONFIG = { mode: 'mock', endpoint: '/api/es' };
+
+  const OFFER_INDEX   = 'cmxstdoffer_draft_v0';
+  const CONTENT_INDEX = 'cmxstdsnpoffercontent_draft_v0';
+
+  /* confirmed field paths (.keyword for exact match) */
+  const F = {
+    offer: {
+      offerId:       'DynamicProperties.offerId.keyword',
+      primaryPartId: 'DynamicProperties.CMXContext.PrimaryPartId.keyword',
+      categoryId:    'DynamicProperties.CMXContext.CMXCategoryLookup.Id.keyword',
+      productType:   'DynamicProperties.CMXContext.ProductType.keyword',
+      scope:         'DynamicProperties.CMXContext.scope.keyword'
+    },
+    content: {
+      key:       'Key.keyword',
+      container: 'Container.keyword'
+    }
+  };
+
+  /* ---- transport -------------------------------------------------------- */
+  async function esSearch(index, body) {
+    if (CONFIG.mode === 'mock') return mockSearch(index, body);
+    const res = await fetch(`${CONFIG.endpoint}/${index}/_search`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) throw new Error(`ES ${index} → ${res.status}`);
+    return res.json();
+  }
+
+  /* ---- query builders (REAL DSL) ---------------------------------------- */
+
+  // Resolve a typed offer number to its SKU(s) via the offer index.
+  function buildResolveOffer(token) {
+    return {
+      size: 0,
+      query: { bool: { filter: [ { term: { [F.offer.offerId]: token } } ] } },
+      aggs: { skus: { terms: { field: F.offer.primaryPartId, size: 50 } } }
+    };
+  }
+
+  // PHASE 1 — drive from the offer index: matching SKUs, per-SKU offer ids,
+  // per-SKU display attributes, and an exact-ish offer total.
+  function buildPhase1(filters, searchSkus) {
+    const filter = [];
+    if (filters.category.size)  filter.push({ terms: { [F.offer.categoryId]:  [...filters.category] } });
+    if (filters.offerType.size) filter.push({ terms: { [F.offer.productType]: [...filters.offerType] } });
+    if (filters.scope.size)     filter.push({ terms: { [F.offer.scope]:       [...filters.scope] } });
+    if (searchSkus)             filter.push({ terms: { [F.offer.primaryPartId]: [...searchSkus] } });
+    return {
+      size: 0,
+      query: { bool: { filter } },
+      aggs: {
+        total_offers: { cardinality: { field: F.offer.offerId, precision_threshold: 40000 } },
+        skus: {
+          terms: { field: F.offer.primaryPartId, size: 10000 },   // <- the accepted terms ceiling
+          aggs: {
+            // one representative offer per SKU, for the category / type / config columns
+            attrs: { top_hits: { size: 1, _source: { includes: [
+              'DynamicProperties.CMXContext.CMXCategoryLookup.Name',
+              'DynamicProperties.CMXContext.ProductType',
+              'DynamicProperties.CMXContext.scope'
+            ] } } },
+            // the offer numbers that share this SKU (for the Offers cell / missing rows)
+            offers: { terms: { field: F.offer.offerId, size: 100 } }
+          }
+        }
+      }
+    };
+  }
+
+  // PHASE 2 — inner-join the content index on the Phase-1 SKU set, paged.
+  function buildPhase2(skuSet, filters, from, size) {
+    const filter = [ { terms: { [F.content.key]: [...skuSet] } } ];
+    if (filters.profile.size) filter.push({ terms: { [F.content.container]: [...filters.profile] } });
+    return {
+      track_total_hits: true,                 // exact "Content records" count
+      from, size,
+      query: { bool: { filter } },
+      sort: [ { [F.content.key]: 'asc' }, { _id: 'asc' } ],   // stable for search_after later
+      aggs: {
+        skus_with_content: { terms: { field: F.content.key,       size: 10000 } },
+        by_profile:        { terms: { field: F.content.container, size: 100 } }
+      }
+    };
+  }
+
+  /* ---- parsers (shared by mock + live) ---------------------------------- */
+
+  function deriveStatus(src) {
+    const ps = src.PublishStatus;
+    return (ps && ps !== 'None') ? ps : 'Draft';   // CMX shows authored-but-unpublished as Draft
+  }
+
+  function readAttr(src) {
+    const dp = src.DynamicProperties || {};
+    let cx = dp.CMXContext; if (Array.isArray(cx)) cx = cx[0] || {}; cx = cx || {};
+    let cat = cx.CMXCategoryLookup; if (Array.isArray(cat)) cat = cat[0] || {}; cat = cat || {};
+    let scope = cx.scope; if (Array.isArray(scope)) scope = scope[0];
+    let type = cx.ProductType; if (Array.isArray(type)) type = type[0];
+    return { catName: cat.Name || '—', type: type || '—', scope: scope || '—' };
+  }
+
+  function parsePhase1(res) {
+    const buckets = res.aggregations?.skus?.buckets || [];
+    const skus = buckets.map(b => {
+      const at = readAttr(b.attrs?.hits?.hits?.[0]?._source || {});
+      return {
+        sku: b.key, offerCount: b.doc_count,
+        offers: (b.offers?.buckets || []).map(x => x.key),
+        catName: at.catName, type: at.type, scope: at.scope
+      };
+    });
+    return {
+      skus,
+      totalOffers: res.aggregations?.total_offers?.value || 0,
+      skuMap: Object.fromEntries(skus.map(s => [s.sku, s]))
+    };
+  }
+
+  function parsePhase2(res) {
+    const hits = (res.hits?.hits || []).map(h => {
+      const s = h._source;
+      return {
+        key: s.Key,
+        profile: Array.isArray(s.Container) ? s.Container[0] : s.Container,
+        short: s.DynamicProperties?.ShortDesc,
+        long: s.DynamicProperties?.LongDesc,
+        status: deriveStatus(s)
+      };
+    });
+    return {
+      hits,
+      total: res.hits?.total?.value ?? 0,
+      skusWithContent: new Set((res.aggregations?.skus_with_content?.buckets || []).map(b => b.key))
+    };
+  }
+
+  /* ---- search resolution ------------------------------------------------ */
+  async function resolveSearch(search) {
+    const q = (search.text || '').trim();
+    if (!q) return null;
+    const skus = new Set();
+    if (search.by === 'key' || search.by === 'auto') skus.add(q);   // token may itself be a SKU
+    if (search.by === 'offer' || search.by === 'auto') {
+      const res = await esSearch(OFFER_INDEX, buildResolveOffer(q));
+      (res.aggregations?.skus?.buckets || []).forEach(b => skus.add(b.key));
+    }
+    return skus;
+  }
+
+  /* ---- public: fetch one page of the unified view ----------------------- */
+  async function fetchView(state) {
+    const { filters, search, page, pageSize, includeMissing } = state;
+    const offset = (page - 1) * pageSize;
+
+    const searchSkus = await resolveSearch(search);
+    const p1 = parsePhase1(await esSearch(OFFER_INDEX, buildPhase1(filters, searchSkus)));
+    const skuSet = new Set(p1.skus.map(s => s.sku));
+
+    let contentTotal = 0, skusWithContent = new Set(), contentRows = [];
+    if (skuSet.size) {
+      const p2 = parsePhase2(await esSearch(CONTENT_INDEX, buildPhase2(skuSet, filters, offset, pageSize)));
+      contentTotal = p2.total;
+      skusWithContent = p2.skusWithContent;
+      contentRows = p2.hits.map(h => {
+        const a = p1.skuMap[h.key] || {};
+        return { kind: 'content', ...h, offers: a.offers || [],
+                 catName: a.catName || '—', offerType: a.type || '—', scope: a.scope || '—' };
+      });
+    }
+
+    // counts (each with a defined unit)
+    const offersWithContent = p1.skus.filter(s => skusWithContent.has(s.sku))
+                                      .reduce((n, s) => n + s.offerCount, 0);
+    const offersMissing = p1.totalOffers - offersWithContent;
+
+    // missing rows = one row per contentless offer (so the grid reconciles with the card)
+    const missingAll = includeMissing
+      ? p1.skus.filter(s => !skusWithContent.has(s.sku))
+               .flatMap(s => s.offers.map(oid => ({
+                 kind: 'missing', key: s.sku, offerId: oid,
+                 catName: s.catName, offerType: s.type, scope: s.scope })))
+      : [];
+
+    // page assembly: content first (paged by ES), then missing (paged in memory)
+    let missingPage = [];
+    const take = pageSize - contentRows.length;
+    if (includeMissing && take > 0) {
+      const missOffset = Math.max(0, offset - contentTotal);
+      missingPage = missingAll.slice(missOffset, missOffset + take);
+    }
+
+    return {
+      rows: [...contentRows, ...missingPage],
+      counts: { contentRecords: contentTotal, offersWithContent, offersMissing },
+      totalRows: contentTotal + missingAll.length,
+      offset, page, pageSize
+    };
+  }
+
+  /* ---- public: facet values --------------------------------------------- */
+  async function facets() {
+    // LIVE: populate from a /config route or terms aggregations on each facet field.
+    return {
+      offerTypes: [...new Set(OFFERS.map(o => SKUS[o.sku].type))].sort(),
+      scopes:     [...new Set(OFFERS.map(o => SKUS[o.sku].scope))].sort(),
+      profiles:   [...new Set(CONTENT.map(c => c.profile))].sort(),
+      cats:       [...new Map(OFFERS.map(o => [SKUS[o.sku].cat, SKUS[o.sku].catName])).entries()]
+    };
+  }
+
+  /* ======================================================================
+     MOCK BACKEND  —  delete this whole block when CONFIG.mode = 'live'
+     A tiny ES emulator that understands ONLY the query shapes above, so the
+     bodies you send in the demo are exactly the bodies your backend receives.
+     ====================================================================== */
+  const SKUS = {
+    "7C3010": { cat:"monitor",  catName:"Monitor",          type:"SnP",          scope:"ConfigurableOffer",
+      short:"Dell Pro 24 Plus QHD Ultra-Thin Monitor - P2424HE",
+      long:"Stay productive with this 24-inch monitor that features a virtually borderless display and Full HD resolution." },
+    "4TY139": { cat:"monitor",  catName:"Monitor",          type:"SnP",          scope:"ConfigurableOffer",
+      short:"Monitor Dell Pro Plus 27 - P2725DE",
+      long:"A productivity monitor with QHD resolution and a comfortable, low-blue-light viewing experience." },
+    "F4MC8T": { cat:"monitor",  catName:"Monitor",          type:"SnP",          scope:"ConfigurableOffer",
+      short:"Écran Dell avec hub USB-C - P2725HE",
+      long:"Augmentez votre productivité avec cet écran doté d’un concentrateur USB-C et d’une dalle QHD." },
+    "8RD220": { cat:"dock",     catName:"Docking Station",  type:"Solution",     scope:"StandaloneOffer",
+      short:"Dell Pro Thunderbolt Dock - TB4",
+      long:"Connect displays, peripherals and power through a single Thunderbolt 4 connection." },
+    "5KB910": { cat:"keyboard", catName:"Keyboard & Mouse", type:"Service",      scope:"StandaloneOffer",
+      short:"Dell Premier Collaboration Keyboard - KB900",
+      long:"A wireless collaboration keyboard with dedicated meeting controls and long battery life." },
+    "3WS400": { cat:"warranty", catName:"Support Services", type:"Subscription", scope:"StandaloneOffer",
+      short:"ProSupport Plus 4-Year Coverage",
+      long:"Premium support with onsite service and proactive monitoring for four years." },
+    "9XK221": { cat:"monitor",  catName:"Monitor",          type:"SnP",          scope:"StandaloneOffer",
+      short:"Dell 27 USB-C Monitor - P2723QE",
+      long:"A 27-inch 4K USB-C monitor — offer published, content not yet authored." }
+  };
+  const OFFERS = [];
+  const addO = (sku, ids) => ids.forEach(id => OFFERS.push({ offerId: id, sku }));
+  addO("7C3010", ["842306801","Test1_monitor1","Test2_monitor2"]);
+  addO("4TY139", ["681152795"]);
+  addO("F4MC8T", ["459783064","459768225","445839943","427562975","419941676","411067147","406335795","400584317","374916708","290535118","U4025QW_Monitor"]);
+  addO("8RD220", ["770114322","770114980"]);
+  addO("5KB910", ["662900145"]);
+  addO("3WS400", ["551207788","551207789","551207790"]);
+  addO("9XK221", ["905550010","905550011"]);    // offers exist, NO content -> "missing"
+  const CONTENT = [];
+  const addC = (sku, profiles, o) => profiles.forEach(p => CONTENT.push(Object.assign({ key: sku, profile: p, status: "Draft" }, o || {})));
+  addC("7C3010", ["en/us","en/ie","en/ca","en/gb","de/de"]);
+  addC("4TY139", ["cs/cz","pt/pt","pl/pl"], { short:"Monitor Dell Pro Plus 27 - P2725DE", long:"Monitor s rozlišením QHD a pohodlným sledováním s nízkým podílem modrého světla." });
+  addC("F4MC8T", ["fr/fr","fr/ca","fr/be"], { status:"Published" });
+  addC("8RD220", ["en/us","en/ca"], { status:"Published" });
+  addC("5KB910", ["en/us"]);
+  addC("3WS400", ["en/us","en/gb","fr/fr","de/de"], { status:"Published" });
+  CONTENT.forEach(c => { const s = SKUS[c.key]; if (!c.short) c.short = s.short; if (!c.long) c.long = s.long; });
+
+  const OFFER_FMAP = {
+    [F.offer.offerId]:       o => o.offerId,
+    [F.offer.primaryPartId]: o => o.sku,
+    [F.offer.categoryId]:    o => SKUS[o.sku].cat,
+    [F.offer.productType]:   o => SKUS[o.sku].type,
+    [F.offer.scope]:         o => SKUS[o.sku].scope
+  };
+  const CONTENT_FMAP = {
+    [F.content.key]:       c => c.key,
+    [F.content.container]: c => c.profile
+  };
+  function clauseMatch(doc, clause, fmap) {
+    if (clause.term)  { const f = Object.keys(clause.term)[0];
+      return fmap[f] ? String(fmap[f](doc)) === String(clause.term[f]) : true; }
+    if (clause.terms) { const f = Object.keys(clause.terms)[0];
+      return fmap[f] ? clause.terms[f].map(String).includes(String(fmap[f](doc))) : true; }
+    return true;
+  }
+  function applyFilter(docs, body, fmap) {
+    const fl = body.query?.bool?.filter || [];
+    return docs.filter(d => fl.every(c => clauseMatch(d, c, fmap)));
+  }
+  function mockSearch(index, body) {
+    if (index === OFFER_INDEX)   return mockOffer(body);
+    if (index === CONTENT_INDEX) return mockContent(body);
+    return { hits: { total: { value: 0 }, hits: [] } };
+  }
+  function mockOffer(body) {
+    const docs = applyFilter(OFFERS, body, OFFER_FMAP);
+    const a = body.aggs || {}, aggs = {};
+    if (a.total_offers) aggs.total_offers = { value: new Set(docs.map(o => o.offerId)).size };
+    if (a.skus) {
+      const bySku = {}; docs.forEach(o => (bySku[o.sku] = bySku[o.sku] || []).push(o.offerId));
+      const sub = a.skus.aggs || {};
+      aggs.skus = { buckets: Object.entries(bySku).map(([sku, ids]) => {
+        const b = { key: sku, doc_count: ids.length };
+        if (sub.offers) { const sz = sub.offers.terms?.size || 100;
+          b.offers = { buckets: ids.slice(0, sz).map(id => ({ key: id, doc_count: 1 })) }; }
+        if (sub.attrs) { const s = SKUS[sku];
+          b.attrs = { hits: { hits: [ { _source: { DynamicProperties: { CMXContext: [ {
+            CMXCategoryLookup: [ { Name: s.catName } ], ProductType: s.type, scope: s.scope } ] } } } ] } }; }
+        return b;
+      }) };
+    }
+    return { hits: { total: { value: docs.length }, hits: [] }, aggregations: aggs };
+  }
+  function mockContent(body) {
+    let docs = applyFilter(CONTENT, body, CONTENT_FMAP)
+      .map(c => ({ c, _id: `${c.key}|${c.profile}` }))
+      .sort((x, y) => x.c.key < y.c.key ? -1 : x.c.key > y.c.key ? 1 : (x._id < y._id ? -1 : 1));
+    const total = docs.length;
+    const from = body.from || 0, size = body.size ?? 25;
+    const pageDocs = docs.slice(from, from + size).map(({ c, _id }) => ({
+      _id, _source: { Key: c.key, Container: [c.profile], PublishStatus: c.status,
+                      DynamicProperties: { ShortDesc: c.short, LongDesc: c.long } }
+    }));
+    const a = body.aggs || {}, aggs = {};
+    if (a.skus_with_content) { const m = {}; docs.forEach(({ c }) => m[c.key] = (m[c.key] || 0) + 1);
+      aggs.skus_with_content = { buckets: Object.entries(m).map(([k, n]) => ({ key: k, doc_count: n })) }; }
+    if (a.by_profile) { const m = {}; docs.forEach(({ c }) => m[c.profile] = (m[c.profile] || 0) + 1);
+      aggs.by_profile = { buckets: Object.entries(m).map(([k, n]) => ({ key: k, doc_count: n })) }; }
+    return { hits: { total: { value: total, relation: 'eq' }, hits: pageDocs }, aggregations: aggs };
+  }
+  /* ==================== end MOCK BACKEND ==================== */
+
+  return { fetchView, facets, config: CONFIG };
+})();
+
+
+/* ============================================================================
+   UI LAYER  —  renders the view returned by DataAccess (no data logic here)
+   ========================================================================== */
+const SCOPE_LABEL = { ConfigurableOffer: "Configurable Offer", StandaloneOffer: "Standalone Offer" };
+const FACET_LABEL = { offerType: "Offer type", scope: "Config type", profile: "Profile", category: "CMX category" };
+
+const state = {
+  filters: { offerType: new Set(), scope: new Set(), profile: new Set(), category: new Set() },
+  search: { text: "", by: "auto" },
+  includeMissing: false,
+  page: 1, pageSize: 25
+};
+let FACETS = null;
+
+const $  = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const esc = t => (t == null ? "" : "" + t).replace(/[&<>"]/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[m]));
+
+async function buildFacets() {
+  FACETS = await DataAccess.facets();
+  const mk = (val, label) => `<label class="opt"><input type="checkbox" value="${esc(val)}"> ${esc(label)}</label>`;
+  $('[data-facet=offerType]').innerHTML = FACETS.offerTypes.map(v => mk(v, v)).join("");
+  $('[data-facet=scope]').innerHTML     = FACETS.scopes.map(v => mk(v, SCOPE_LABEL[v] || v)).join("");
+  $('[data-facet=profile]').innerHTML   = FACETS.profiles.map(v => mk(v, v)).join("");
+  $('[data-facet=category]').innerHTML  = FACETS.cats.map(([id, name]) => mk(id, name)).join("");
+}
+
+function offersCell(offers) {
+  if (!offers || !offers.length) return '<span style="color:var(--text-3)">—</span>';
+  const first = `<span class="mono">${esc(offers[0])}</span>`;
+  if (offers.length === 1) return first;
+  return `${first}<span class="more" data-offers='${esc(JSON.stringify(offers))}'>+${offers.length - 1}</span>`;
+}
+
+function rowHtml(r) {
+  if (r.kind === 'missing') {
+    return `<tr class="missing">
+      <td class="cbx"><input type="checkbox"></td>
+      <td><span class="keylink" style="color:var(--miss-text)">${esc(r.key)}</span></td>
+      <td>—</td>
+      <td class="ellip" colspan="2">No content authored yet for this offer</td>
+      <td class="mono">${esc(r.offerId)}</td>
+      <td>${esc(r.catName)}</td>
+      <td>${esc(r.offerType)}</td>
+      <td>${esc(SCOPE_LABEL[r.scope] || r.scope)}</td>
+      <td><button class="mini-create"><svg class="ic" viewBox="0 0 24 24" width="13"><path d="M12 5v14M5 12h14"/></svg>Create</button></td>
+    </tr>`;
+  }
+  return `<tr>
+    <td class="cbx"><input type="checkbox"></td>
+    <td><a class="keylink" href="#">${esc(r.key)}</a></td>
+    <td>${esc(r.profile)}</td>
+    <td class="ellip" title="${esc(r.short)}">${esc(r.short)}</td>
+    <td class="ellip" title="${esc(r.long)}">${esc(r.long)}</td>
+    <td class="offers-cell">${offersCell(r.offers)}</td>
+    <td><a href="#">${esc(r.catName)}</a></td>
+    <td>${esc(r.offerType)}</td>
+    <td>${esc(SCOPE_LABEL[r.scope] || r.scope)}</td>
+    <td><span class="status ${String(r.status).toLowerCase()}">${esc(r.status)}</span></td>
+  </tr>`;
+}
+
+function emptyRow(v) {
+  const m = v.counts.offersMissing;
+  return `<tr><td colspan="10"><div class="empty"><b>No content records match these filters.</b><br>
+    ${m > 0 ? `There ${m === 1 ? 'is' : 'are'} ${m} offer${m === 1 ? '' : 's'} without content — turn on “Include offers without content” to author ${m === 1 ? 'it' : 'them'}.` : 'Try clearing a filter.'}</div></td></tr>`;
+}
+
+let renderToken = 0;
+async function render() {
+  const myToken = ++renderToken;
+  const v = await DataAccess.fetchView(state);
+  if (myToken !== renderToken) return;          // ignore stale async results
+
+  $('#cCount').textContent = v.counts.contentRecords;
+  $('#oCount').textContent = v.counts.offersWithContent;
+  $('#mCount').textContent = v.counts.offersMissing;
+
+  $('#rows').innerHTML = v.rows.length ? v.rows.map(rowHtml).join("") : emptyRow(v);
+
+  const pages = Math.max(1, Math.ceil(v.totalRows / v.pageSize));
+  const start = v.totalRows ? v.offset + 1 : 0;
+  const end = v.offset + v.rows.length;
+  $('#countLbl').innerHTML =
+    `${start}–${end} of ${v.totalRows} rows · ${v.counts.offersWithContent} offers with content · ${v.counts.offersMissing} missing`;
+  $('#pageLbl').textContent = `Page ${v.page} / ${pages}`;
+  $('#prev').disabled = v.page <= 1;
+  $('#next').disabled = v.page >= pages;
+
+  renderChips(); renderSelBadges(); wireMore();
+}
+
+/* chips */
+function valLabel(facet, v) {
+  if (facet === "scope") return SCOPE_LABEL[v] || v;
+  if (facet === "category") return (FACETS?.cats.find(([id]) => id === v) || [, v])[1];
+  return v;
+}
+function chip(facet, val, label) {
+  return `<span class="chip" data-f="${facet}" data-v="${esc(val)}">${esc(label)}
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></span>`;
+}
+function renderChips() {
+  const f = state.filters, out = [];
+  if (state.search.text)
+    out.push(`<span class="chip" data-f="search" data-v="">Search: “${esc(state.search.text)}” <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></span>`);
+  for (const facet of ["category", "offerType", "scope", "profile"])
+    f[facet].forEach(v => out.push(chip(facet, v, `${FACET_LABEL[facet]}: ${valLabel(facet, v)}`)));
+  $('#chips').innerHTML = out.length ? out.join("") : '<span class="lab">No filters applied</span>';
+  const n = f.offerType.size + f.scope.size + f.profile.size + f.category.size + (state.search.text ? 1 : 0);
+  $('#filtersCount').textContent = n;
+}
+function renderSelBadges() {
+  $$('.fgroup').forEach(g => {
+    const key = g.dataset.group; if (!state.filters[key]) return;
+    const b = g.querySelector('.badge.sel'), n = state.filters[key].size;
+    b.textContent = n; b.hidden = n === 0;
+  });
+}
+
+/* offers popover */
+const pop = () => $('#pop');
+function wireMore() {
+  $$('.offers-cell .more').forEach(el => {
+    el.onclick = e => {
+      e.stopPropagation();
+      const offers = JSON.parse(el.dataset.offers);
+      const p = pop();
+      p.innerHTML = `<h5>${offers.length} offers share this SKU</h5>` + offers.map(o => `<div class="o">${esc(o)}</div>`).join("");
+      p.style.display = "block";
+      const r = el.getBoundingClientRect();
+      p.style.left = Math.min(r.left, window.innerWidth - 300) + "px";
+      p.style.top = (r.bottom + 6) + "px";
+    };
+  });
+}
+document.addEventListener('click', e => {
+  if (!pop().contains(e.target) && !e.target.classList.contains('more')) pop().style.display = "none";
+});
+
+/* ---- wiring ---- */
+function bindFacet(facet) {
+  $(`[data-facet=${facet}]`).addEventListener('change', e => {
+    if (e.target.type !== "checkbox") return;
+    const set = state.filters[facet];
+    e.target.checked ? set.add(e.target.value) : set.delete(e.target.value);
+    state.page = 1; render();
+  });
+}
+$$('.fhead').forEach(h => h.addEventListener('click', e => {
+  if (e.target.closest('input')) return;
+  h.parentElement.classList.toggle('collapsed');
+}));
+$('[data-psearch]').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  $$('[data-facet=profile] .opt').forEach(o => o.style.display = o.textContent.toLowerCase().includes(q) ? '' : 'none');
+});
+$('[data-csearch]').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  $$('[data-facet=category] .opt').forEach(o => o.style.display = o.textContent.toLowerCase().includes(q) ? '' : 'none');
+});
+function runSearch() { state.search.text = $('#search').value; state.search.by = $('#searchBy').value; state.page = 1; render(); }
+$('#searchGo').addEventListener('click', runSearch);
+$('#search').addEventListener('keydown', e => { if (e.key === "Enter") runSearch(); });
+$('#searchBy').addEventListener('change', () => { if (state.search.text) runSearch(); });
+$('#missToggle').addEventListener('click', () => {
+  state.includeMissing = !state.includeMissing;
+  $('#missToggle').classList.toggle('on', state.includeMissing);
+  state.page = 1; render();
+});
+$('#chips').addEventListener('click', e => {
+  const c = e.target.closest('.chip'); if (!c) return;
+  const f = c.dataset.f, v = c.dataset.v;
+  if (f === "search") { state.search.text = ""; $('#search').value = ""; }
+  else { state.filters[f].delete(v); const cb = $(`[data-facet=${f}] input[value="${v}"]`); if (cb) cb.checked = false; }
+  state.page = 1; render();
+});
+$('#clearAll').addEventListener('click', () => {
+  Object.values(state.filters).forEach(s => s.clear());
+  state.search.text = ""; $('#search').value = "";
+  $$('.fbody input[type=checkbox]').forEach(c => c.checked = false);
+  state.page = 1; render();
+});
+$('#prev').addEventListener('click', () => { if (state.page > 1) { state.page--; render(); } });
+$('#next').addEventListener('click', () => { state.page++; render(); });
+$('#showMore').addEventListener('click', () => { state.page++; render(); });
+$('#pageSize').addEventListener('change', e => { state.pageSize = +e.target.value; state.page = 1; render(); });
+
+/* init */
+['offerType', 'scope', 'profile', 'category'].forEach(bindFacet);
+(async function init() { await buildFacets(); render(); })();
+
+</script>
+</body>
+</html>
