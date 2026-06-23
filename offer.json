@@ -1,0 +1,1523 @@
+      {
+        "_index": "cmxstdoffer_draft_v0",
+        "_id": "7c8d067d-ab6b-4df6-8917-9e9eb3815e47",
+        "_score": 9.107063,
+        "_source": {
+          "Id": "7c8d067d-ab6b-4df6-8917-9e9eb3815e47",
+          "Key": "842306801-Primary-Production-2026-06-22T-17-27-22-000Z",
+          "ModifiedBy": "CMXContextIntentBuilder",
+          "Modified": "2026-06-22T18:27:00.8168522Z",
+          "CreatedBy": "EventSubscriber-Created",
+          "Created": "2026-06-22T17:22:00.3472475Z",
+          "IsDeleted": false,
+          "DocumentMajorVersion": 2,
+          "DocumentMinorVersion": 0,
+          "ScheduleStartDate": "2026-06-22T17:27:22Z",
+          "ScheduleEndDate": "2026-06-22T18:27:22Z",
+          "CheckedoutBy": null,
+          "Container": [
+            "usa_market-comm-stusa11010206"
+          ],
+          "PublishStatus": "Published",
+          "PublishedDate": "2026-06-22T18:27:00.8168522Z",
+          "UnPublishedDate": "0001-01-01T00:00:00",
+          "Version": 2,
+          "CollectionId": "b6391811-d5c5-4434-9c3e-53045b760d73",
+          "Name": "GP_Channel_001",
+          "IsDisabled": false,
+          "ParentId": "",
+          "Comments": "Updated end date By Event Subscriber",
+          "Groups": [],
+          "ReferenceItemId": "",
+          "Type": "offer",
+          "DynamicProperties": {
+            "Description": "GP_Channel_001",
+            "Status": "Production",
+            "authoringSource": "CPQ",
+            "productTaxonomy": [
+              {
+                "Category": [
+                  {
+                    "CollectionId": "4285c134-93fd-4da8-a93f-2a65e209b7ad",
+                    "ElasticPath": "DynamicProperties.productTaxonomy.[0].Category.[0]",
+                    "Id": "Peripherals",
+                    "Name": "Peripherals"
+                  }
+                ],
+                "ProductLine": [
+                  {
+                    "CollectionId": "a995821c-3e17-4b28-a156-c9ac2fe72159",
+                    "ElasticPath": "DynamicProperties.productTaxonomy.[0].ProductLine.[0]",
+                    "Id": "Monitors",
+                    "Name": "Monitors"
+                  }
+                ],
+                "Platform": [
+                  {
+                    "CollectionId": "a186f15c-446d-4ff4-81e7-cad6a2247c8d",
+                    "ElasticPath": "DynamicProperties.productTaxonomy.[0].Platform.[0]",
+                    "Id": "DellProPlusMonitors",
+                    "Name": "Dell Pro Plus Monitors"
+                  }
+                ]
+              }
+            ],
+            "offerItemType": [
+              {
+                "configurable": true,
+                "fixedHardware": false,
+                "standardConfig": true,
+                "scope": "ConfigurableOffer",
+                "classifications": [
+                  {
+                    "ItemClassLookup": []
+                  }
+                ]
+              }
+            ],
+            "Context": [
+              {
+                "region": "AMER",
+                "market": "USA_Market",
+                "Segment": "COMM"
+              }
+            ],
+            "DCIL_Batch_ID": "batch_pd_offers_20260622171633_ge4",
+            "DCIL_Event_TimeStamp": "2026-06-22T17:19:37Z",
+            "Category": [
+              {
+                "CollectionId": "4285c134-93fd-4da8-a93f-2a65e209b7ad",
+                "ElasticPath": "DynamicProperties.Category.[0]",
+                "Id": "Peripherals",
+                "Name": "Peripherals"
+              }
+            ],
+            "ProductLine": [
+              {
+                "CollectionId": "a995821c-3e17-4b28-a156-c9ac2fe72159",
+                "ElasticPath": "DynamicProperties.ProductLine.[0]",
+                "Id": "Monitors",
+                "Name": "Monitors"
+              }
+            ],
+            "Platform": [
+              {
+                "CollectionId": "a186f15c-446d-4ff4-81e7-cad6a2247c8d",
+                "ElasticPath": "DynamicProperties.Platform.[0]",
+                "Id": "DellProPlusMonitors",
+                "Name": "Dell Pro Plus Monitors"
+              }
+            ],
+            "properties": [
+              {
+                "Key": "modelId",
+                "Value": "P2425DE"
+              },
+              {
+                "Key": "QuoteNum",
+                "Value": "5940003915039"
+              },
+              {
+                "Key": "QuoteVersion",
+                "Value": "1"
+              },
+              {
+                "Key": "EndUser",
+                "Value": "P12103964943"
+              },
+              {
+                "Key": "goalRequired",
+                "Value": "false"
+              },
+              {
+                "Key": "partnerTrack",
+                "Value": "Commercial Distributor"
+              },
+              {
+                "Key": "storeId",
+                "Value": "STUSA11010206"
+              },
+              {
+                "Key": "globalPortal",
+                "Value": "false"
+              },
+              {
+                "Key": "ParentOfferId",
+                "Value": "P2425DE"
+              },
+              {
+                "Key": "StandardConfigVisibility",
+                "Value": "Active"
+              },
+              {
+                "Key": "StartDate",
+                "Value": "2026-06-22 09:52:27"
+              },
+              {
+                "Key": "peripheralIds",
+                "Value": "7C3010"
+              }
+            ],
+            "OfferRelationship": [],
+            "specifications": [],
+            "Variable_Selections": [],
+            "Offer_Relationship": [],
+            "PartType": "",
+            "offerId": "842306801",
+            "StatusInfo": "Production",
+            "Edition": "Primary",
+            "goLiveDate": "2026-06-22T17:27:22Z",
+            "ActionDate": "2026-06-22T17:27:22Z",
+            "DCILEntityId": "842306801_primary",
+            "excludedSalesExperience": null,
+            "CMXContext": [
+              {
+                "scope": "ConfigurableOffer",
+                "OfferSubType": "Configurable",
+                "csContentType": null,
+                "IsFGAConfig": true,
+                "hasRecommendations": null,
+                "hasEtilizeData": false,
+                "Category_Code": "Peripherals",
+                "ReferenceId": null,
+                "ItemOrder": 0,
+                "ProductType": "SnP",
+                "BusinessUnit": "CSG",
+                "CMXDescription": "ConfigurableOffer SnP Monitor",
+                "DellBranded": true,
+                "StdConfig": true,
+                "Rating": null,
+                "ConfigType": [
+                  "ConfigurableSNP"
+                ],
+                "ConfigTypes": [
+                  "ConfigurableSNP"
+                ],
+                "Features": null,
+                "PrimaryPartId": [
+                  "7C3010"
+                ],
+                "CMXCategoryLookup": [
+                  {
+                    "CollectionId": "9c102bf6-f6f7-4443-8774-c1af5cc69116",
+                    "ElasticPath": "DynamicProperties.CMXContext.[0].CMXCategoryLookup.[0]",
+                    "Id": "monitor",
+                    "Name": "Monitor"
+                  }
+                ],
+                "CMXSubCategoryLookup": null,
+                "CMXBrandLookup": null,
+                "OfferModuleGroups": null
+              }
+            ],
+            "UPC": "899116705233",
+            "EAN": "5397321055961",
+            "FGID": "WNVR6",
+            "VPN": "7C3010",
+            "Store_ID": "stusa11010206",
+            "SubStatus_Code": "Valid",
+            "SubStatus_TemporarilyUnavailable": false,
+            "SubStatus_Hide": false,
+            "SubStatus_Invalid": false,
+            "BatchModified": "2026-06-22T17:22:00.3472475Z",
+            "intentcategorylist": [
+              {
+                "Intent": [
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[0].Intent.[0]",
+                    "Id": "SnpUPD",
+                    "Name": "SnpUPD"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[0].Intent.[1]",
+                    "Id": "ecosystem",
+                    "Name": "ecosystem"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[0].Intent.[2]",
+                    "Id": "snpplp",
+                    "Name": "snpplp"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[0].Intent.[3]",
+                    "Id": "accessories",
+                    "Name": "accessories"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[0].Intent.[4]",
+                    "Id": "SnP",
+                    "Name": "SnP"
+                  }
+                ],
+                "intentcategory": [
+                  {
+                    "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[0].intentcategory.[0]",
+                    "Id": "all-monitor",
+                    "Name": "All Monitors"
+                  }
+                ],
+                "csContentType": "intentcategorylist",
+                "ReferenceId": "dd418e62-9dd3-44a5-a4cf-d5f42be6497a",
+                "ItemOrder": 0,
+                "DisplayReference": "",
+                "CategoryPath": [],
+                "CategoryKeywords": []
+              },
+              {
+                "Intent": [
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[1].Intent.[0]",
+                    "Id": "SnPPLP",
+                    "Name": "SnPPLP"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[1].Intent.[1]",
+                    "Id": "SnP",
+                    "Name": "SnP"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[1].Intent.[2]",
+                    "Id": "accessories",
+                    "Name": "accessories"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[1].Intent.[3]",
+                    "Id": "SnpUPD",
+                    "Name": "SnpUPD"
+                  }
+                ],
+                "intentcategory": [
+                  {
+                    "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[1].intentcategory.[0]",
+                    "Id": "all-monitors",
+                    "Name": "All Monitors"
+                  }
+                ],
+                "csContentType": "intentcategorylist",
+                "ReferenceId": "ad3ccbdc-4919-4f02-9729-91242e5716d3",
+                "ItemOrder": 1,
+                "DisplayReference": "monitor-all-monitors",
+                "CategoryPath": [
+                  "monitor/all-monitors"
+                ],
+                "CategoryKeywords": [
+                  "monitor",
+                  "all-monitors"
+                ]
+              },
+              {
+                "Intent": [
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[2].Intent.[0]",
+                    "Id": "deals",
+                    "Name": "Deals"
+                  }
+                ],
+                "intentcategory": [
+                  {
+                    "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[2].intentcategory.[0]",
+                    "Id": "computer-monitor-deals",
+                    "Name": "Computer Monitor Deals"
+                  }
+                ],
+                "csContentType": "intentcategorylist",
+                "ReferenceId": "0e591e5a-1803-42b5-97fc-0d3c0585e19a",
+                "ItemOrder": 2,
+                "DisplayReference": "deals-computer-monitor-deals",
+                "CategoryPath": [
+                  "deals/computer-monitor-deals"
+                ],
+                "CategoryKeywords": [
+                  "deals",
+                  "computer-monitor-deals"
+                ]
+              },
+              {
+                "Intent": [
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[3].Intent.[0]",
+                    "Id": "snpplp",
+                    "Name": "snpplp"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[3].Intent.[1]",
+                    "Id": "SnP",
+                    "Name": "SnP"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[3].Intent.[2]",
+                    "Id": "SnpUPD",
+                    "Name": "SnpUPD"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[3].Intent.[3]",
+                    "Id": "accessories",
+                    "Name": "accessories"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[3].Intent.[4]",
+                    "Id": "ecosystem",
+                    "Name": "ecosystem"
+                  }
+                ],
+                "intentcategory": [
+                  {
+                    "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[3].intentcategory.[0]",
+                    "Id": "computer-monitors",
+                    "Name": "Computer Monitors"
+                  }
+                ],
+                "csContentType": "intentcategorylist",
+                "ReferenceId": "88884211-62bd-4fd9-a9d6-f7ded66b4e2e",
+                "ItemOrder": 3,
+                "DisplayReference": "monitor",
+                "CategoryPath": [],
+                "CategoryKeywords": []
+              },
+              {
+                "Intent": [
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[4].Intent.[0]",
+                    "Id": "SnP",
+                    "Name": "SnP"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[4].Intent.[1]",
+                    "Id": "snpplp",
+                    "Name": "snpplp"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[4].Intent.[2]",
+                    "Id": "accessories",
+                    "Name": "accessories"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[4].Intent.[3]",
+                    "Id": "SnpUPD",
+                    "Name": "SnpUPD"
+                  }
+                ],
+                "intentcategory": [
+                  {
+                    "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[4].intentcategory.[0]",
+                    "Id": "deals-monitors",
+                    "Name": "Deals"
+                  }
+                ],
+                "csContentType": "intentcategorylist",
+                "ReferenceId": "8749ae0a-3b02-4a22-8e88-4a831c8ea467",
+                "ItemOrder": 4,
+                "DisplayReference": "Monitor-deals-monitors",
+                "CategoryPath": [
+                  "monitor/deals-monitors"
+                ],
+                "CategoryKeywords": [
+                  "monitor",
+                  "deals-monitors"
+                ]
+              },
+              {
+                "Intent": [
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[0]",
+                    "Id": "SnP",
+                    "Name": "SnP"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[1]",
+                    "Id": "snpplp",
+                    "Name": "snpplp"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[2]",
+                    "Id": "accessories",
+                    "Name": "accessories"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[3]",
+                    "Id": "Shop",
+                    "Name": "Shop"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[4]",
+                    "Id": "GlobalSales",
+                    "Name": "GlobalSales"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[5]",
+                    "Id": "ecosystem",
+                    "Name": "ecosystem"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[6]",
+                    "Id": "SalesCatalog",
+                    "Name": "SalesCatalog"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[7]",
+                    "Id": "SnpUPD",
+                    "Name": "SnpUPD"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[8]",
+                    "Id": "Deals",
+                    "Name": "Deals"
+                  }
+                ],
+                "intentcategory": [
+                  {
+                    "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[5].intentcategory.[0]",
+                    "Id": "dell-pro-monitors",
+                    "Name": "Dell Pro Monitors"
+                  }
+                ],
+                "csContentType": "intentcategorylist",
+                "ReferenceId": "e9bb1bdc-94df-45d8-abac-c044a65adb64",
+                "ItemOrder": 5,
+                "DisplayReference": "Monitor-monitors-dell-pro-monitors",
+                "CategoryPath": [
+                  "Monitor/monitors/dell-pro-monitors"
+                ],
+                "CategoryKeywords": [
+                  "monitor",
+                  "monitors",
+                  "dell-pro-monitors"
+                ]
+              },
+              {
+                "Intent": [
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[6].Intent.[0]",
+                    "Id": "SnPPLP",
+                    "Name": "SnPPLP"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[6].Intent.[1]",
+                    "Id": "SnP",
+                    "Name": "SnP"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[6].Intent.[2]",
+                    "Id": "SnpUPD",
+                    "Name": "SnpUPD"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[6].Intent.[3]",
+                    "Id": "accessories",
+                    "Name": "accessories"
+                  }
+                ],
+                "intentcategory": [
+                  {
+                    "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[6].intentcategory.[0]",
+                    "Id": "monitor",
+                    "Name": "Monitor"
+                  }
+                ],
+                "csContentType": "intentcategorylist",
+                "ReferenceId": "7b72a27b-f30b-4272-a354-245a5cd5e13d",
+                "ItemOrder": 6,
+                "DisplayReference": "monitor",
+                "CategoryPath": [
+                  "monitor"
+                ],
+                "CategoryKeywords": [
+                  "monitor"
+                ]
+              },
+              {
+                "Intent": [
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[7].Intent.[0]",
+                    "Id": "SnpUPD",
+                    "Name": "SnpUPD"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[7].Intent.[1]",
+                    "Id": "snpplp",
+                    "Name": "snpplp"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[7].Intent.[2]",
+                    "Id": "Shop",
+                    "Name": "Shop"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[7].Intent.[3]",
+                    "Id": "SnP",
+                    "Name": "SnP"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[7].Intent.[4]",
+                    "Id": "accessories",
+                    "Name": "accessories"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[7].Intent.[5]",
+                    "Id": "ecosystem",
+                    "Name": "ecosystem"
+                  }
+                ],
+                "intentcategory": [
+                  {
+                    "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[7].intentcategory.[0]",
+                    "Id": "monitor-cables",
+                    "Name": "Monitor Cables"
+                  }
+                ],
+                "csContentType": "intentcategorylist",
+                "ReferenceId": "5286c16f-5673-47cf-babb-1cd0307b9700",
+                "ItemOrder": 7,
+                "DisplayReference": "",
+                "CategoryPath": [],
+                "CategoryKeywords": []
+              },
+              {
+                "Intent": [
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[0]",
+                    "Id": "GlobalSales",
+                    "Name": "GlobalSales"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[1]",
+                    "Id": "Shop",
+                    "Name": "Shop"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[2]",
+                    "Id": "accessories",
+                    "Name": "accessories"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[3]",
+                    "Id": "snpplp",
+                    "Name": "snpplp"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[4]",
+                    "Id": "SnP",
+                    "Name": "SnP"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[5]",
+                    "Id": "ecosystem",
+                    "Name": "ecosystem"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[6]",
+                    "Id": "SalesCatalog",
+                    "Name": "SalesCatalog"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[7]",
+                    "Id": "SnpUPD",
+                    "Name": "SnpUPD"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[8]",
+                    "Id": "Deals",
+                    "Name": "Deals"
+                  }
+                ],
+                "intentcategory": [
+                  {
+                    "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[8].intentcategory.[0]",
+                    "Id": "monitors",
+                    "Name": "Monitors"
+                  }
+                ],
+                "csContentType": "intentcategorylist",
+                "ReferenceId": "85d9bbe8-2c7f-4272-aa85-19470579e915",
+                "ItemOrder": 8,
+                "DisplayReference": "Monitor-monitors",
+                "CategoryPath": [
+                  "Monitor/monitors"
+                ],
+                "CategoryKeywords": [
+                  "monitor",
+                  "monitors"
+                ]
+              },
+              {
+                "Intent": [
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[9].Intent.[0]",
+                    "Id": "deals",
+                    "Name": "Deals"
+                  }
+                ],
+                "intentcategory": [
+                  {
+                    "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[9].intentcategory.[0]",
+                    "Id": "pc-accessories-deals",
+                    "Name": "PC Accessories Deals"
+                  }
+                ],
+                "csContentType": "intentcategorylist",
+                "ReferenceId": "bfbb8aaa-7229-40e1-bd7e-508f3fc5c74e",
+                "ItemOrder": 9,
+                "DisplayReference": "deals-pc-accessories-deals",
+                "CategoryPath": [
+                  "deals/pc-accessories-deals"
+                ],
+                "CategoryKeywords": [
+                  "deals",
+                  "pc-accessories-deals"
+                ]
+              },
+              {
+                "Intent": [
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[10].Intent.[0]",
+                    "Id": "SnP",
+                    "Name": "SnP"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[10].Intent.[1]",
+                    "Id": "SnPPLP",
+                    "Name": "SnPPLP"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[10].Intent.[2]",
+                    "Id": "SnpUPD",
+                    "Name": "SnpUPD"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[10].Intent.[3]",
+                    "Id": "accessories",
+                    "Name": "accessories"
+                  }
+                ],
+                "intentcategory": [
+                  {
+                    "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[10].intentcategory.[0]",
+                    "Id": "play-school-work-4k-resolution-up",
+                    "Name": "4K Resolution and Up"
+                  }
+                ],
+                "csContentType": "intentcategorylist",
+                "ReferenceId": "8a3dba39-8161-4b67-8f94-78f084c6fbb8",
+                "ItemOrder": 10,
+                "DisplayReference": "monitor-play-school-work-4k-resolution-and-up",
+                "CategoryPath": [
+                  "monitor/play-school-work/4k-resolution-and-up"
+                ],
+                "CategoryKeywords": [
+                  "monitor",
+                  "play-school-work",
+                  "4k-resolution-and-up"
+                ]
+              },
+              {
+                "Intent": [
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[11].Intent.[0]",
+                    "Id": "SnP",
+                    "Name": "SnP"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[11].Intent.[1]",
+                    "Id": "snpplp",
+                    "Name": "snpplp"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[11].Intent.[2]",
+                    "Id": "SnpUPD",
+                    "Name": "SnpUPD"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[11].Intent.[3]",
+                    "Id": "accessories",
+                    "Name": "accessories"
+                  }
+                ],
+                "intentcategory": [
+                  {
+                    "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[11].intentcategory.[0]",
+                    "Id": "play-school-work-eye-comfort-monitors",
+                    "Name": "Eye Comfort Monitors"
+                  }
+                ],
+                "csContentType": "intentcategorylist",
+                "ReferenceId": "f6ddb5be-a4fd-4475-bd76-3e6609649bc8",
+                "ItemOrder": 11,
+                "DisplayReference": "",
+                "CategoryPath": [],
+                "CategoryKeywords": []
+              },
+              {
+                "Intent": [
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[12].Intent.[0]",
+                    "Id": "SnP",
+                    "Name": "SnP"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[12].Intent.[1]",
+                    "Id": "SnPPLP",
+                    "Name": "SnPPLP"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[12].Intent.[2]",
+                    "Id": "accessories",
+                    "Name": "accessories"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[12].Intent.[3]",
+                    "Id": "SnpUPD",
+                    "Name": "SnpUPD"
+                  }
+                ],
+                "intentcategory": [
+                  {
+                    "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[12].intentcategory.[0]",
+                    "Id": "play-school-work-integrated-speakers",
+                    "Name": "Integrated Speakers"
+                  }
+                ],
+                "csContentType": "intentcategorylist",
+                "ReferenceId": "d97d36ff-01b3-4eb5-86d7-acc2def5ed32",
+                "ItemOrder": 12,
+                "DisplayReference": "monitor-play-school-work-integrated-speakers",
+                "CategoryPath": [
+                  "monitor/play-school-work/integrated-speakers"
+                ],
+                "CategoryKeywords": [
+                  "monitor",
+                  "play-school-work",
+                  "integrated-speakers"
+                ]
+              },
+              {
+                "Intent": [
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[13].Intent.[0]",
+                    "Id": "SnpUPD",
+                    "Name": "SnpUPD"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[13].Intent.[1]",
+                    "Id": "snpplp",
+                    "Name": "snpplp"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[13].Intent.[2]",
+                    "Id": "SnP",
+                    "Name": "SnP"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[13].Intent.[3]",
+                    "Id": "accessories",
+                    "Name": "accessories"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[13].Intent.[4]",
+                    "Id": "ecosystem",
+                    "Name": "ecosystem"
+                  }
+                ],
+                "intentcategory": [
+                  {
+                    "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[13].intentcategory.[0]",
+                    "Id": "popular-monitors",
+                    "Name": "Popular Monitors For Preview Testing"
+                  }
+                ],
+                "csContentType": "intentcategorylist",
+                "ReferenceId": "7c1f3f22-21d0-4811-979d-414c41690e0f",
+                "ItemOrder": 13,
+                "DisplayReference": "",
+                "CategoryPath": [],
+                "CategoryKeywords": []
+              },
+              {
+                "Intent": [
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[14].Intent.[0]",
+                    "Id": "SnpUPD",
+                    "Name": "SnpUPD"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[14].Intent.[1]",
+                    "Id": "SnP",
+                    "Name": "SnP"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[14].Intent.[2]",
+                    "Id": "snpplp",
+                    "Name": "snpplp"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[14].Intent.[3]",
+                    "Id": "accessories",
+                    "Name": "accessories"
+                  },
+                  {
+                    "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[14].Intent.[4]",
+                    "Id": "ecosystem",
+                    "Name": "ecosystem"
+                  }
+                ],
+                "intentcategory": [
+                  {
+                    "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+                    "ElasticPath": "DynamicProperties.intentcategorylist.[14].intentcategory.[0]",
+                    "Id": "professional-monitors",
+                    "Name": "Professional Monitors"
+                  }
+                ],
+                "csContentType": "intentcategorylist",
+                "ReferenceId": "78e36396-f886-44c8-8fae-d82b61935bb2",
+                "ItemOrder": 14,
+                "DisplayReference": "",
+                "CategoryPath": [
+                  "monitor/professional-grade-productivity"
+                ],
+                "CategoryKeywords": [
+                  "monitor",
+                  "professional-grade-productivity"
+                ]
+              }
+            ]
+          },
+          "LookupItems": [
+            {
+              "CollectionId": "4285c134-93fd-4da8-a93f-2a65e209b7ad",
+              "ElasticPath": "DynamicProperties.Category.[0]",
+              "Id": "Peripherals",
+              "Name": "Peripherals"
+            },
+            {
+              "CollectionId": "a995821c-3e17-4b28-a156-c9ac2fe72159",
+              "ElasticPath": "DynamicProperties.ProductLine.[0]",
+              "Id": "Monitors",
+              "Name": "Monitors"
+            },
+            {
+              "CollectionId": "a186f15c-446d-4ff4-81e7-cad6a2247c8d",
+              "ElasticPath": "DynamicProperties.Platform.[0]",
+              "Id": "DellProPlusMonitors",
+              "Name": "Dell Pro Plus Monitors"
+            },
+            {
+              "CollectionId": "4285c134-93fd-4da8-a93f-2a65e209b7ad",
+              "ElasticPath": "DynamicProperties.productTaxonomy.[0].Category.[0]",
+              "Id": "Peripherals",
+              "Name": "Peripherals"
+            },
+            {
+              "CollectionId": "a995821c-3e17-4b28-a156-c9ac2fe72159",
+              "ElasticPath": "DynamicProperties.productTaxonomy.[0].ProductLine.[0]",
+              "Id": "Monitors",
+              "Name": "Monitors"
+            },
+            {
+              "CollectionId": "a186f15c-446d-4ff4-81e7-cad6a2247c8d",
+              "ElasticPath": "DynamicProperties.productTaxonomy.[0].Platform.[0]",
+              "Id": "DellProPlusMonitors",
+              "Name": "Dell Pro Plus Monitors"
+            },
+            {
+              "CollectionId": "9c102bf6-f6f7-4443-8774-c1af5cc69116",
+              "ElasticPath": "DynamicProperties.CMXContext.[0].CMXCategoryLookup.[0]",
+              "Id": "monitor",
+              "Name": "Monitor"
+            },
+            {
+              "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[0].intentcategory.[0]",
+              "Id": "all-monitor",
+              "Name": "All Monitors"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[0].Intent.[0]",
+              "Id": "SnpUPD",
+              "Name": "SnpUPD"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[0].Intent.[1]",
+              "Id": "ecosystem",
+              "Name": "ecosystem"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[0].Intent.[2]",
+              "Id": "snpplp",
+              "Name": "snpplp"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[0].Intent.[3]",
+              "Id": "accessories",
+              "Name": "accessories"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[0].Intent.[4]",
+              "Id": "SnP",
+              "Name": "SnP"
+            },
+            {
+              "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[1].intentcategory.[0]",
+              "Id": "all-monitors",
+              "Name": "All Monitors"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[1].Intent.[0]",
+              "Id": "SnPPLP",
+              "Name": "SnPPLP"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[1].Intent.[1]",
+              "Id": "SnP",
+              "Name": "SnP"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[1].Intent.[2]",
+              "Id": "accessories",
+              "Name": "accessories"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[1].Intent.[3]",
+              "Id": "SnpUPD",
+              "Name": "SnpUPD"
+            },
+            {
+              "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[2].intentcategory.[0]",
+              "Id": "computer-monitor-deals",
+              "Name": "Computer Monitor Deals"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[2].Intent.[0]",
+              "Id": "deals",
+              "Name": "Deals"
+            },
+            {
+              "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[3].intentcategory.[0]",
+              "Id": "computer-monitors",
+              "Name": "Computer Monitors"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[3].Intent.[0]",
+              "Id": "snpplp",
+              "Name": "snpplp"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[3].Intent.[1]",
+              "Id": "SnP",
+              "Name": "SnP"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[3].Intent.[2]",
+              "Id": "SnpUPD",
+              "Name": "SnpUPD"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[3].Intent.[3]",
+              "Id": "accessories",
+              "Name": "accessories"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[3].Intent.[4]",
+              "Id": "ecosystem",
+              "Name": "ecosystem"
+            },
+            {
+              "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[4].intentcategory.[0]",
+              "Id": "deals-monitors",
+              "Name": "Deals"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[4].Intent.[0]",
+              "Id": "SnP",
+              "Name": "SnP"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[4].Intent.[1]",
+              "Id": "snpplp",
+              "Name": "snpplp"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[4].Intent.[2]",
+              "Id": "accessories",
+              "Name": "accessories"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[4].Intent.[3]",
+              "Id": "SnpUPD",
+              "Name": "SnpUPD"
+            },
+            {
+              "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[5].intentcategory.[0]",
+              "Id": "dell-pro-monitors",
+              "Name": "Dell Pro Monitors"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[0]",
+              "Id": "SnP",
+              "Name": "SnP"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[1]",
+              "Id": "snpplp",
+              "Name": "snpplp"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[2]",
+              "Id": "accessories",
+              "Name": "accessories"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[3]",
+              "Id": "Shop",
+              "Name": "Shop"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[4]",
+              "Id": "GlobalSales",
+              "Name": "GlobalSales"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[5]",
+              "Id": "ecosystem",
+              "Name": "ecosystem"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[6]",
+              "Id": "SalesCatalog",
+              "Name": "SalesCatalog"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[7]",
+              "Id": "SnpUPD",
+              "Name": "SnpUPD"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[5].Intent.[8]",
+              "Id": "Deals",
+              "Name": "Deals"
+            },
+            {
+              "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[6].intentcategory.[0]",
+              "Id": "monitor",
+              "Name": "Monitor"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[6].Intent.[0]",
+              "Id": "SnPPLP",
+              "Name": "SnPPLP"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[6].Intent.[1]",
+              "Id": "SnP",
+              "Name": "SnP"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[6].Intent.[2]",
+              "Id": "SnpUPD",
+              "Name": "SnpUPD"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[6].Intent.[3]",
+              "Id": "accessories",
+              "Name": "accessories"
+            },
+            {
+              "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[7].intentcategory.[0]",
+              "Id": "monitor-cables",
+              "Name": "Monitor Cables"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[7].Intent.[0]",
+              "Id": "SnpUPD",
+              "Name": "SnpUPD"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[7].Intent.[1]",
+              "Id": "snpplp",
+              "Name": "snpplp"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[7].Intent.[2]",
+              "Id": "Shop",
+              "Name": "Shop"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[7].Intent.[3]",
+              "Id": "SnP",
+              "Name": "SnP"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[7].Intent.[4]",
+              "Id": "accessories",
+              "Name": "accessories"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[7].Intent.[5]",
+              "Id": "ecosystem",
+              "Name": "ecosystem"
+            },
+            {
+              "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[8].intentcategory.[0]",
+              "Id": "monitors",
+              "Name": "Monitors"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[0]",
+              "Id": "GlobalSales",
+              "Name": "GlobalSales"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[1]",
+              "Id": "Shop",
+              "Name": "Shop"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[2]",
+              "Id": "accessories",
+              "Name": "accessories"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[3]",
+              "Id": "snpplp",
+              "Name": "snpplp"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[4]",
+              "Id": "SnP",
+              "Name": "SnP"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[5]",
+              "Id": "ecosystem",
+              "Name": "ecosystem"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[6]",
+              "Id": "SalesCatalog",
+              "Name": "SalesCatalog"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[7]",
+              "Id": "SnpUPD",
+              "Name": "SnpUPD"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[8].Intent.[8]",
+              "Id": "Deals",
+              "Name": "Deals"
+            },
+            {
+              "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[9].intentcategory.[0]",
+              "Id": "pc-accessories-deals",
+              "Name": "PC Accessories Deals"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[9].Intent.[0]",
+              "Id": "deals",
+              "Name": "Deals"
+            },
+            {
+              "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[10].intentcategory.[0]",
+              "Id": "play-school-work-4k-resolution-up",
+              "Name": "4K Resolution and Up"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[10].Intent.[0]",
+              "Id": "SnP",
+              "Name": "SnP"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[10].Intent.[1]",
+              "Id": "SnPPLP",
+              "Name": "SnPPLP"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[10].Intent.[2]",
+              "Id": "SnpUPD",
+              "Name": "SnpUPD"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[10].Intent.[3]",
+              "Id": "accessories",
+              "Name": "accessories"
+            },
+            {
+              "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[11].intentcategory.[0]",
+              "Id": "play-school-work-eye-comfort-monitors",
+              "Name": "Eye Comfort Monitors"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[11].Intent.[0]",
+              "Id": "SnP",
+              "Name": "SnP"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[11].Intent.[1]",
+              "Id": "snpplp",
+              "Name": "snpplp"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[11].Intent.[2]",
+              "Id": "SnpUPD",
+              "Name": "SnpUPD"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[11].Intent.[3]",
+              "Id": "accessories",
+              "Name": "accessories"
+            },
+            {
+              "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[12].intentcategory.[0]",
+              "Id": "play-school-work-integrated-speakers",
+              "Name": "Integrated Speakers"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[12].Intent.[0]",
+              "Id": "SnP",
+              "Name": "SnP"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[12].Intent.[1]",
+              "Id": "SnPPLP",
+              "Name": "SnPPLP"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[12].Intent.[2]",
+              "Id": "accessories",
+              "Name": "accessories"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[12].Intent.[3]",
+              "Id": "SnpUPD",
+              "Name": "SnpUPD"
+            },
+            {
+              "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[13].intentcategory.[0]",
+              "Id": "popular-monitors",
+              "Name": "Popular Monitors For Preview Testing"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[13].Intent.[0]",
+              "Id": "SnpUPD",
+              "Name": "SnpUPD"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[13].Intent.[1]",
+              "Id": "snpplp",
+              "Name": "snpplp"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[13].Intent.[2]",
+              "Id": "SnP",
+              "Name": "SnP"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[13].Intent.[3]",
+              "Id": "accessories",
+              "Name": "accessories"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[13].Intent.[4]",
+              "Id": "ecosystem",
+              "Name": "ecosystem"
+            },
+            {
+              "CollectionId": "06c612a4-2793-4eb6-874d-bffc800eee68",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[14].intentcategory.[0]",
+              "Id": "professional-monitors",
+              "Name": "Professional Monitors"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[14].Intent.[0]",
+              "Id": "SnpUPD",
+              "Name": "SnpUPD"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[14].Intent.[1]",
+              "Id": "SnP",
+              "Name": "SnP"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[14].Intent.[2]",
+              "Id": "snpplp",
+              "Name": "snpplp"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[14].Intent.[3]",
+              "Id": "accessories",
+              "Name": "accessories"
+            },
+            {
+              "CollectionId": "f0c364ca-fbaf-42b4-9efc-e09af44c9f58",
+              "ElasticPath": "DynamicProperties.intentcategorylist.[14].Intent.[4]",
+              "Id": "ecosystem",
+              "Name": "ecosystem"
+            }
+          ]
+        }
+      }

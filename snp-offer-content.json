@@ -1,0 +1,156 @@
+ {
+        "_index": "cmxstdsnpoffercontent_draft_v0",
+        "_id": "80d5d0f5-7873-4970-9c55-7bdeed11d878",
+        "_score": 9.199836,
+        "_source": {
+          "Modified": "2026-04-07T03:18:31.5308278Z",
+          "ReferenceItemId": null,
+          "IsDisabled": false,
+          "ScheduleStartDate": "1900-12-31T06:00:00Z",
+          "ScheduleEndDate": "9999-12-31T00:00:00Z",
+          "ModifiedBy": "SyndicatorContentImport",
+          "UnPublishedDate": "0001-01-01T00:00:00",
+          "ExtendedProperties": null,
+          "Created": "2025-12-15T19:03:35.5993827Z",
+          "Name": "DELL-IE",
+          "DocumentMinorVersion": 2,
+          "Container": [
+            "en/ie"
+          ],
+          "Version": 4,
+          "Groups": null,
+          "DocumentMajorVersion": 1,
+          "CheckedoutBy": "",
+          "LookupItems": [
+            {
+              "CollectionId": "c60be996-8212-4f31-a28a-8257892e5741",
+              "ElasticPath": "DynamicProperties.PartLookup.[0]",
+              "Id": "7C3010",
+              "Name": "DELL-IE"
+            },
+            {
+              "CollectionId": "006adec1-d1a4-4f43-9e81-4f10fd356b83",
+              "ElasticPath": "DynamicProperties.RichContentDS.[0].RichContent.[0]",
+              "Id": "monitor-test-page-dellbuyercontentlayoutwebparts-3",
+              "Name": "monitor-test-page-dellbuyercontentlayoutwebparts-3"
+            },
+            {
+              "CollectionId": "a1e457e7-c7e2-4c52-964b-214a619c894e",
+              "ElasticPath": "DynamicProperties.Segments.[0]",
+              "Id": "comm",
+              "Name": "Commercial"
+            },
+            {
+              "CollectionId": "a1e457e7-c7e2-4c52-964b-214a619c894e",
+              "ElasticPath": "DynamicProperties.Segments.[1]",
+              "Id": "cnsr",
+              "Name": "Consumer"
+            },
+            {
+              "CollectionId": "a1e457e7-c7e2-4c52-964b-214a619c894e",
+              "ElasticPath": "DynamicProperties.Segments.[2]",
+              "Id": "lpub",
+              "Name": "Local Public"
+            },
+            {
+              "CollectionId": "a1e457e7-c7e2-4c52-964b-214a619c894e",
+              "ElasticPath": "DynamicProperties.Segments.[3]",
+              "Id": "ngov",
+              "Name": "National Government"
+            },
+            {
+              "CollectionId": "6e3372ba-abe5-4c87-a149-f3e15af2e367",
+              "ElasticPath": "DynamicProperties.ProductIdLookup.[0]",
+              "Id": "1083975733",
+              "Name": "1083975733"
+            }
+          ],
+          "PublishStatus": "None",
+          "ParentId": null,
+          "IsDeleted": false,
+          "CreatedBy": "SyndicatorContentImport",
+          "Comments": "Upserted_By_SyndicatorContentImport",
+          "DynamicProperties": {
+            "SEORobots": "",
+            "Keywords": "",
+            "ManufacturerPn": "N1R5T",
+            "RichContentDS": [
+              {
+                "DellBuyerWebpartMobileDisplaySetting": [],
+                "ItemOrder": 1,
+                "RichContent": [
+                  {
+                    "CollectionId": "006adec1-d1a4-4f43-9e81-4f10fd356b83",
+                    "ElasticPath": "DynamicProperties.RichContentDS.[0].RichContent.[0]",
+                    "Id": "monitor-test-page-dellbuyercontentlayoutwebparts-3",
+                    "Name": "monitor-test-page-dellbuyercontentlayoutwebparts-3"
+                  }
+                ],
+                "DellBuyerWebpartDisplaySetting": []
+              }
+            ],
+            "ManufacturerId": "2959",
+            "Media": [],
+            "Segments": [
+              {
+                "CollectionId": "a1e457e7-c7e2-4c52-964b-214a619c894e",
+                "ElasticPath": "DynamicProperties.Segments.[0]",
+                "Id": "comm",
+                "Name": "Commercial"
+              },
+              {
+                "CollectionId": "a1e457e7-c7e2-4c52-964b-214a619c894e",
+                "ElasticPath": "DynamicProperties.Segments.[1]",
+                "Id": "cnsr",
+                "Name": "Consumer"
+              },
+              {
+                "CollectionId": "a1e457e7-c7e2-4c52-964b-214a619c894e",
+                "ElasticPath": "DynamicProperties.Segments.[2]",
+                "Id": "lpub",
+                "Name": "Local Public"
+              },
+              {
+                "CollectionId": "a1e457e7-c7e2-4c52-964b-214a619c894e",
+                "ElasticPath": "DynamicProperties.Segments.[3]",
+                "Id": "ngov",
+                "Name": "National Government"
+              }
+            ],
+            "LongDescOverrideFlag": "No",
+            "ContentLinks": [],
+            "KSPContent": "",
+            "BrowserTitle": "",
+            "SEODescription": "",
+            "PartLookup": [
+              {
+                "CollectionId": "c60be996-8212-4f31-a28a-8257892e5741",
+                "ElasticPath": "DynamicProperties.PartLookup.[0]",
+                "Id": "7C3010",
+                "Name": "DELL-IE"
+              }
+            ],
+            "offerLookup": [],
+            "KSPEnableDisable": "Yes",
+            "ProductIdLookup": [
+              {
+                "CollectionId": "6e3372ba-abe5-4c87-a149-f3e15af2e367",
+                "ElasticPath": "DynamicProperties.ProductIdLookup.[0]",
+                "Id": "1083975733",
+                "Name": "1083975733"
+              }
+            ],
+            "ShortDescOverrideFlag": "No",
+            "ExtendedSpec": [],
+            "AdditionalMedia": [],
+            "ImageEnableDisable": "Yes",
+            "RichMedia": [],
+            "SyndicatorAttributes": []
+          },
+          "Type": "snpoffercontent",
+          "CollectionId": "c1ebd4d9-19ff-4d04-a431-cd0d27226155",
+          "PublishedDate": "2026-04-07T03:18:31.5308278Z",
+          "Id": "80d5d0f5-7873-4970-9c55-7bdeed11d878",
+          "Key": "7C3010"
+        }
+      }
