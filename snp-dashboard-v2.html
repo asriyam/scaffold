@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMX · SnP Offer Content</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#0672CB; --blue-strong:#0063B8; --link:#0077CD;
+  --band:#D9F5FD; --band-line:#BfeAf7; --footer:#4DA1D9;
+  --text:#23272E; --text-2:#5B6573; --text-3:#8A94A3;
+  --border:#E4E7EC; --border-2:#D3D8DF;
+  --row-hover:#F4F9FE; --head-bg:#F8FAFC; --surface:#FFFFFF;
+  --chip-bg:#E8F3FC; --chip-text:#0A5CA8;
+  --otag-bg:#EAF0F6; --otag-border:#C7D8EA; --otag-text:#10406B;
+  --warn:#A86713; --warn-bg:#FBF1DE;
+  --ok:#1C7A50; --ok-bg:#E6F4EC;
+  --miss-bg:#F4F2EE; --miss-text:#6A7180; --miss-border:#DCD7CE;
+  --radius:6px;
+  --sans:"Roboto","Segoe UI",system-ui,Arial,sans-serif;
+  --mono:"Roboto Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--sans);color:var(--text);font-size:13px;background:#fff;-webkit-font-smoothing:antialiased}
+button{font-family:inherit;cursor:pointer}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.ic{width:15px;height:15px;display:inline-block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px}
+
+/* app bar */
+.appbar{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 22px;border-bottom:1px solid var(--border);background:#fff}
+.brand{display:flex;align-items:center;gap:16px}
+.logo{display:flex;align-items:center;gap:2px;font-weight:700;font-size:22px;letter-spacing:.5px}
+.logo .c1{color:var(--blue)} .logo .c2{color:#16365C}
+.logo-dot{width:22px;height:22px;border-radius:50%;border:3px solid var(--blue);display:inline-block;margin-right:4px;position:relative}
+.logo-dot::after{content:"";position:absolute;inset:3px;border-radius:50%;border:2px solid #16365C;clip-path:inset(0 0 50% 0)}
+.offers-pill{border:1px solid var(--border-2);border-radius:18px;padding:6px 16px;font-weight:500;color:var(--text);font-size:13px;background:#fff}
+.topnav{display:flex;align-items:center;gap:20px;color:var(--text-2);font-size:12.5px}
+.topnav .item{display:flex;align-items:center;gap:6px;cursor:pointer}
+.topnav .item:hover{color:var(--blue)}
+
+/* header band */
+.band{background:var(--band);border-bottom:1px solid var(--band-line);padding:12px 18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.band .title{display:flex;align-items:center;gap:12px;font-size:18px;font-weight:500;color:#10406B;white-space:nowrap}
+.band .title .burger{stroke:#10406B}
+.band .tools{margin-left:auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ctl{height:34px;border:1px solid var(--border-2);background:#fff;border-radius:var(--radius);font-size:12.5px;color:var(--text);display:inline-flex;align-items:center}
+select.ctl{padding:0 28px 0 10px;-webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%235B6573' stroke-width='1.6'><path d='M2 4l4 4 4-4'/></svg>");
+  background-repeat:no-repeat;background-position:right 9px center}
+.searchbox{position:relative;display:inline-flex;align-items:center}
+.searchbox input{height:34px;width:210px;border:1px solid var(--border-2);border-radius:var(--radius);padding:0 34px 0 12px;font-size:12.5px;font-family:inherit;color:var(--text);outline:none}
+.searchbox input:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(6,114,203,.15)}
+.searchbox .go{position:absolute;right:4px;height:26px;width:26px;border:none;background:transparent;display:flex;align-items:center;justify-content:center;color:var(--blue)}
+.btn{height:34px;border-radius:var(--radius);padding:0 14px;font-size:12.5px;font-weight:500;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border-2);background:#fff;color:var(--text)}
+.btn:hover{background:#fbfdff}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.primary:hover{background:var(--blue-strong)}
+.btn.ghost{border-color:var(--border-2);background:#fff;color:var(--text)}
+.badge{background:var(--blue);color:#fff;border-radius:10px;font-size:11px;min-width:18px;height:18px;padding:0 5px;display:inline-flex;align-items:center;justify-content:center;font-weight:500}
+
+/* layout */
+.layout{display:flex;align-items:stretch;min-height:calc(100vh - 52px - 47px - 47px)}
+.sidebar{width:248px;flex:none;border-right:1px solid var(--border);padding:14px 0;background:#fff}
+.sb-top{display:flex;align-items:center;gap:8px;padding:0 16px 12px;font-weight:500;color:var(--text);border-bottom:1px solid var(--border)}
+.sb-top .chev{stroke:var(--text-2)}
+.clear-link{display:block;padding:12px 16px 6px;color:var(--link);font-weight:500;font-size:12.5px;cursor:pointer}
+.fgroup{border-bottom:1px solid var(--border);padding:6px 0}
+.fhead{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;cursor:pointer;user-select:none}
+.fhead .lbl{font-weight:500;font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:8px}
+.fhead .chev{stroke:var(--blue);transition:transform .15s}
+.fgroup.collapsed .chev{transform:rotate(-90deg)}
+.fgroup.collapsed .fbody{display:none}
+.fbody{padding:2px 16px 8px}
+.fsearch{position:relative;margin:4px 0 8px}
+.fsearch input{width:100%;height:32px;border:1px solid var(--border-2);border-radius:var(--radius);padding:0 30px 0 10px;font-size:12.5px;font-family:inherit;outline:none}
+.fsearch input:focus{border-color:var(--blue)}
+.fsearch svg{position:absolute;right:9px;top:8px;color:var(--text-3)}
+.opt{display:flex;align-items:center;gap:9px;padding:5px 2px;font-size:12.5px;color:var(--text-2);cursor:pointer}
+.opt:hover{color:var(--text)}
+.opt input{width:15px;height:15px;accent-color:var(--blue);cursor:pointer}
+.sb-note{padding:10px 16px;color:var(--text-3);font-size:11.5px;line-height:1.5}
+
+/* content */
+.content{flex:1;min-width:0;display:flex;flex-direction:column}
+.toolbar2{padding:14px 18px 6px;display:flex;flex-direction:column;gap:12px}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:560px}
+.card{background:var(--head-bg);border:1px solid var(--border);border-radius:8px;padding:10px 14px}
+.card .k{font-size:11.5px;color:var(--text-2);margin-bottom:4px}
+.card .v{font-size:23px;font-weight:500;line-height:1}
+.card.warn .v{color:var(--warn)}
+.card .v.na{color:var(--text-3);font-weight:400}
+.card .hint{font-size:10.5px;color:var(--text-3);margin-top:3px}
+.subrow{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.toggle{display:inline-flex;align-items:center;gap:9px;font-size:12.5px;color:var(--text-2);cursor:pointer;user-select:none}
+.toggle.disabled{opacity:.4;pointer-events:none}
+.switch{width:34px;height:19px;border-radius:999px;background:#C9D0D9;position:relative;transition:background .15s;flex:none}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:#fff;transition:left .15s}
+.toggle.on .switch{background:var(--blue)}
+.toggle.on .switch::after{left:17px}
+.tagbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-height:26px}
+.tagbar .lab{font-size:11.5px;color:var(--text-3)}
+.otag{display:inline-flex;align-items:center;gap:7px;background:var(--otag-bg);border:1px solid var(--otag-border);color:var(--otag-text);border-radius:var(--radius);padding:4px 9px;font-size:11.5px;font-family:var(--mono)}
+.otag svg{cursor:pointer;stroke:var(--otag-text)}
+.chips{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-height:22px}
+.chips .lab{font-size:11.5px;color:var(--text-3)}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--chip-bg);color:var(--chip-text);border-radius:var(--radius);padding:4px 9px;font-size:11.5px}
+.chip svg{cursor:pointer}
+.grouphint{display:flex;align-items:center;gap:9px;margin:6px 18px 0;padding:9px 12px;background:var(--head-bg);border:1px dashed var(--border-2);border-radius:var(--radius);color:var(--text-3);font-size:12px}
+
+/* table */
+.tablewrap{margin:8px 0 0;overflow-x:auto;flex:1}
+table.grid{border-collapse:collapse;width:100%;min-width:1080px;font-size:12.5px}
+.grid thead th{position:sticky;top:0;background:var(--head-bg);text-align:left;font-weight:500;color:var(--text-2);padding:10px 12px;border-bottom:1px solid var(--border-2);white-space:nowrap}
+.grid th.cbx,.grid td.cbx{width:36px;padding-left:18px}
+.grid tbody td{padding:11px 12px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:middle}
+.grid tbody tr:hover{background:var(--row-hover)}
+.grid input[type=checkbox]{width:15px;height:15px;accent-color:var(--blue)}
+td.ellip{max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.keylink{font-family:var(--mono);color:var(--link);font-weight:500}
+.mono{font-family:var(--mono);font-size:12px}
+.offers-cell{white-space:nowrap}
+.offers-cell .more{margin-left:6px;color:var(--link);cursor:pointer;font-weight:500}
+.muted{color:var(--text-3)}
+.status{display:inline-block;font-size:11px;padding:2px 9px;border-radius:11px;font-weight:500}
+.status.draft{background:var(--warn-bg);color:var(--warn)}
+.status.published{background:var(--ok-bg);color:var(--ok)}
+.status.missing{background:#EDEFF2;color:var(--miss-text)}
+tr.missing td{background:var(--miss-bg);color:var(--miss-text)}
+tr.missing:hover td{background:#F0EDE7}
+tr.missing td.ellip{font-style:italic}
+.mini-create{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--border-2);background:#fff;border-radius:var(--radius);padding:4px 10px;color:var(--link);font-size:11.5px;font-weight:500}
+.empty{padding:48px 18px;text-align:center;color:var(--text-2)}
+.empty b{color:var(--text);font-weight:500}
+
+/* grid footer */
+.gfooter{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--border);flex-wrap:wrap;gap:10px}
+.showmore{border:1px solid var(--border-2);border-radius:var(--radius);background:#fff;color:var(--link);font-weight:500;height:32px;padding:0 14px;display:inline-flex;align-items:center;gap:7px}
+.gfooter .right{display:flex;align-items:center;gap:14px;color:var(--text-2);font-size:12.5px}
+.pager{display:inline-flex;align-items:center;gap:6px}
+.pager button{border:1px solid var(--border-2);background:#fff;border-radius:var(--radius);width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;color:var(--text-2)}
+.pager button:disabled{opacity:.4;cursor:default}
+
+/* dell footer */
+.dell-cap{height:1px;background:#fff;opacity:.6}
+.dell-footer{background:var(--footer);color:#fff;text-align:center;padding:13px;font-size:12.5px;letter-spacing:.2px}
+
+/* popover */
+#pop{position:fixed;z-index:200;background:#fff;border:1px solid var(--border-2);border-radius:8px;box-shadow:0 6px 22px rgba(20,40,70,.16);padding:10px 12px;max-width:280px;display:none}
+#pop h5{margin:0 0 6px;font-size:11.5px;font-weight:500;color:var(--text-2)}
+#pop .o{font-family:var(--mono);font-size:12px;padding:3px 0;color:var(--text);border-top:1px solid var(--border)}
+#pop .o:first-of-type{border-top:none}
+
+/* modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(20,35,55,.45);display:none;align-items:center;justify-content:center;z-index:150;padding:24px}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:10px;width:min(1040px,96vw);max-height:88vh;display:flex;flex-direction:column;box-shadow:0 18px 60px rgba(15,35,65,.35);overflow:hidden}
+.modal-head{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--band)}
+.modal-head .mtitle{font-size:17px;font-weight:500;color:#10406B;white-space:nowrap}
+.modal-head .msearch{margin:0 auto;position:relative}
+.modal-head .msearch input{height:34px;width:340px;border:1px solid var(--border-2);border-radius:var(--radius);padding:0 34px 0 12px;font-size:12.5px;font-family:inherit;outline:none;background:#fff}
+.modal-head .msearch input:focus{border-color:var(--blue);box-shadow:0 0 0 2px rgba(6,114,203,.15)}
+.modal-head .msearch .go{position:absolute;right:8px;top:9px;color:var(--blue)}
+.modal-head .mclose{border:none;background:transparent;color:var(--text-2);width:32px;height:32px;border-radius:6px;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center}
+.modal-head .mclose:hover{background:#ffffff}
+.modal-body{display:flex;min-height:0;flex:1}
+.modal-side{width:230px;flex:none;border-right:1px solid var(--border);overflow:auto;padding:4px 0}
+.modal-main{flex:1;min-width:0;overflow:auto}
+.modal-main table.grid{min-width:720px}
+.modal-foot{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;border-top:1px solid var(--border);gap:12px}
+.modal-foot .mcount{font-size:12.5px;color:var(--text-2)}
+.modal-foot .actions{display:flex;gap:10px}
+</style>
+</head>
+<body>
+<h2 class="sr-only">Content-anchored SnP Offer Content dashboard. Search and browse content records; use Find Offers to pick offers that scope the content list; selected offers appear as removable tags.</h2>
+
+<!-- TOP APP BAR -->
+<div class="appbar">
+  <div class="brand">
+    <div class="logo"><span class="logo-dot"></span><span class="c1">CM</span><span class="c2">X</span></div>
+    <button class="offers-pill">OFFERS</button>
+  </div>
+  <div class="topnav">
+    <span class="item"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>SITG4</span>
+    <span class="item"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20a7 7 0 0114 0"/></svg>My Stuff</span>
+    <span class="item"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 8h10M7 12h6"/></svg>Collaboration</span>
+    <span class="item"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3"/><path d="M5 20a7 7 0 0114 0"/></svg>S_Krishnamachari</span>
+    <span class="item"><svg class="ic" viewBox="0 0 24 24"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M10 21a2 2 0 004 0"/></svg>Notifications</span>
+  </div>
+</div>
+
+<!-- HEADER BAND -->
+<div class="band">
+  <div class="title">
+    <svg class="ic burger" viewBox="0 0 24 24" width="20" height="20"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    SnP Offer Content
+  </div>
+  <div class="tools">
+    <select class="ctl"><option>Contains Any</option><option>Contains All</option><option>Equals</option></select>
+    <select class="ctl" id="searchBy">
+      <option value="auto">Search By: Auto</option>
+      <option value="key">Search By: Content key</option>
+      <option value="shortdesc">Search By: Short Description</option>
+    </select>
+    <span class="searchbox">
+      <input id="search" type="text" placeholder="Search content key">
+      <button class="go" id="searchGo" aria-label="Search"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></button>
+    </span>
+    <select class="ctl"><option>Default View</option></select>
+    <button class="btn" id="filtersBtn"><svg class="ic" viewBox="0 0 24 24"><path d="M3 5h18l-7 8v5l-4 2v-7z"/></svg>Filters <span class="badge" id="filtersCount">0</span></button>
+    <button class="btn primary"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Create</button>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+  <!-- SIDEBAR (content-side only) -->
+  <aside class="sidebar">
+    <div class="sb-top"><svg class="ic chev" viewBox="0 0 24 24" width="16"><path d="M15 6l-6 6 6 6"/></svg>SnP Dashboard</div>
+    <span class="clear-link" id="clearAll">Clear All Filters</span>
+    <div class="fgroup" data-group="profile">
+      <div class="fhead"><span class="lbl">Profile <span class="badge sel" hidden>0</span></span><svg class="ic chev" viewBox="0 0 24 24" width="16"><path d="M6 15l6-6 6 6"/></svg></div>
+      <div class="fbody">
+        <div class="fsearch"><input data-psearch placeholder="Search profile"><svg class="ic" viewBox="0 0 24 24" width="15"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></div>
+        <div data-facet="profile"></div>
+      </div>
+    </div>
+    <div class="sb-note">Offer Type, Config Type and CMX Category are offer attributes — search and pick them with <b>Filters ▸ Find Offers</b> to scope this list.</div>
+  </aside>
+
+  <!-- CONTENT -->
+  <section class="content">
+    <div class="toolbar2">
+      <div class="cards">
+        <div class="card"><div class="k">Content records</div><div class="v" id="cCount">0</div></div>
+        <div class="card"><div class="k">Offers with content</div><div class="v" id="oCount">—</div></div>
+        <div class="card warn"><div class="k">Offers missing content</div><div class="v" id="mCount">—</div></div>
+      </div>
+      <div class="subrow">
+        <span class="toggle disabled" id="missToggle"><span class="switch"></span> Include offers without content <span style="color:var(--text-3)">(select offers first)</span></span>
+      </div>
+      <div class="tagbar" id="offerTags"><span class="lab">No offers selected — showing all content</span></div>
+      <div class="chips" id="chips"><span class="lab">No content filters applied</span></div>
+    </div>
+
+    <div class="grouphint"><svg class="ic" viewBox="0 0 24 24" width="15"><rect x="3" y="4" width="7" height="7"/><rect x="14" y="4" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Drag a column header here to group rows</div>
+
+    <div class="tablewrap">
+      <table class="grid">
+        <thead>
+          <tr>
+            <th class="cbx"><input type="checkbox" id="selAll"></th>
+            <th>Id</th><th>Profile</th><th>Short Description</th><th>Long Description</th>
+            <th>OfferNumber</th><th>CMXCategory</th><th>OfferType</th><th>Config Type</th><th>Publish Status</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+
+    <div class="gfooter">
+      <button class="showmore" id="showMore"><svg class="ic" viewBox="0 0 24 24" width="15"><path d="M6 9l6 6 6-6"/></svg>Show More</button>
+      <div class="right">
+        <span class="pager"><button id="prev">‹</button><span id="pageLbl">Page 1</span><button id="next">›</button></span>
+        <span>Items Per Page:
+          <select class="ctl" id="pageSize" style="height:30px"><option>10</option><option selected>25</option><option>50</option></select>
+        </span>
+        <span id="countLbl">0 of 0 items</span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="dell-cap"></div>
+<div class="dell-footer">© 2025 Dell. All Rights Reserved.</div>
+
+<div id="pop"></div>
+
+<!-- FIND OFFERS MODAL -->
+<div class="modal-overlay" id="findOffers">
+  <div class="modal" role="dialog" aria-label="Find Offers">
+    <div class="modal-head">
+      <span class="mtitle">Find Offers</span>
+      <span class="searchbox msearch">
+        <input id="offerSearch" type="text" placeholder="Search offer number">
+        <span class="go"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></span>
+      </span>
+      <button class="mclose" id="modalClose" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <aside class="modal-side">
+        <div class="fgroup" data-mgroup="offerType">
+          <div class="fhead"><span class="lbl">Offer Type</span><svg class="ic chev" viewBox="0 0 24 24" width="16"><path d="M6 15l6-6 6 6"/></svg></div>
+          <div class="fbody"><div data-mfacet="offerType"></div></div>
+        </div>
+        <div class="fgroup" data-mgroup="scope">
+          <div class="fhead"><span class="lbl">Config Type</span><svg class="ic chev" viewBox="0 0 24 24" width="16"><path d="M6 15l6-6 6 6"/></svg></div>
+          <div class="fbody"><div data-mfacet="scope"></div></div>
+        </div>
+        <div class="fgroup" data-mgroup="category">
+          <div class="fhead"><span class="lbl">CMX Category</span><svg class="ic chev" viewBox="0 0 24 24" width="16"><path d="M6 15l6-6 6 6"/></svg></div>
+          <div class="fbody">
+            <div class="fsearch"><input data-mcsearch placeholder="Search category"><svg class="ic" viewBox="0 0 24 24" width="15"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></div>
+            <div data-mfacet="category"></div>
+          </div>
+        </div>
+      </aside>
+      <div class="modal-main">
+        <table class="grid">
+          <thead>
+            <tr>
+              <th class="cbx"><input type="checkbox" id="mSelAll"></th>
+              <th>Offer Number</th><th>Part</th><th>CMX Category</th><th>Offer Type</th><th>Config Type</th><th>Publish Status</th>
+            </tr>
+          </thead>
+          <tbody id="mrows"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <span class="mcount" id="mFooter">0 offers · 0 selected</span>
+      <span class="pager" style="margin-right:auto;margin-left:16px">
+        <button id="mPrev">‹</button><span id="mPageLbl">Page 1</span><button id="mNext">›</button>
+      </span>
+      <div class="actions">
+        <button class="btn ghost" id="modalCancel">Cancel</button>
+        <button class="btn primary" id="modalOk">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================================
+   DATA-ACCESS MODULE  —  drop-in for your backend
+   • Base page queries ONLY the content index (content-anchored).
+   • Find Offers modal queries ONLY the offer index.
+   • Selected offers (passed in state.selectedOffers) scope the content list by
+     their SKUs. esSearch() is the single transport (mock | live).
+   ========================================================================== */
+const DataAccess = (function () {
+
+  const CONFIG = { mode: 'mock', endpoint: '/api/es' };
+  const OFFER_INDEX   = 'cmxstdoffer_draft_v0';
+  const CONTENT_INDEX = 'cmxstdsnpoffercontent_draft_v0';
+
+  const F = {
+    offer: {
+      offerId:       'DynamicProperties.offerId.keyword',
+      primaryPartId: 'DynamicProperties.CMXContext.PrimaryPartId.keyword',
+      categoryId:    'DynamicProperties.CMXContext.CMXCategoryLookup.Id.keyword',
+      productType:   'DynamicProperties.CMXContext.ProductType.keyword',
+      scope:         'DynamicProperties.CMXContext.scope.keyword'
+    },
+    content: {
+      key:       'Key.keyword',
+      container: 'Container.keyword',
+      shortDesc: 'DynamicProperties.ShortDesc'
+    }
+  };
+
+  async function esSearch(index, body) {
+    if (CONFIG.mode === 'mock') return mockSearch(index, body);
+    const res = await fetch(`${CONFIG.endpoint}/${index}/_search`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+    });
+    if (!res.ok) throw new Error(`ES ${index} → ${res.status}`);
+    return res.json();
+  }
+
+  /* ---- builders --------------------------------------------------------- */
+
+  // Content list (base page). skuSet limits to selected offers' SKUs (or null = all).
+  function buildContentQuery({ filters, search }, skuSet, from, size) {
+    const filter = [], must = [];
+    if (skuSet)                filter.push({ terms: { [F.content.key]:       [...skuSet] } });
+    if (filters.profile.size)  filter.push({ terms: { [F.content.container]: [...filters.profile] } });
+    const q = (search.text || '').trim();
+    if (q) {
+      if (search.by === 'key')            filter.push({ term:  { [F.content.key]:       q } });
+      else if (search.by === 'shortdesc') must.push(  { match: { [F.content.shortDesc]: q } });
+      else /* auto */ must.push({ bool: { should: [
+        { term:  { [F.content.key]:       q } },
+        { match: { [F.content.shortDesc]: q } }
+      ], minimum_should_match: 1 } });
+    }
+    return {
+      track_total_hits: true, from, size,
+      query: { bool: { filter, must } },
+      sort: [ { [F.content.key]: 'asc' }, { _id: 'asc' } ],
+      aggs: { skus_with_content: { terms: { field: F.content.key, size: 10000 } } }
+    };
+  }
+
+  // Offer list (Find Offers modal).
+  function buildOfferSearch({ offerType, scope, category }, query, from, size) {
+    const filter = [], must = [];
+    if (category.size)  filter.push({ terms: { [F.offer.categoryId]:  [...category] } });
+    if (offerType.size) filter.push({ terms: { [F.offer.productType]: [...offerType] } });
+    if (scope.size)     filter.push({ terms: { [F.offer.scope]:       [...scope] } });
+    const q = (query || '').trim();
+    if (q) must.push({ wildcard: { [F.offer.offerId]: { value: `*${q}*` } } });   // real impl: edge-ngram/prefix
+    return {
+      track_total_hits: true, from, size,
+      query: { bool: { filter, must } },
+      _source: { includes: [
+        'DynamicProperties.offerId',
+        'DynamicProperties.CMXContext.PrimaryPartId',
+        'DynamicProperties.CMXContext.CMXCategoryLookup.Name',
+        'DynamicProperties.CMXContext.ProductType',
+        'DynamicProperties.CMXContext.scope',
+        'PublishStatus'
+      ] },
+      sort: [ { [F.offer.offerId]: 'asc' } ]
+    };
+  }
+
+  /* ---- parsers ---------------------------------------------------------- */
+  function deriveStatus(src) { const ps = src.PublishStatus; return (ps && ps !== 'None') ? ps : 'Draft'; }
+  function readAttr(src) {
+    const dp = src.DynamicProperties || {};
+    let cx = dp.CMXContext; if (Array.isArray(cx)) cx = cx[0] || {}; cx = cx || {};
+    let cat = cx.CMXCategoryLookup; if (Array.isArray(cat)) cat = cat[0] || {}; cat = cat || {};
+    let scope = cx.scope; if (Array.isArray(scope)) scope = scope[0];
+    let type = cx.ProductType; if (Array.isArray(type)) type = type[0];
+    let sku = cx.PrimaryPartId; if (Array.isArray(sku)) sku = sku[0];
+    return { catName: cat.Name || '—', type: type || '—', scope: scope || '—', sku };
+  }
+  function parseContent(res) {
+    const hits = (res.hits?.hits || []).map(h => {
+      const s = h._source;
+      return {
+        key: s.Key,
+        profile: Array.isArray(s.Container) ? s.Container[0] : s.Container,
+        short: s.DynamicProperties?.ShortDesc,
+        long: s.DynamicProperties?.LongDesc,
+        status: deriveStatus(s)
+      };
+    });
+    return {
+      hits,
+      total: res.hits?.total?.value ?? 0,
+      skusWithContent: new Set((res.aggregations?.skus_with_content?.buckets || []).map(b => b.key))
+    };
+  }
+  function parseOffers(res) {
+    const rows = (res.hits?.hits || []).map(h => {
+      const s = h._source, at = readAttr(s);
+      return { offerId: s.DynamicProperties?.offerId, sku: at.sku,
+               catName: at.catName, offerType: at.type, scope: at.scope, pub: s.PublishStatus || '—' };
+    });
+    return { rows, total: res.hits?.total?.value ?? 0 };
+  }
+
+  /* ---- public ----------------------------------------------------------- */
+
+  // Base page — content, optionally scoped by selected offers' SKUs.
+  async function fetchView(state) {
+    const { filters, search, selectedOffers = [], includeMissing, page, pageSize } = state;
+    const offset = (page - 1) * pageSize;
+    const skuSet = new Set(selectedOffers.map(o => o.sku));
+    const scoped = skuSet.size > 0;
+
+    const p2 = parseContent(await esSearch(CONTENT_INDEX,
+      buildContentQuery({ filters, search }, scoped ? skuSet : null, offset, pageSize)));
+    const contentTotal = p2.total, skusWithContent = p2.skusWithContent;
+
+    // group selected offers by SKU for per-row Offers cell + attributes
+    const bySku = {};
+    selectedOffers.forEach(o => { (bySku[o.sku] = bySku[o.sku] || { offers: [], attr: o }).offers.push(o.offerId); });
+
+    const contentRows = p2.hits.map(h => {
+      const g = bySku[h.key];
+      return { kind: 'content', ...h,
+        offers: g ? g.offers : [],
+        catName: g ? g.attr.catName : '—',
+        offerType: g ? g.attr.offerType : '—',
+        scope: g ? g.attr.scope : '—' };
+    });
+
+    let offersWithContent = null, offersMissing = null, missingAll = [];
+    if (scoped) {
+      offersWithContent = selectedOffers.filter(o => skusWithContent.has(o.sku)).length;
+      offersMissing = selectedOffers.length - offersWithContent;
+      if (includeMissing) {
+        missingAll = selectedOffers.filter(o => !skusWithContent.has(o.sku)).map(o => ({
+          kind: 'missing', key: o.sku, offerId: o.offerId,
+          catName: o.catName, offerType: o.offerType, scope: o.scope }));
+      }
+    }
+
+    let missingPage = [];
+    const take = pageSize - contentRows.length;
+    if (scoped && includeMissing && take > 0) {
+      const missOffset = Math.max(0, offset - contentTotal);
+      missingPage = missingAll.slice(missOffset, missOffset + take);
+    }
+
+    return {
+      rows: [...contentRows, ...missingPage],
+      scoped,
+      counts: { contentRecords: contentTotal, offersWithContent, offersMissing },
+      totalRows: contentTotal + missingAll.length,
+      offset, page, pageSize
+    };
+  }
+
+  // Find Offers modal — offer list.
+  async function searchOffers({ facets, query, page, pageSize }) {
+    const from = (page - 1) * pageSize;
+    return parseOffers(await esSearch(OFFER_INDEX, buildOfferSearch(facets, query, from, pageSize)));
+  }
+
+  async function facets() {
+    return {
+      offerTypes: [...new Set(OFFERS.map(o => SKUS[o.sku].type))].sort(),
+      scopes:     [...new Set(OFFERS.map(o => SKUS[o.sku].scope))].sort(),
+      profiles:   [...new Set(CONTENT.map(c => c.profile))].sort(),
+      cats:       [...new Map(OFFERS.map(o => [SKUS[o.sku].cat, SKUS[o.sku].catName])).entries()]
+    };
+  }
+
+  /* ======================================================================
+     MOCK BACKEND  —  delete when CONFIG.mode = 'live'
+     ====================================================================== */
+  const SKUS = {
+    "7C3010": { cat:"monitor",  catName:"Monitor",          type:"SnP",          scope:"ConfigurableOffer",
+      short:"Dell Pro 24 Plus QHD Ultra-Thin Monitor - P2424HE",
+      long:"Stay productive with this 24-inch monitor that features a virtually borderless display and Full HD resolution." },
+    "4TY139": { cat:"monitor",  catName:"Monitor",          type:"SnP",          scope:"ConfigurableOffer",
+      short:"Monitor Dell Pro Plus 27 - P2725DE",
+      long:"A productivity monitor with QHD resolution and a comfortable, low-blue-light viewing experience." },
+    "F4MC8T": { cat:"monitor",  catName:"Monitor",          type:"SnP",          scope:"ConfigurableOffer",
+      short:"Écran Dell avec hub USB-C - P2725HE",
+      long:"Augmentez votre productivité avec cet écran doté d’un concentrateur USB-C et d’une dalle QHD." },
+    "8RD220": { cat:"dock",     catName:"Docking Station",  type:"Solution",     scope:"StandaloneOffer",
+      short:"Dell Pro Thunderbolt Dock - TB4",
+      long:"Connect displays, peripherals and power through a single Thunderbolt 4 connection." },
+    "5KB910": { cat:"keyboard", catName:"Keyboard & Mouse", type:"Service",      scope:"StandaloneOffer",
+      short:"Dell Premier Collaboration Keyboard - KB900",
+      long:"A wireless collaboration keyboard with dedicated meeting controls and long battery life." },
+    "3WS400": { cat:"warranty", catName:"Support Services", type:"Subscription", scope:"StandaloneOffer",
+      short:"ProSupport Plus 4-Year Coverage",
+      long:"Premium support with onsite service and proactive monitoring for four years." },
+    "9XK221": { cat:"monitor",  catName:"Monitor",          type:"SnP",          scope:"StandaloneOffer",
+      short:"Dell 27 USB-C Monitor - P2723QE",
+      long:"A 27-inch 4K USB-C monitor — offer published, content not yet authored." }
+  };
+  const OFFERS = [];
+  const addO = (sku, ids) => ids.forEach(id => OFFERS.push({ offerId: id, sku }));
+  addO("7C3010", ["842306801","Test1_monitor1","Test2_monitor2"]);
+  addO("4TY139", ["681152795"]);
+  addO("F4MC8T", ["459783064","459768225","445839943","427562975","419941676","411067147","406335795","400584317","374916708","290535118","U4025QW_Monitor"]);
+  addO("8RD220", ["770114322","770114980"]);
+  addO("5KB910", ["662900145"]);
+  addO("3WS400", ["551207788","551207789","551207790"]);
+  addO("9XK221", ["905550010","905550011"]);
+  OFFERS.forEach(o => { o.pub = ["Test1_monitor1","Test2_monitor2","U4025QW_Monitor"].includes(o.offerId) ? "Draft" : "Published"; });
+
+  const CONTENT = [];
+  const addC = (sku, profiles, o) => profiles.forEach(p => CONTENT.push(Object.assign({ key: sku, profile: p, status: "Draft" }, o || {})));
+  addC("7C3010", ["en/us","en/ie","en/ca","en/gb","de/de"]);
+  addC("4TY139", ["cs/cz","pt/pt","pl/pl"], { short:"Monitor Dell Pro Plus 27 - P2725DE", long:"Monitor s rozlišením QHD a pohodlným sledováním s nízkým podílem modrého světla." });
+  addC("F4MC8T", ["fr/fr","fr/ca","fr/be"], { status:"Published" });
+  addC("8RD220", ["en/us","en/ca"], { status:"Published" });
+  addC("5KB910", ["en/us"]);
+  addC("3WS400", ["en/us","en/gb","fr/fr","de/de"], { status:"Published" });
+  CONTENT.forEach(c => { const s = SKUS[c.key]; if (!c.short) c.short = s.short; if (!c.long) c.long = s.long; });
+
+  const OFFER_FMAP = {
+    [F.offer.offerId]:       o => o.offerId,
+    [F.offer.primaryPartId]: o => o.sku,
+    [F.offer.categoryId]:    o => SKUS[o.sku].cat,
+    [F.offer.productType]:   o => SKUS[o.sku].type,
+    [F.offer.scope]:         o => SKUS[o.sku].scope
+  };
+  const CONTENT_FMAP = {
+    [F.content.key]:       c => c.key,
+    [F.content.container]: c => c.profile,
+    [F.content.shortDesc]: c => c.short
+  };
+  function fval(clauseObj) { const f = Object.keys(clauseObj)[0]; const v = clauseObj[f]; return [f, (v && v.value !== undefined) ? v.value : v]; }
+  function matchesQuery(doc, q, fmap) {
+    if (!q) return true;
+    if (q.bool) {
+      const b = q.bool;
+      if (b.filter && !b.filter.every(c => matchesQuery(doc, c, fmap))) return false;
+      if (b.must   && !b.must.every(c => matchesQuery(doc, c, fmap))) return false;
+      if (b.must_not && b.must_not.some(c => matchesQuery(doc, c, fmap))) return false;
+      if (b.should && b.should.length) {
+        const min = b.minimum_should_match ?? 1;
+        if (b.should.filter(c => matchesQuery(doc, c, fmap)).length < min) return false;
+      }
+      return true;
+    }
+    if (q.term)     { const [f, v] = fval(q.term);     return fmap[f] ? String(fmap[f](doc)) === String(v) : true; }
+    if (q.terms)    { const f = Object.keys(q.terms)[0]; return fmap[f] ? q.terms[f].map(String).includes(String(fmap[f](doc))) : true; }
+    if (q.match)    { const [f, v] = fval(q.match);     return String(fmap[f] ? fmap[f](doc) : '').toLowerCase().includes(String(v).toLowerCase()); }
+    if (q.prefix)   { const [f, v] = fval(q.prefix);    return String(fmap[f] ? fmap[f](doc) : '').toLowerCase().startsWith(String(v).toLowerCase()); }
+    if (q.wildcard) { const [f, v] = fval(q.wildcard);  return String(fmap[f] ? fmap[f](doc) : '').toLowerCase().includes(String(v).replace(/\*/g, '').toLowerCase()); }
+    return true;
+  }
+  function mockSearch(index, body) {
+    if (index === OFFER_INDEX)   return mockOffer(body);
+    if (index === CONTENT_INDEX) return mockContent(body);
+    return { hits: { total: { value: 0 }, hits: [] } };
+  }
+  function mockContent(body) {
+    let docs = CONTENT.filter(c => matchesQuery(c, body.query, CONTENT_FMAP))
+      .map(c => ({ c, _id: `${c.key}|${c.profile}` }))
+      .sort((x, y) => x.c.key < y.c.key ? -1 : x.c.key > y.c.key ? 1 : (x._id < y._id ? -1 : 1));
+    const total = docs.length, from = body.from || 0, size = body.size ?? 25;
+    const hits = docs.slice(from, from + size).map(({ c, _id }) => ({
+      _id, _source: { Key: c.key, Container: [c.profile], PublishStatus: c.status,
+                      DynamicProperties: { ShortDesc: c.short, LongDesc: c.long } }
+    }));
+    const aggs = {};
+    if (body.aggs?.skus_with_content) {
+      const m = {}; docs.forEach(({ c }) => m[c.key] = (m[c.key] || 0) + 1);
+      aggs.skus_with_content = { buckets: Object.entries(m).map(([k, n]) => ({ key: k, doc_count: n })) };
+    }
+    return { hits: { total: { value: total, relation: 'eq' }, hits }, aggregations: aggs };
+  }
+  function mockOffer(body) {
+    let docs = OFFERS.filter(o => matchesQuery(o, body.query, OFFER_FMAP))
+      .sort((a, b) => a.offerId < b.offerId ? -1 : a.offerId > b.offerId ? 1 : 0);
+    const total = docs.length, from = body.from || 0, size = body.size ?? 0;
+    const hits = size > 0 ? docs.slice(from, from + size).map(o => {
+      const s = SKUS[o.sku];
+      return { _id: o.offerId, _source: { PublishStatus: o.pub,
+        DynamicProperties: { offerId: o.offerId, CMXContext: [ {
+          PrimaryPartId: [o.sku], CMXCategoryLookup: [ { Name: s.catName } ],
+          ProductType: s.type, scope: s.scope } ] } } };
+    }) : [];
+    return { hits: { total: { value: total }, hits } };
+  }
+  /* ==================== end MOCK BACKEND ==================== */
+
+  return { fetchView, searchOffers, facets, config: CONFIG };
+})();
+
+
+/* ============================================================================
+   UI LAYER
+   ========================================================================== */
+const SCOPE_LABEL = { ConfigurableOffer: "Configurable Offer", StandaloneOffer: "Standalone Offer" };
+
+const state = {
+  filters: { profile: new Set() },
+  search: { text: "", by: "auto" },
+  selectedOffers: [],          // [{offerId, sku, catName, offerType, scope}]
+  includeMissing: false,
+  page: 1, pageSize: 25
+};
+const modal = { open: false, temp: new Map(), facets: { offerType: new Set(), scope: new Set(), category: new Set() }, query: "", page: 1, pageSize: 10 };
+let FACETS = null;
+
+const $  = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+const esc = t => (t == null ? "" : "" + t).replace(/[&<>"]/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[m]));
+
+async function buildFacets() {
+  FACETS = await DataAccess.facets();
+  const mk = (val, label) => `<label class="opt"><input type="checkbox" value="${esc(val)}"> ${esc(label)}</label>`;
+  $('[data-facet=profile]').innerHTML   = FACETS.profiles.map(v => mk(v, v)).join("");
+  $('[data-mfacet=offerType]').innerHTML = FACETS.offerTypes.map(v => mk(v, v)).join("");
+  $('[data-mfacet=scope]').innerHTML     = FACETS.scopes.map(v => mk(v, SCOPE_LABEL[v] || v)).join("");
+  $('[data-mfacet=category]').innerHTML  = FACETS.cats.map(([id, name]) => mk(id, name)).join("");
+}
+
+/* ---------- base page render ---------- */
+function offersCell(offers) {
+  if (!offers || !offers.length) return '<span class="muted">—</span>';
+  const first = `<span class="mono">${esc(offers[0])}</span>`;
+  if (offers.length === 1) return first;
+  return `${first}<span class="more" data-offers='${esc(JSON.stringify(offers))}'>+${offers.length - 1}</span>`;
+}
+function rowHtml(r) {
+  if (r.kind === 'missing') {
+    return `<tr class="missing">
+      <td class="cbx"><input type="checkbox"></td>
+      <td><span class="keylink" style="color:var(--miss-text)">${esc(r.key)}</span></td>
+      <td>—</td>
+      <td class="ellip" colspan="2">No content authored yet for this offer</td>
+      <td class="mono">${esc(r.offerId)}</td>
+      <td>${esc(r.catName)}</td><td>${esc(r.offerType)}</td><td>${esc(SCOPE_LABEL[r.scope] || r.scope)}</td>
+      <td><button class="mini-create"><svg class="ic" viewBox="0 0 24 24" width="13"><path d="M12 5v14M5 12h14"/></svg>Create</button></td>
+    </tr>`;
+  }
+  return `<tr>
+    <td class="cbx"><input type="checkbox"></td>
+    <td><a class="keylink" href="#">${esc(r.key)}</a></td>
+    <td>${esc(r.profile)}</td>
+    <td class="ellip" title="${esc(r.short)}">${esc(r.short)}</td>
+    <td class="ellip" title="${esc(r.long)}">${esc(r.long)}</td>
+    <td class="offers-cell">${offersCell(r.offers)}</td>
+    <td>${r.catName === '—' ? '<span class="muted">—</span>' : `<a href="#">${esc(r.catName)}</a>`}</td>
+    <td>${r.offerType === '—' ? '<span class="muted">—</span>' : esc(r.offerType)}</td>
+    <td>${r.scope === '—' ? '<span class="muted">—</span>' : esc(SCOPE_LABEL[r.scope] || r.scope)}</td>
+    <td><span class="status ${String(r.status).toLowerCase()}">${esc(r.status)}</span></td>
+  </tr>`;
+}
+function emptyRow(v) {
+  const scopedNote = v.scoped
+    ? (v.counts.offersMissing > 0 ? `The selected offers have no content for these filters — enable “Include offers without content” to author it.` : `Try clearing a content filter.`)
+    : `No content matches. Adjust the search or Profile filter.`;
+  return `<tr><td colspan="10"><div class="empty"><b>No content records match.</b><br>${scopedNote}</div></td></tr>`;
+}
+
+let renderToken = 0;
+async function render() {
+  const myToken = ++renderToken;
+  const v = await DataAccess.fetchView(state);
+  if (myToken !== renderToken) return;
+
+  $('#cCount').textContent = v.counts.contentRecords;
+  const oc = $('#oCount'), mc = $('#mCount');
+  if (v.scoped) {
+    oc.textContent = v.counts.offersWithContent; oc.classList.remove('na');
+    mc.textContent = v.counts.offersMissing;     mc.classList.remove('na');
+  } else {
+    oc.textContent = '—'; oc.classList.add('na');
+    mc.textContent = '—'; mc.classList.add('na');
+  }
+
+  $('#rows').innerHTML = v.rows.length ? v.rows.map(rowHtml).join("") : emptyRow(v);
+
+  const pages = Math.max(1, Math.ceil(v.totalRows / v.pageSize));
+  const start = v.totalRows ? v.offset + 1 : 0, end = v.offset + v.rows.length;
+  $('#countLbl').innerHTML = v.scoped
+    ? `${start}–${end} of ${v.totalRows} rows · ${v.counts.offersWithContent} offers with content · ${v.counts.offersMissing} missing`
+    : `${start}–${end} of ${v.totalRows} content records`;
+  $('#pageLbl').textContent = `Page ${v.page} / ${pages}`;
+  $('#prev').disabled = v.page <= 1; $('#next').disabled = v.page >= pages;
+
+  // missing toggle enabled only when scoped
+  const tog = $('#missToggle');
+  tog.classList.toggle('disabled', !v.scoped);
+  tog.classList.toggle('on', state.includeMissing && v.scoped);
+
+  renderTags(); renderChips(); renderSelBadges(); wireMore();
+}
+
+/* ---------- offer tags + content chips ---------- */
+function renderTags() {
+  $('#filtersCount').textContent = state.selectedOffers.length;
+  const box = $('#offerTags');
+  if (!state.selectedOffers.length) { box.innerHTML = '<span class="lab">No offers selected — showing all content</span>'; return; }
+  box.innerHTML = `<span class="lab">Offers (${state.selectedOffers.length}):</span>` +
+    state.selectedOffers.map(o => `<span class="otag" data-offer="${esc(o.offerId)}">${esc(o.offerId)}
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></span>`).join("");
+}
+function renderChips() {
+  const out = [];
+  if (state.search.text)
+    out.push(`<span class="chip" data-f="search">Search: “${esc(state.search.text)}” <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></span>`);
+  state.filters.profile.forEach(v => out.push(`<span class="chip" data-f="profile" data-v="${esc(v)}">Profile: ${esc(v)} <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></span>`));
+  $('#chips').innerHTML = out.length ? out.join("") : '<span class="lab">No content filters applied</span>';
+}
+function renderSelBadges() {
+  const b = $('.fgroup[data-group=profile] .badge.sel'), n = state.filters.profile.size;
+  b.textContent = n; b.hidden = n === 0;
+}
+
+/* ---------- offers popover ---------- */
+const pop = () => $('#pop');
+function wireMore() {
+  $$('.offers-cell .more').forEach(el => {
+    el.onclick = e => {
+      e.stopPropagation();
+      const offers = JSON.parse(el.dataset.offers);
+      const p = pop();
+      p.innerHTML = `<h5>${offers.length} selected offers on this SKU</h5>` + offers.map(o => `<div class="o">${esc(o)}</div>`).join("");
+      p.style.display = "block";
+      const r = el.getBoundingClientRect();
+      p.style.left = Math.min(r.left, window.innerWidth - 300) + "px";
+      p.style.top = (r.bottom + 6) + "px";
+    };
+  });
+}
+document.addEventListener('click', e => {
+  if (!pop().contains(e.target) && !e.target.classList.contains('more')) pop().style.display = "none";
+});
+
+/* ---------- FIND OFFERS modal ---------- */
+async function renderModalGrid() {
+  const { rows, total } = await DataAccess.searchOffers({ facets: modal.facets, query: modal.query, page: modal.page, pageSize: modal.pageSize });
+  const tb = $('#mrows');
+  tb.innerHTML = rows.length ? rows.map(o => `<tr>
+      <td class="cbx"><input type="checkbox" class="mrow" data-id="${esc(o.offerId)}" ${modal.temp.has(o.offerId) ? 'checked' : ''}></td>
+      <td class="mono">${esc(o.offerId)}</td>
+      <td class="mono">${esc(o.sku)}</td>
+      <td>${esc(o.catName)}</td>
+      <td>${esc(o.offerType)}</td>
+      <td>${esc(SCOPE_LABEL[o.scope] || o.scope)}</td>
+      <td><span class="status ${String(o.pub).toLowerCase()}">${esc(o.pub)}</span></td>
+    </tr>`).join("") : `<tr><td colspan="7"><div class="empty">No offers match. Adjust search or filters.</div></td></tr>`;
+
+  // stash for select-all + OK
+  modal._pageRows = rows;
+  const pages = Math.max(1, Math.ceil(total / modal.pageSize));
+  $('#mFooter').textContent = `${total} offer${total === 1 ? '' : 's'} · ${modal.temp.size} selected`;
+  $('#mPageLbl').textContent = `Page ${modal.page} / ${pages}`;
+  $('#mPrev').disabled = modal.page <= 1; $('#mNext').disabled = modal.page >= pages;
+  const allChecked = rows.length && rows.every(o => modal.temp.has(o.offerId));
+  $('#mSelAll').checked = !!allChecked;
+
+  $$('#mrows .mrow').forEach(cb => cb.onchange = () => {
+    const o = modal._pageRows.find(x => x.offerId === cb.dataset.id);
+    if (cb.checked) modal.temp.set(o.offerId, o); else modal.temp.delete(o.offerId);
+    $('#mFooter').textContent = `${total} offer${total === 1 ? '' : 's'} · ${modal.temp.size} selected`;
+    const all = modal._pageRows.length && modal._pageRows.every(x => modal.temp.has(x.offerId));
+    $('#mSelAll').checked = !!all;
+  });
+}
+function openModal() {
+  modal.open = true; modal.page = 1;
+  modal.temp = new Map(state.selectedOffers.map(o => [o.offerId, o]));
+  $('#findOffers').classList.add('open');
+  renderModalGrid();
+}
+function closeModal() { modal.open = false; $('#findOffers').classList.remove('open'); }
+
+/* ---------- wiring: base ---------- */
+$('[data-facet=profile]').addEventListener('change', e => {
+  if (e.target.type !== 'checkbox') return;
+  const set = state.filters.profile;
+  e.target.checked ? set.add(e.target.value) : set.delete(e.target.value);
+  state.page = 1; render();
+});
+$$('.sidebar .fhead').forEach(h => h.addEventListener('click', e => { if (e.target.closest('input')) return; h.parentElement.classList.toggle('collapsed'); }));
+$('[data-psearch]').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  $$('[data-facet=profile] .opt').forEach(o => o.style.display = o.textContent.toLowerCase().includes(q) ? '' : 'none');
+});
+function runSearch() { state.search.text = $('#search').value; state.search.by = $('#searchBy').value; state.page = 1; render(); }
+$('#searchGo').addEventListener('click', runSearch);
+$('#search').addEventListener('keydown', e => { if (e.key === 'Enter') runSearch(); });
+$('#searchBy').addEventListener('change', () => { if (state.search.text) runSearch(); });
+$('#missToggle').addEventListener('click', () => {
+  if (!state.selectedOffers.length) return;              // disabled when unscoped
+  state.includeMissing = !state.includeMissing; state.page = 1; render();
+});
+$('#offerTags').addEventListener('click', e => {
+  const tag = e.target.closest('.otag'); if (!tag) return;
+  const id = tag.dataset.offer;
+  state.selectedOffers = state.selectedOffers.filter(o => o.offerId !== id);
+  if (!state.selectedOffers.length) state.includeMissing = false;
+  state.page = 1; render();
+});
+$('#chips').addEventListener('click', e => {
+  const c = e.target.closest('.chip'); if (!c) return;
+  if (c.dataset.f === 'search') { state.search.text = ''; $('#search').value = ''; }
+  else if (c.dataset.f === 'profile') { state.filters.profile.delete(c.dataset.v);
+    const cb = $(`[data-facet=profile] input[value="${c.dataset.v}"]`); if (cb) cb.checked = false; }
+  state.page = 1; render();
+});
+$('#clearAll').addEventListener('click', () => {
+  state.filters.profile.clear(); state.search.text = ''; $('#search').value = '';
+  state.selectedOffers = []; state.includeMissing = false;
+  $$('[data-facet=profile] input[type=checkbox]').forEach(c => c.checked = false);
+  state.page = 1; render();
+});
+$('#prev').addEventListener('click', () => { if (state.page > 1) { state.page--; render(); } });
+$('#next').addEventListener('click', () => { state.page++; render(); });
+$('#showMore').addEventListener('click', () => { state.page++; render(); });
+$('#pageSize').addEventListener('change', e => { state.pageSize = +e.target.value; state.page = 1; render(); });
+
+/* ---------- wiring: modal ---------- */
+$('#filtersBtn').addEventListener('click', openModal);
+$('#modalClose').addEventListener('click', closeModal);
+$('#modalCancel').addEventListener('click', closeModal);
+$('#findOffers').addEventListener('click', e => { if (e.target.id === 'findOffers') closeModal(); });
+$('#modalOk').addEventListener('click', () => {
+  state.selectedOffers = [...modal.temp.values()];
+  if (!state.selectedOffers.length) state.includeMissing = false;
+  state.page = 1; closeModal(); render();
+});
+['offerType', 'scope', 'category'].forEach(facet => {
+  $(`[data-mfacet=${facet}]`).addEventListener('change', e => {
+    if (e.target.type !== 'checkbox') return;
+    const set = modal.facets[facet];
+    e.target.checked ? set.add(e.target.value) : set.delete(e.target.value);
+    modal.page = 1; renderModalGrid();
+  });
+});
+$$('.modal-side .fhead').forEach(h => h.addEventListener('click', e => { if (e.target.closest('input')) return; h.parentElement.classList.toggle('collapsed'); }));
+$('[data-mcsearch]').addEventListener('input', e => {
+  const q = e.target.value.toLowerCase();
+  $$('[data-mfacet=category] .opt').forEach(o => o.style.display = o.textContent.toLowerCase().includes(q) ? '' : 'none');
+});
+let offerSearchTimer;
+$('#offerSearch').addEventListener('input', e => {
+  clearTimeout(offerSearchTimer);
+  offerSearchTimer = setTimeout(() => { modal.query = e.target.value; modal.page = 1; renderModalGrid(); }, 180);
+});
+$('#mPrev').addEventListener('click', () => { if (modal.page > 1) { modal.page--; renderModalGrid(); } });
+$('#mNext').addEventListener('click', () => { modal.page++; renderModalGrid(); });
+$('#mSelAll').addEventListener('change', e => {
+  (modal._pageRows || []).forEach(o => { if (e.target.checked) modal.temp.set(o.offerId, o); else modal.temp.delete(o.offerId); });
+  renderModalGrid();
+});
+
+/* init */
+(async function init() { await buildFacets(); render(); })();
+</script>
+</body>
+</html>
