@@ -1,0 +1,30 @@
+Architecture and integration
+
+Where does CMX sit in the request path — is it authoring-time only, or in the production rendering path? What's the blast radius if it's down?
+How does CMX get transactional data into preview — direct calls to production commerce APIs, a read replica, or mocked/sandboxed state? Are you previewing against live production data, and what are the load and data-governance implications of that?
+What's the data contract between ContentStack and CMX? Webhooks, Delivery API polling, or a sync layer? How do you handle schema changes in ContentStack content models?
+How does caching/CDN interact with personalized preview? If preview must bypass cache, how do you guarantee production (cached) and preview (uncached) actually render identically — which is the whole claim?
+
+The "shared components, no drift" claim
+
+What mechanically enforces that authoring and production use the same component version — a shared package, a monorepo, contract tests? Or is it convention?
+How do you version the component library, and what happens when a component change is deployed but the corresponding content model change isn't (or vice versa)?
+Doesn't CMX itself become a second system that can drift from ContentStack's content model? You've removed CMS↔frontend drift but introduced CMS↔CMX coupling — who maintains that seam?
+
+Build scope and cost
+
+What's the actual engineering estimate — initial build and ongoing run cost in FTEs? "Standard React, any engineer can maintain it" describes skills, not capacity.
+What's the MVP scope vs. the full vision? Visual authoring canvases (drag-drop, inline editing, undo, multi-user) are notoriously deep — how much of ContentStack's editor UX are you rebuilding?
+Who owns CMX after the initial team moves on? Is there a product owner, or is it a project that becomes orphaned infrastructure?
+
+Operational and non-functional
+
+AuthN/AuthZ model for CMX — does it inherit ContentStack roles/workflows, or does it need its own? How do approval workflows span both systems?
+Audit trail, versioning, and rollback for anything authored in CMX rather than ContentStack.
+SLA, monitoring, disaster recovery — and does CMX handle any regulated or PII data (personalization context) that changes its compliance profile?
+
+Strategic
+
+What happens when ContentStack ships this capability natively in 12–18 months? (They're investing heavily here — Timeline and Audience Preview already cover future content states and per-segment previews.) What's the trigger for retiring CMX? Contentstack
+Was a build-vs-buy comparison actually run against enabling Live Preview/Visual Builder, and against other vendors? Architects will want to see the rejected alternatives, not just the conclusion.
+Exit strategy in the other direction: if we replace ContentStack, how coupled is CMX to it?
