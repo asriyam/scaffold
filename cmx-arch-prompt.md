@@ -1,597 +1,550 @@
+# CMX Visual Authoring and Customer Experience Architecture Diagram
 
-CMX Visual Authoring & Runtime Architecture Diagram
+Create a single, polished enterprise architecture and workflow diagram that illustrates the complete **CMX Visual Authoring and Customer Experience platform**. The diagram must combine personas, authoring workflows, shared platform capabilities, configuration and data layers, domain APIs, runtime execution, orchestration, and enterprise integrations into one cohesive view.
 
-Create a single, polished enterprise architecture and workflow diagram that illustrates the complete CMX Visual Authoring platform. The diagram should combine system architecture with user workflows, data flow, runtime execution, repositories, and external integrations into one cohesive view.
+The output must resemble a professional architecture diagram suitable for an executive design review or engineering architecture document, comparable in quality to Dell Technologies, Microsoft Azure Architecture Center, or AWS reference architecture diagrams.
 
-The output should resemble a professional architecture diagram suitable for an executive design review or engineering architecture document, similar in quality to Dell Technologies, Microsoft Azure Architecture Center, or AWS reference architecture diagrams.
+## Primary Story the Diagram Must Communicate
 
----
+The diagram must clearly show the following end-to-end story:
 
-# Overall Layout
+1. Four personas create orchestration definitions, layouts, React components, and authored content.
+2. Layout, component, orchestration, and visual-authoring activities form an understandable assembly flow.
+3. Authoring and the customer-facing application use the same shared React components and rendering logic.
+4. Layout and orchestration definitions are configuration-driven and stored as JSON.
+5. Published content and enterprise information feed an **Aggregated and Contextualized Data** capability.
+6. The **Production Orchestration Engine** calls a **Domain API / Core Business API Layer**, not repositories directly.
+7. The customer-facing Next.js application invokes orchestration and renders the final experience using SSR.
+8. The architecture provides pixel-perfect consistency between authoring preview and the customer-facing experience.
 
-Organize the diagram into horizontal bands from top to bottom.
+## Overall Layout
 
-1. Users
-2. Authoring Environment
-3. Shared Platform
-4. Production Environment
-5. External Enterprise Systems
-6. Legend and Architecture Principles
+Organize the diagram into clear horizontal layers from top to bottom. Do not use large left-side vertical bands if they consume valuable space.
 
-The overall flow should read from top-to-bottom and left-to-right.
+Recommended layers:
 
-Leave generous whitespace and avoid clutter.
+1. **Personas**
+2. **Authoring and Build Flow**
+3. **Shared Platform Capabilities**
+4. **Definitions and Data Sources**
+5. **Domain API / Core Business API Layer**
+6. **Customer Experience Runtime and Production Orchestration**
+7. **Legend and Architecture Principles**, only if space permits
 
----
+The overall flow should read primarily from top to bottom, with left-to-right sequencing inside each layer. Use generous whitespace, prevent clutter, and avoid overlapping connectors.
 
-# Users
+## Personas
 
-Across the top, show three user personas.
+Across the top, show four personas with a clear connection to the capability each persona uses.
 
-**Layout Designer**
+### Layout Designer
 
-* Designs pages and layouts
+- Designs pages and layouts
+- Configures component placement and bindings
+- Uses Layout Builder
 
-↓
+### React Component Developer
 
-**Content Author**
+- Develops reusable React components
+- Implements component behavior and rendering-mode support
+- Publishes versioned components to the Shared React Component Library
 
-* Creates and publishes content
+### Orchestration Editor
 
-↓
+- Builds orchestration definitions and service workflows
+- Configures mappings and execution behavior
+- Uses Orchestration Builder
 
-**Orchestration Editor**
+### Content Author
 
-* Builds orchestrations and APIs
+- Creates, edits, previews, and publishes content
+- Uses Visual Authoring
 
-Each user should connect to the application they use.
+## Authoring and Build Flow
 
----
+Arrange the top application panels as an understandable page-building assembly flow. The visual sequence should communicate that orchestration, reusable components, and layouts are prepared before or alongside content authoring.
 
-# Authoring Environment
+Use this preferred sequence:
 
-Create three large application panels.
+**Orchestration Builder → Layout Builder + Component Development → Visual Authoring**
 
-## 1. Layout Builder (Blue)
+Layout Builder and Component Development may be shown as adjacent parallel capabilities because layouts consume reusable components. Visual Authoring should appear after the necessary definitions and components are available.
+
+Do not make Visual Authoring or the Shared React Component Library appear to be the only central capability. Shared components and orchestration must have equal architectural importance.
+
+## Authoring Applications
+
+### 1. Orchestration Builder — Purple
 
 Include the following workflow:
 
-1. Create / Edit Layout
-2. Drag Components
-3. Configure Rows / Columns / Placeholders
-4. Register Data Sources (Orchestration APIs)
-5. Configure Component Bindings
-6. Configure Styling
-7. Save Layout JSON
+- Create Orchestration
+- Build Orchestration Flow
+- Configure Request Mappings
+- Configure Response Mappings
+- Configure Sequential / Parallel Execution
+- Test Orchestration
+- Save Orchestration JSON
 
-Connect Layout Builder to
+Do not use the term **API Tree**. Use **Orchestration Flow**, **Execution Graph**, or **Service Invocation Flow** consistently.
 
-**Layout Repository**
+Show the saved orchestration definition flowing to the consolidated definitions layer and being deployed or made available to the Production Orchestration Engine.
 
-using a "Save Layout JSON" arrow.
+### 2. Layout Builder — Blue
 
----
+Include the following workflow:
 
-## 2. Visual Authoring (Blue)
+- Create / Edit Layout
+- Drag Components
+- Configure Rows / Columns / Placeholders
+- Register Data Sources and Orchestration APIs
+- Configure Component Bindings
+- Configure Styling
+- Save Layout JSON
 
-This is the largest application in the diagram.
+Show the saved layout definition flowing to the consolidated definitions layer.
 
-Show this sequence.
+### 3. Component Development — Teal
 
-1. Select Category
-2. Open Visual Preview
-3. Resolve Layout JSON
-4. Load Shared React Components
-5. Resolve Registered Data Sources
-6. Invoke Orchestration APIs
-7. Invoke Direct Production APIs (configured in layout)
-8. Evaluate Component Data Bindings
-9. Render Page via SSR
-10. Send HTML to Browser
-11. Wrap Components with Editing Toolbar
-12. Edit Content
-13. Save Content
-14. Refresh Components
-15. Publish Content
+Show this as the capability used by the React Component Developer.
 
-Display a small "Live Preview" browser window inside the panel.
+Include:
 
-Connect to
+- Create / Update React Component
+- Implement Component Behavior
+- Support Authoring, Preview, and Runtime Modes
+- Add Documentation and Metadata
+- Version and Publish Component
 
-Content Repository
+Connect Component Development to the Shared React Component Library.
 
-using "Save Content".
+### 4. Visual Authoring — Blue
 
-Connect Publish to Runtime using a green publishing arrow.
+Include the following workflow:
 
----
+- Select Category
+- Open Visual Preview
+- Resolve Layout JSON
+- Load Shared React Components
+- Resolve Registered Data Sources
+- Invoke Orchestration APIs
+- Evaluate Component Data Bindings
+- Render Page via SSR
+- Send HTML to Browser
+- Wrap Components with Editing Toolbar
+- Edit Content
+- Save Content
+- Refresh Affected Components
+- Publish Content
 
-## 3. Orchestration Builder (Purple)
+Display a small **Live Preview — Authoring Mode** browser window inside the panel.
 
-Include
+Show authored and published content flowing into **Aggregated and Contextualized Data**. Do not show a separate, dominant runtime CMS repository.
 
-1. Create Orchestration
-2. Build API Tree
-3. Configure Request Mappings
-4. Configure Response Mappings
-5. Configure Sequential / Parallel Execution
-6. Test Orchestration
-7. Save Orchestration
+## Shared Platform Capabilities
 
-Connect to
+Place two peer capabilities at the same architectural level, with comparable visual size and prominence.
 
-Orchestration Repository
+### Shared React Component Library — Teal
 
-using "Save Orchestration JSON".
+Keep this box compact. Include only the essential concepts:
 
-Show deployment to
+- Reusable, documented, versioned React components
+- Used by both Visual Authoring and the Customer Experience App
+- Shared rendering logic and SSR support
+- Supports Authoring, Preview, and Runtime modes
 
-Production Orchestration Engine.
+Show the three rendering modes only once. Do not repeat the same mode explanation in both bullets and a second diagram.
 
----
+Include a concise caption:
 
-# Data Repositories
+**Same Components. Same Structure. Mode-Specific Behavior.**
 
-Represent repositories as cylinder database icons.
+Do not create a separate **Component Catalog** box. Component catalog, documentation, versioning, and reusable-component responsibilities are part of the Shared React Component Library.
 
-Include
+### Orchestration Capability — Purple
 
-## Layout Repository
+Represent orchestration as a peer to the Shared React Component Library.
 
-Stores
+Include:
 
-* Layout JSON
-* Layout Definitions
-* Registered Data Sources
-* Component Bindings
-* Styles
+- Reusable orchestration definitions
+- Request and response mappings
+- Sequential and parallel execution definitions
+- Versioned configuration
+- Deployment to the Production Orchestration Engine
 
-Used by
+The component and orchestration boxes should be visually balanced and equally important.
 
-* Layout Builder
-* Visual Authoring
-* Runtime
+## Definitions and Data Sources
 
----
+Do not show three large standalone database cylinders beneath the authoring tools. Avoid making the architecture look centered around three large databases.
 
-## Content Repository / CMS
+Create a compact horizontal layer containing the following two logical areas.
 
-Stores
+### Layout and Orchestration Definitions
 
-* Content
-* Assets
-* Localization
-* Version History
+Represent layout and orchestration persistence together in one consolidated area.
 
-Written by
+Include:
 
-Visual Authoring
+- Layout JSON
+- Layout Definitions
+- Component Bindings
+- Registered Data Sources
+- Styles and Settings
+- Orchestration JSON
+- Orchestration Flows
+- Request / Response Mappings
+- Version History
 
-Read by
+This area may use a compact repository or document icon, but it should not dominate the diagram.
 
-Runtime
+Show:
 
----
+- Layout Builder writing Layout JSON
+- Orchestration Builder writing Orchestration JSON
+- Visual Authoring resolving layout definitions
+- Customer Experience App resolving layout definitions
+- Production Orchestration Engine loading orchestration definitions
 
-## Orchestration Repository
+### Aggregated and Contextualized Data
 
-Stores
+Use this exact title:
 
-* Orchestration JSON
-* API Trees
-* Request Mappings
-* Response Mappings
-* Version History
+**Aggregated and Contextualized Data**
 
-Written by
+Represent it as a data-source capability rather than merely a CMS database.
 
-Orchestration Builder
+Include:
 
-Read by
+- Published Content
+- Assets and Localization
+- Product and Catalog Context
+- Pricing and Inventory Context
+- Customer and Session Context
+- Search or Analytics Context
+- Versioned or Indexed Data
 
-Production Orchestration Engine
+Show authored content publishing into this data capability.
 
----
+Do not show the Customer Experience App or Production Orchestration Engine directly reading data repositories. Access to operational data must occur through the Domain API / Core Business API Layer.
 
-# Shared Platform
+## Enterprise Data Sources
 
-Center this section because it is shared by Authoring and Runtime.
-
-Use a teal background.
+Replace the large vertical stack of individual orange enterprise-service boxes with one compact orange box, or at most two compact boxes.
 
 Title:
 
-**Shared React Component Library**
+**Enterprise Data Sources and Specialized Services**
 
-Include
+List only representative examples, separated by commas or vertical bars:
 
-* Single Component Library Used Everywhere
+- Core Product
+- Pricing
+- Inventory
+- Search
+- Configuration
+- Analytics
+- Other Enterprise Services
 
-Rendering Modes
+Show most enterprise information feeding **Aggregated and Contextualized Data**.
 
-Authoring
+Specialized real-time services may connect to the Domain API layer where architecturally necessary, but enterprise systems must not become a major visual anchor.
 
-↓
+Do not show every service as a separate large box.
 
-Preview
+## Domain API / Core Business API Layer
 
-↓
+Add a distinct layer between operational data and the Production Orchestration Engine.
 
-Runtime
+Use the title:
 
-Display these as three connected cards.
+**Domain APIs / Core Business Logic APIs**
 
-Include
+Include representative capabilities such as:
 
-* Shared Rendering Logic
-* SSR Rendering Pipeline
+- Product Domain API
+- Pricing Domain API
+- Inventory Domain API
+- Search Domain API
+- Configuration Domain API
+- Customer Context API
 
-Draw bold arrows showing both
+Show the following architectural rule clearly:
 
-Visual Authoring
+- Production Orchestration Engine calls Domain APIs.
+- Domain APIs access Aggregated and Contextualized Data or specialized enterprise services.
+- Production Orchestration Engine does not access repositories directly.
+- Customer Experience App does not access operational data repositories directly.
+
+## Customer Experience Runtime
+
+Do not use **Production Environment** as the primary title for the application. Do not label the application merely **Production Runtime**, because the box represents a customer-facing application rather than an environment.
+
+### Customer Browser
+
+Show a small browser icon representing end users.
+
+Flow:
+
+**Request Page URL → Customer Experience App**
 
 and
 
-Production Runtime
+**Customer Experience App → Return HTML via SSR → Customer Browser**
 
-using this component library.
+### Customer Experience App — Green
 
-Include a caption
+Use the title:
 
-"Same Components. Same Structure. Different Rendering Modes."
+**Customer Experience App — Next.js SSR**
 
----
+Alternative acceptable title:
 
-## Component Catalog
+**Customer-Facing Next.js Experience App**
 
-Show a separate box connected to the Component Library.
+Include:
 
-Stores
+- Resolve Layout JSON
+- Load Shared React Components
+- Invoke Production Orchestration APIs
+- Evaluate Component Data Bindings
+- SSR Render Page
+- Return HTML to Browser
 
-* Reusable Components
-* Documentation
-* Versioning
+Show the application using:
 
----
+- Layout definitions
+- Shared React Component Library
+- Production Orchestration Engine
 
-# Production Environment
+Do not show the application directly reading the Aggregated and Contextualized Data store.
 
-## Customer Browser
+Place the Customer Experience App near the bottom of the architecture so it appears as the final customer-facing consumer of the platform.
 
-Small browser icon.
+### Production Orchestration Engine — Purple
 
-Arrow
+Show this as an independent production service with comparable prominence to runtime.
 
-Request Page URL
+Workflow:
 
-↓
+- Receive Request
+- Load Orchestration Definition
+- Execute Orchestration Flow
+- Perform Sequential / Parallel Execution
+- Apply Request Mappings
+- Invoke Domain APIs
+- Apply Response Mappings
+- Aggregate Results
+- Return Consolidated Response
 
-Production Runtime
+Show:
 
----
+- Customer Experience App invoking the Production Orchestration Engine
+- Production Orchestration Engine loading orchestration definitions
+- Production Orchestration Engine invoking Domain APIs
+- Domain APIs accessing aggregated/contextualized data and specialized services
 
-## Production Runtime (Green)
+The orchestration engine may use a horizontal shape if that improves the layered layout.
 
-Title
+## Required End-to-End Runtime Flow
 
-Production Runtime (Next.js SSR)
+Make this flow unmistakable:
 
-Show
+1. Customer Browser requests a page URL.
+2. Customer Experience App resolves Layout JSON.
+3. Customer Experience App loads shared React components.
+4. Customer Experience App invokes the Production Orchestration Engine.
+5. Production Orchestration Engine loads the orchestration definition.
+6. Production Orchestration Engine calls Domain APIs.
+7. Domain APIs obtain aggregated/contextualized information or call specialized enterprise services.
+8. Production Orchestration Engine aggregates and returns a consolidated response.
+9. Customer Experience App evaluates component bindings and renders the page using Next.js SSR.
+10. Customer Experience App returns HTML to the Customer Browser.
 
-1. Resolve Layout JSON
-2. Load Shared Components
-3. Invoke Production Orchestration APIs
-4. Invoke Direct Production APIs
-5. Evaluate Data Bindings
-6. SSR Render Page
-7. Return HTML
+## Direct API Calls
 
-Read from
+Do not add a new dotted direct-runtime-to-enterprise-API connector merely as an alternative to orchestration.
 
-Layout Repository
+If direct APIs configured in Layout JSON are retained because they are part of the actual solution, represent the behavior sparingly and label it clearly as an optional configuration-driven path. The main architectural path must remain:
 
-Content Repository
+**Customer Experience App → Production Orchestration Engine → Domain APIs**
 
-Shared Component Library
+## Connectors and Relationships
 
-Invoke
+Use clean, directional connectors with no overlap.
 
-Production Orchestration Engine
+Required connections:
 
-Return HTML to Browser.
+- Layout Designer → Layout Builder
+- React Component Developer → Component Development
+- Component Development → Shared React Component Library
+- Orchestration Editor → Orchestration Builder
+- Content Author → Visual Authoring
+- Layout Builder → Layout and Orchestration Definitions
+- Orchestration Builder → Layout and Orchestration Definitions
+- Layout and Orchestration Definitions → Visual Authoring
+- Layout and Orchestration Definitions → Customer Experience App
+- Layout and Orchestration Definitions → Production Orchestration Engine
+- Shared React Component Library → Visual Authoring
+- Shared React Component Library → Customer Experience App
+- Visual Authoring → Aggregated and Contextualized Data, labelled Save / Publish Content
+- Enterprise Data Sources → Aggregated and Contextualized Data
+- Customer Experience App → Production Orchestration Engine
+- Production Orchestration Engine → Domain APIs
+- Domain APIs → Aggregated and Contextualized Data
+- Domain APIs ↔ Specialized Enterprise Services, only where needed
+- Customer Browser ↔ Customer Experience App
 
----
+## Architecture Principles
 
-## Production Orchestration Engine (Purple)
+If space permits, include four compact callout cards at the bottom. If the diagram becomes crowded, move these cards to a separate slide or omit them from this detailed architecture view.
 
-Show this as an independent production service.
+### Pixel-Perfect Preview
 
-Workflow
+Authoring and the customer-facing application render with the same shared React components and rendering logic.
 
-Request
+### Shared Components
 
-↓
+Components share structure across Authoring, Preview, and Runtime while allowing behavior to vary by rendering mode.
 
-Load Orchestration Definition
+### JSON-Driven Platform
 
-↓
+Layouts and orchestration definitions are configuration-driven and stored as JSON.
 
-Execute API Tree
+### One Source, Multiple Experiences
 
-↓
+The same layouts, components, content, and orchestration definitions support both authoring and the customer-facing experience.
 
-Sequential / Parallel Execution
+## Detail Level
 
-↓
+For this version, keep the detailed bullet points inside the principal functional boxes so the architecture can be reviewed for completeness.
 
-Apply Request Mappings
+After the detailed version is finalized, create a second simplified executive version without the internal workflow bullets.
 
-↓
+## Legend
 
-Apply Response Mappings
+If space permits, create a compact legend:
 
-↓
+- Blue solid — Primary application and authoring flow
+- Purple solid — Orchestration flow
+- Green solid — Content publishing flow
+- Orange solid or dashed — Enterprise source integration
+- Gray — Definition or configuration read/write
+- Teal — Shared component relationship
 
-Aggregate Results
+## Visual Style
 
-↓
+Use a modern enterprise design inspired by Dell Technologies.
 
-Return Consolidated Response
+- White background
+- Rounded rectangles
+- Subtle shadows
+- Thin borders
+- Soft gradients only where appropriate
+- Professional typography
+- Minimal flat enterprise icons
+- Consistent spacing and alignment
+- Clear visual hierarchy
+- Generous whitespace
+- No overlapping arrows
+- No oversized repository cylinders
+- No oversized external-systems column
+- Balanced visual weight for shared components and orchestration
 
-Reads
+## Color Palette
 
-Orchestration Repository
+### Blue — Authoring Applications
 
-Calls
+- Primary Blue: `#0076CE`
+- Dark Blue: `#005DAA`
+- Light Blue: `#EAF5FE`
 
-Enterprise APIs
+### Purple — Orchestration
 
----
+- Purple: `#6F42C1`
+- Light Purple: `#F2ECFB`
 
-# External Enterprise Systems
+### Teal — Shared Components
 
-Place these on the far right inside a vertical orange panel.
+- Teal: `#00A3A3`
+- Light Teal: `#DDF7F7`
 
-Include
+### Green — Customer Experience App
 
-* Pricing Service
-* Shipping Service
-* Inventory Service
-* Product Catalog
-* Search Service
-* Promotions Service
-* Customer Service APIs
-* Other Enterprise Microservices
+- Green: `#2E8B57`
+- Light Green: `#EAF8F0`
 
-Connect these to
+### Orange — Enterprise Data Sources
 
-Production Orchestration Engine
+- Orange: `#F28C28`
+- Light Orange: `#FFF2E6`
 
-using orange arrows.
+### Gray — Definitions and Data
 
-Show dashed orange arrows directly into Runtime for APIs configured directly in Layout JSON.
+- Background: `#F8F9FA`
+- Border: `#D8D8D8`
 
----
+## Icons
 
-# Shared Relationships
+Use clean enterprise icons for:
 
-Visually emphasize
+- Personas
+- Applications
+- React Components
+- Configuration / JSON Documents
+- Data Sources
+- Domain APIs
+- Orchestration Engine
+- Customer Browser
+- Customer Experience App
+- Enterprise Services
 
-Shared React Component Library
+Avoid relying on emoji-style icons if the diagram tool can use polished vector enterprise icons.
 
-↓
+## Validation Rules
 
-Visual Authoring
+Before finalizing the diagram, verify all of the following:
 
-↓
+- Exactly four personas are shown.
+- React Component Developer is included.
+- Component Development connects to the Shared React Component Library.
+- The authoring/build capabilities follow a clear assembly sequence.
+- The Shared React Component Library is compact and not duplicated by a separate Component Catalog.
+- Rendering modes are explained only once.
+- Shared components and orchestration have equal visual weight.
+- The term API Tree is not used.
+- Three large standalone repository boxes are not shown.
+- Layout and orchestration definitions are consolidated.
+- Aggregated and Contextualized Data is explicitly shown.
+- Authored content publishes into Aggregated and Contextualized Data.
+- A Domain API / Core Business API Layer is shown.
+- Production Orchestration Engine calls Domain APIs, not repositories.
+- Customer Experience App does not read operational data repositories directly.
+- Enterprise systems are consolidated into one or two compact boxes.
+- The main runtime flow uses orchestration and Domain APIs.
+- No unnecessary dotted direct-runtime API path is added.
+- The application is named Customer Experience App or Customer-Facing Next.js Experience App, not merely Production Runtime.
+- Detailed bullets remain in the current version.
+- Bottom principle cards are retained only if they do not crowd the architecture.
 
-Runtime
-
-using bold arrows.
-
-This should immediately communicate
-
-"Preview equals Production."
-
----
-
-# Architecture Principles
-
-At the bottom create four callout cards.
-
-## Pixel-Perfect Preview
-
-Authoring and Runtime render using identical shared React components.
-
----
-
-## Shared Components
-
-Components share structure across Authoring, Preview and Runtime while allowing behavior to branch by rendering mode.
-
----
-
-## JSON Driven Platform
-
-Layouts and Orchestrations are configuration-driven and stored as JSON.
-
----
-
-## One Source Everywhere
-
-The same Layouts, Content and Orchestration APIs power both Authoring and Runtime.
-
----
-
-# Legend
-
-Create a legend showing connector meanings.
-
-Blue
-
-Primary Application Flow
-
-Purple
-
-Orchestration API Calls
-
-Green
-
-Publishing Flow
-
-Orange Dashed
-
-Direct Production API Calls
-
-Gray
-
-Repository Read / Write
-
----
-
-# Visual Style
-
-The diagram should use a modern enterprise design inspired by Dell Technologies.
-
-White background.
-
-Rounded rectangles.
-
-Subtle shadows.
-
-Thin borders.
-
-Soft gradients only where appropriate.
-
-Large whitespace.
-
-Professional typography.
-
-Minimalistic flat icons.
-
-Consistent spacing.
-
-No overlapping arrows.
-
----
-
-# Color Palette
-
-## Blue
-
-Primary Applications
-
-Primary Blue
-
-#0076CE
-
-Dark Blue
-
-#005DAA
-
-Light Blue
-
-#EAF5FE
-
----
-
-## Purple
-
-Orchestration
-
-#6F42C1
-
-Light Purple
-
-#F2ECFB
-
----
-
-## Teal
-
-Shared Platform
-
-#00A3A3
-
-Light Teal
-
-#DDF7F7
-
----
-
-## Green
-
-Production Runtime
-
-#2E8B57
-
-Light Green
-
-#EAF8F0
-
----
-
-## Orange
-
-External Systems
-
-#F28C28
-
-Light Orange
-
-#FFF2E6
-
----
-
-## Gray
-
-Repositories
-
-Background
-
-#F8F9FA
-
-Border
-
-#D8D8D8
-
----
-
-# Icons
-
-Use clean enterprise icons.
-
-👤 Users
-
-🖥️ Applications
-
-🗄️ Repositories
-
-📦 Component Library
-
-⚙️ Orchestration Engine
-
-🌐 Runtime
-
-☁️ Enterprise APIs
-
-📄 JSON
-
-🔗 APIs
-
----
-
-# Final Goal
+## Final Goal
 
 Produce a polished enterprise architecture infographic that clearly communicates:
 
-* The three authoring tools (Layout Builder, Visual Authoring, Orchestration Builder)
-* Shared React component architecture
-* Layout, Content, and Orchestration repositories
-* Production Runtime and Orchestration Engine
-* External enterprise systems
-* End-to-end user workflows
-* JSON-driven configuration model
-* Pixel-perfect preview achieved through shared components
+- Four personas and their responsibilities
+- The orchestration, layout, component-development, and visual-authoring assembly flow
+- A compact shared React component architecture
+- Orchestration as a peer platform capability
+- Consolidated layout and orchestration definitions
+- Aggregated and Contextualized Data
+- A Domain API / Core Business Logic API layer
+- The customer-facing Next.js SSR application
+- The Production Orchestration Engine
+- Simplified enterprise integrations
+- End-to-end authoring, publishing, orchestration, and runtime behavior
+- JSON-driven configuration
+- Pixel-perfect consistency between authoring preview and the customer-facing experience
 
-The finished diagram should look like a professionally designed architecture poster suitable for an executive presentation, solution architecture review, or engineering documentation. It should be visually balanced, colorful, highly readable, and immediately communicate the relationships between authoring, orchestration, repositories, runtime, and enterprise services.
+The final diagram must be visually balanced, highly readable, technically accurate, and suitable for an executive presentation, architecture review, or engineering design document.
