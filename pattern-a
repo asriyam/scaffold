@@ -1,8 +1,0 @@
-Anchor on whichever index the active constraints require, then hydrate from the other with a terms query on the SKU key. Two cases:
-
-
-Content-only constraints (Profile, or Search by: Content key): anchor on snpoffercontent, page it directly, then batch-fetch parent offers by Key to fill OfferNumber / category columns.
-Any offer-side constraint (CMX Category / Offer Type / Config Type, or Search by: Offer number): you must resolve matching SKUs from offer first, then fetch content WHERE Key IN (those SKUs). The content fetch is the inner join — it naturally drops SKUs that have no content, which is exactly what your authors want by default.
-
-
-This is simple, correct, and fine at 634-offer scale. Its ceiling is the terms clause (default max 65,536 terms) and the round-trip per request.
