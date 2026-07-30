@@ -1,0 +1,57 @@
+@theme {
+  /* ========= Base ========= */
+
+  --color-background: #24180F;      /* Espresso */
+  --color-sidebar: #3B281D;         /* Dark Walnut */
+  --color-surface: #4C3728;         /* Walnut */
+  --color-surface-2: #6A5240;       /* Mocha */
+  --color-surface-3: #8A6342;       /* Leather */
+
+  /* ========= Borders ========= */
+
+  --color-border: #6A5240;
+  --color-border-light: #8A6342;
+  --color-divider: #5A4333;
+
+  /* ========= Primary ========= */
+
+  --color-primary: #B88650;         /* Camel */
+  --color-primary-hover: #C89863;
+  --color-primary-active: #9E6F3F;
+  --color-primary-foreground: #24180F;
+
+  /* ========= Text ========= */
+
+  --color-foreground: #FBF7F1;      /* Ivory */
+  --color-foreground-muted: #D9C5A3;
+  --color-foreground-subtle: #B89E82;
+  --color-foreground-disabled: #8D7868;
+
+  /* ========= Inputs ========= */
+
+  --color-input: #3B281D;
+  --color-input-hover: #4C3728;
+  --color-input-focus: #6A5240;
+  --color-ring: #B88650;
+
+  /* ========= Status ========= */
+
+  --color-success: #657C3E;
+  --color-warning: #C58A2A;
+  --color-danger: #A64638;
+  --color-info: #6F8570;
+
+  /* ========= Tags ========= */
+
+  --color-tag-prod: #8A6342;
+  --color-tag-nonprod: #657C3E;
+  --color-tag-deployment: #C58A2A;
+  --color-tag-environment: #7D6B57;
+  --color-tag-login: #8A4D52;
+
+  /* ========= Misc ========= */
+
+  --color-selection: #B8865033;
+  --color-overlay: #00000080;
+  --color-shadow: #00000066;
+}
