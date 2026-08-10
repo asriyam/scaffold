@@ -7,6 +7,22 @@
 
 **Target of this document:** implementation of the LPG Plant ERP on the generic architecture, delivered as flavoured iterations, beginning with a **Windows desktop demo build seeded with realistic sample data** for client look-and-feel review.
 
+> **Amendment notice (2026-08-10):** Several sections of this document have been superseded by actual implementation decisions made during the F1 build phases (Phases 1–6). All divergences are captured in detail in `f1-demo-implementation-plan.md`, which is the **living state document** and is authoritative for F1. Where this spec and the implementation plan conflict, the implementation plan wins for F1. This spec remains the design-intent reference for F2/F3.
+>
+> Summary of key F1 divergences:
+> - .NET version: **9** (was 8)
+> - Demo data window: **30 days** (was 90)
+> - Five service classes are inlined in `BridgeRegistration.cs` rather than separate files (PurchaseService, FillingService, SalesService, ReceiptService, ExpenseService)
+> - Invoice filled-stock check: **warning** (was hard error)
+> - GRN safe-fill check: **warning** (was hard error)
+> - Receipt empty-allocations: **allowed** (on-account receipts)
+> - Closing preflight: tank logs required only for **tanks with activity** that day
+> - `PostingEngine` calls `ComputeInvoiceTotals` before posting for Invoice kind
+> - `Plant Supervisor` role has `masters:read` added
+> - `PostBar.svelte` accepts `errors[]`, `warnings[]`, and `success` props
+> - All date fields use `toLocaleDateString('en-CA')` (not `toISOString().split('T')[0]`)
+> - `MastersView.svelte` is a stub only — no CRUD UI implemented
+
 ---
 
 ## 1. Purpose and scope
@@ -57,7 +73,7 @@ Everything else in F1 is real: real calculations, real posting logic, real ledge
 | Architecture spec section | Adopted |
 |---|---|
 | §2 One frontend, two deployment modes | Yes — F1/F2 shell, F3 web, same SPA |
-| §3 Technology stack | Yes — .NET 8 + WebView2, Svelte 5 + TypeScript + Vite + Tailwind |
+| §3 Technology stack | Yes — .NET 9 + WebView2, Svelte 5 + TypeScript + Vite + Tailwind |
 | §5 Shell host patterns | Yes — entry point, startup gauntlet, main window, loading overlay |
 | §6 Bridge protocol and adapter pattern | Yes, with the permission-aware router from §18.5 adopted from the start |
 | §7 Service layer conventions | Yes — plain classes, constructor-injected paths, atomic writes, events |
@@ -524,7 +540,12 @@ Once `status = Approved`, the day is locked (**BR-CLS-06**): `PostingEngine` rej
 ```csharp
 public PostResult Post(DocumentBase doc, UserContext user)
 {
-    // 1. Guard: day lock
+    // 0. Pre-compute [Invoice only] — derive NetInvoice, GrossTotal, CreditAmount
+    //    from line amounts already on the document (called by BridgeRegistration
+    //    before engine.Post, so the validator has correct totals to check against)
+    // [IMPL: handled in BridgeRegistration.PostDocument, not inside PostingEngine itself]
+
+    // 1. Guard: day lock (disabled in F1 via #if !DEMO preprocessor symbol)
     if (doc.DocDate <= _closing.LastApprovedDate)
         throw new DayLockedException(doc.DocDate);      // BR-CLS-06
 
@@ -559,6 +580,8 @@ public PostResult Post(DocumentBase doc, UserContext user)
 
 Steps 3, 4 and 5 are the contract: effects are computed completely before anything is written, checked as a set, then written as a set. **This is the mechanism that satisfies BR-SAL-10 and BR-PUR-12.**
 
+> **F1 impl note — step 0:** `BridgeRegistration.PostDocument()` calls `ComputeInvoiceTotals(inv)` before `engine.Post()` for Invoice documents. This sets `NetInvoice = sum(refillLines) + sum(otherLines) − discount`, `GrossTotal`, and `CreditAmount`. Without this, the `InvoiceValidator` payment-split check (`CashAmount + BankAmount + CreditAmount ≤ NetInvoice + RecoveredAgainstPrevious`) would compare against a zero `NetInvoice` and block every invoice. The pre-compute is a bridge-layer concern, not part of the engine contract.
+
 ### 7.3 Effect generators
 
 Each document kind has a generator declaring exactly what it produces. This table is the specification for the generators and should be implemented literally.
@@ -584,15 +607,21 @@ Cancellation never deletes the original rows. It appends rows with the sign inve
 
 Each kind has a validator implementing its Functional-Specification rules. The important ones:
 
-**GrnValidator** — second weight < first weight (**BR-PUR-03**); Σ decant lines = net received (**BR-PUR-06**); each target tank has room below safe fill (**BR-PUR-05**); supplier active; rate > 0; shortage within tolerance or claim flagged (**BR-PUR-04**).
+**GrnValidator** — second weight < first weight (**BR-PUR-03**); Σ decant lines = net received (**BR-PUR-06**); each target tank has room below safe fill (**BR-PUR-05** — *see F1 note below*); supplier active; rate > 0; shortage within tolerance or claim flagged (**BR-PUR-04**).
 
-**InvoiceValidator** — gate pass exists and unbilled (**BR-SAL-01**, **BR-SAL-11**); customer active; every line has a resolved rate; overrides carry authoriser and reason (**BR-SAL-04**); payment split ≤ net invoice + recovery; credit limit checked (**BR-SAL-09**); requested filled/new/valve stock available (**BR-SAL-13**).
+**InvoiceValidator** — gate pass exists and unbilled (**BR-SAL-01**, **BR-SAL-11**); customer active; every line has a resolved rate; overrides carry authoriser and reason (**BR-SAL-04**); payment split ≤ net invoice + recovery; credit limit checked (**BR-SAL-09**); requested filled/new/valve stock available (**BR-SAL-13** — *see F1 note below*).
 
-**FillingBatchValidator** — empties of that size available (**BR-FIL-03**); tank holds gas required; loss within tolerance or explained (**BR-FIL-06**).
+**FillingBatchValidator** — empties of that size available (**BR-FIL-03** — hard error); tank holds gas required (hard error); loss within tolerance or explained (**BR-FIL-06**).
 
 **TankLogValidator** — all mandatory readings present; variance within tolerance, or explanation and approver present (**BR-TNK-06**).
 
-**ReceiptValidator** — allocations sum to amount; no allocation exceeds the invoice's open balance.
+**ReceiptValidator** — if allocations provided, they must not exceed the receipt amount; no allocation exceeds the invoice's open balance. Fully-unallocated (on-account) receipts with `allocations: []` are valid (*see F1 note below*).
+
+> **F1 impl note — GrnValidator safe-fill check:** downgraded from hard error to **warning**. The demo tank arrives near its safe-fill limit from 30 days of seeded GRNs; making it a hard error would block all demo GRN postings. The operator is advised but not blocked.
+
+> **F1 impl note — InvoiceValidator stock check:** downgraded from hard error to **warning**. Demo opening stock is approximately zero at session start (fills and sales balance over the 30-day window). Blocking invoices when stock = 0 would make the demo walkthrough unusable. The system advises the operator of the shortage but does not prevent posting.
+
+> **F1 impl note — ReceiptValidator:** original rule required `allocations.sum == receipt.amount`. Relaxed because `AccountsView.svelte` always sends `allocations: []` — there is no allocation UI in F1. On-account receipts are the only receipt type available in F1.
 
 ### 7.5 The balance guard
 
@@ -715,12 +744,14 @@ Every document kind exposes the same five verbs, which keeps the frontend generi
 |---|---|---|
 | `doc.draft` | `{kind}:write` | Create or update a draft (auto-saved) |
 | `doc.discard` | `{kind}:write` | Delete a draft (drafts only) |
-| `doc.post` | `{kind}:post` | Validate, generate effects, commit |
+| `doc.post` | `{kind}:post` | Pre-compute (Invoice) → validate → generate effects → commit |
 | `doc.approve` | `{kind}:approve` | Sign-off where required |
 | `doc.cancel` | `{kind}:cancel` | Cancel with reason; generate reversals |
 | `doc.get` / `doc.query` | `{kind}:read` | Retrieve |
 
 `params` carries `{ kind, payload }`. The router dispatches to the right validator and generator by `kind`. This means adding a document type later requires a validator, a generator and a view — no new bridge surface.
+
+> **F1 impl note:** all `doc.*` routes are registered with an empty permission string (`""`) in `BridgeRegistration.cs`. Role-level access control is enforced in the frontend (module visibility, button visibility) rather than at the bridge layer. This will be tightened in F2 to match the per-verb permission scheme in the table above.
 
 ### 9.4 Domain queries
 
@@ -749,6 +780,8 @@ Every document kind exposes the same five verbs, which keeps the frontend generi
 
 **One call per screen.** `dashboard.snapshot` deliberately returns the entire dashboard in one round trip rather than fifteen calls — the dashboard refreshes on a timer and on `data:changed`, and chattiness there is the most likely source of perceived sluggishness.
 
+> **F1 impl note:** `purchase.supplierSnapshot` and `closing.reopen` are in the spec but not registered in F1. `rates.history` uses permission `reports:read` (not `masters:read`) in F1. `print.payload` uses permission `reports:read` (not `print`). See `f1-demo-implementation-plan.md` §Bridge API for the complete F1 route table with actual permissions.
+
 ### 9.5 Demo-only methods (F1)
 
 `demo.reseed` (regenerate with a new seed) · `demo.setProfile` (busy day / slow day / month-end) · `demo.jumpToDate` · `session.switchRole`. All are registered behind a compile-time `DEMO` symbol so they cannot ship in F2.
@@ -775,9 +808,11 @@ Modules, in nav order, per the architecture spec §9.4 manifest pattern.
 | 60 | `core.accounts` | Accounts | Ledgers, receipts, expenses, cash and bank |
 | 70 | `core.closing` | Closing | Daily closing workspace and sign-off |
 | 80 | `core.reports` | Reports | Report gallery with filters and export |
-| 90 | `core.masters` | Masters | All master data, rate cards |
+| 90 | `core.masters` | Masters | All master data, rate cards — **⚠️ stub only in F1** |
 
-Overlays: `lookup` (Ctrl+K), `customerSnapshot`, `ratePicker`, `printPreview`, `help`, `settings`, `demoControls` (F1).
+Overlays: `lookup` (Ctrl+K), `customerSnapshot`, `ratePicker`, `printPreview`, `help` (F1 `?` key), `settings`, `demoControls` (F1, `Ctrl+Shift+G`).
+
+> **F1 impl note:** `MastersView.svelte` is a 4-line placeholder — no CRUD UI is implemented. Master data is managed via `DataSeedTool` or direct JSON file editing. Full master maintenance is deferred to F2 (Phase P9).
 
 ### 10.2 The sales counter screen
 
@@ -822,7 +857,7 @@ Centralised, because inconsistent number rendering across screens reads as slopp
 | `PartyPicker.svelte` | Type-ahead distributor/supplier picker showing outstanding inline |
 | `OutstandingPanel.svelte` | Live customer position beside the invoice |
 | `TankGauge.svelte` | SVG tank visual with level, pressure, temperature and alert state |
-| `PostBar.svelte` | Draft/Posted/Cancelled status badge plus Post/Cancel/Print actions |
+| `PostBar.svelte` | Fixed bottom bar: Draft/Post(F9)/Cancel actions; displays `errors[]` (red), `warnings[]` (amber, post succeeded), `success` (green confirmation string); clears on new document |
 | `KpiTile.svelte` | Dashboard metric with trend and alert threshold |
 | `ReportFrame.svelte` | Standard report chrome: filters, run, export, print |
 | `SignOffPanel.svelte` | Closing sign-off with named roles |
@@ -869,7 +904,7 @@ Because every record is created through the **real `PostingEngine`**, the genera
 
 | Parameter | Value |
 |---|---|
-| Period | 90 days ending today |
+| Period | **30 days** ending today *(was 90 in spec — reduced for seeding speed)* |
 | Working days | Mon–Sat; reduced Sunday activity |
 | Daily LPG throughput | 15–45 MT |
 | Rate drift | Random walk, ±2% daily, seasonal upward trend |
@@ -877,6 +912,8 @@ Because every record is created through the **real `PostingEngine`**, the genera
 | Payment behaviour | Per-distributor profile: prompt / average / slow payer |
 | Cylinder size mix | 11.8 kg dominant (~70%), 45.4 kg (~20%), 15 kg and 6 kg the remainder |
 | Empties return rate | 92–100%, creating realistic cylinder holding balances |
+
+> **F1 impl note:** At the end of the 30-day period, filled cylinder stock is approximately zero (fills balance sales). This is intentional — the demo walkthrough starts a new day by running a filling batch first, then posting invoices. See `f1-demo-implementation-plan.md` §Demo Data for details.
 
 ### 11.3 Demo controls overlay
 
@@ -920,6 +957,21 @@ F1 registers all methods with permissions and ships a `UserContext` whose permis
 Permission strings follow `{domain}:{action}`: `sales:read`, `sales:write`, `sales:post`, `sales:cancel`, `sales:rateOverride`, `sales:creditOverride`, `purchase:*`, `tanks:*`, `inventory:*`, `finance:*`, `closing:run`, `closing:approve`, `closing:reopen`, `masters:*`, `rates:write`, `reports:read`, `admin:users`.
 
 The role-to-permission mapping implements the matrix in Functional Specification §E.2 and lives in one file, `RolePermissions.cs`, as data rather than logic.
+
+The F1 role matrix as built (`RolePermissions.cs`):
+
+| Role | Key permissions |
+|---|---|
+| Data Entry Operator | `dashboard:read`, `sales:read/write`, `purchase:read/write`, `tanks:read/write`, `inventory:read`, `masters:read` |
+| Cashier | `dashboard:read`, `sales:read/write`, `finance:read/write`, `reports:read` |
+| Plant Supervisor | `dashboard:read`, `sales:read/write/post`, `purchase:read/write/post`, `tanks:read/write/post`, `inventory:read/write`, **`masters:read`**, `closing:run` |
+| Accounts Officer | `dashboard:read`, `sales:read/post/cancel`, `purchase:read/post/cancel`, `finance:read/write`, `reports:read`, `closing:run/approve` |
+| Plant Manager | `dashboard:*`, `sales:*`, `purchase:*`, `tanks:*`, `inventory:*`, `finance:*`, `closing:*`, `masters:*`, `rates:write`, `reports:read`, `admin:users` |
+| Managing Director / CEO | `*` |
+
+> **F1 impl note:** `Plant Supervisor` has `masters:read` added. Without it, `PlantView.svelte` could not populate tank, cylinder size, and customer dropdowns — the Status tab and all Tank Log / Filling Batch forms were empty. The Functional Spec §E.2 matrix should be updated accordingly for F2.
+
+> **F1 impl note:** `ledger:read` is not in any named role's permissions. `LedgerService` calls succeed only for roles with wildcard (`*`). For F2, `Accounts Officer` should receive `ledger:read`.
 
 **BR-AUD-04** (entry and approval cannot be the same person) is enforced in `PostingEngine.Approve`, not in the UI.
 
