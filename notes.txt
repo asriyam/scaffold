@@ -1,12 +1,80 @@
-https://dev18-assets.csnonprod.com/v3/assets/blt540af0d22654364e/bltf079bb81aa1e3d4d/6acf21baf76880293746bbcb/multi-locale-edit-approach-b.html
+# Handoff — problems found while preparing the Functional Guide (2026-10-23)
 
-https://dev18-assets.csnonprod.com/v3/assets/blt540af0d22654364e/bltf079bb81aa1e3d4d/6acf21baf76880293746bbcb/multi-locale-edit-approach-b.html
+Found by a read-only session preparing the user-facing Functional Guide. No document was
+changed. Current versions are whatever MANIFEST.md names; re-read them, don't trust this note's
+line numbers. Every item below needs a proposal and the client's go before anything is drafted.
 
-Ontology and Knowledge Graph Engineers, AI Data Engineers, Agent Interface and Orchestration Engineers, AI Trust & Evaluation Engineers, and Forward Deployed AI Engineers.
+## Context
+- `C:\work\dotnet\TrellisArchitect` is not a git repository at present. The client is building
+  a documentation portal and has said there is no git for now. So the round order in
+  ARCHITECT.md (branch → local merge → gate in a fresh session → push) cannot run here as
+  written. Decide how a round is recorded and gated until git returns.
+- I could not check whether the rounds D-327 to D-330 still owe a gate (no git history).
+- The banner counts came from the `from-code/` copies, which can lag: 2 open Awaiting Architect
+  rows (AA-14, AA-34) and 11 untriaged work-list rows (O-69, O-284, O-292, O-293, O-294,
+  O-300, O-366 to O-370).
 
+## 1. Decision rows that D-311 overtook but that carry no ✎ pointer to it
+The decision log's own rule: "a later decision that amends, narrows, supersedes or answers one
+adds a ✎ pointer to it in the same pass", and "a row with no pointer is in force". The D-311
+round added pointers to D-41, D-56, D-102 and D-153 only. These rows still read as in force
+while the Functional Specification (Part A.1, Part F, F.5, H.1) says otherwise:
 
-Light reads 
+Clear cases — the decision itself is withdrawn or moot:
+- D-3: "Transfer price with margin" (ENT-13 and PRC-08 were withdrawn by D-311).
+- D-220: inter-company balances shown on the Money dashboard as their own block, "Between group
+  companies". D-218's existing ✎ ("Settled by D-220 … inter-company balances appear") is stale
+  for the same reason.
+- D-223 and D-225: details of that same inter-company block (it raises no alerts; it shows the
+  pairs for a chosen company).
+- D-296: who decides an invoice is not submitted to FBR. AUD-10 is withdrawn, and open item 8
+  already says "moot since D-311", but the row has no pointer.
+- D-13: its D-153 pointer says FBR submission is "not configured or asked until R7". Under
+  D-311 it never happens.
 
-Starting off my light reading phase with PG Woodhouse. This will set me up for a long reading spell I guess. This is also my first book of PG Woodhouse. A long time back, I happen to listen to an audio version of PG Woodhouse and the English repelled me. So I never picked Woodhouse. A friend recommended me this book "Carry On, Jeeves" as a start and advised me to just the let the language wash over and I will get it. 
+Rows that promise a later mechanism that no longer exists (check each one; the fix may be
+more than a pointer):
+- D-92, D-270, D-271: each defers to "ENT-04's intercompany mechanism, R4". ENT-04 is withdrawn.
+  D-270 says nothing records what the company raising a sale owes the licence holder "until the
+  intercompany transaction". Decide whether that gap is now permanent and harmless (one
+  operating company), and say so.
+- D-155: "Inter-company invoices are S6's".
+- D-230 and D-231: the transfer rate card, "only an intercompany transfer reads one (PRC-08)".
+  PRC-08 is withdrawn. D-311 says built work for more than one company is "kept and
+  configured", so this may be intended. Confirm, then point or rewrite.
 
-This book "Carry On, Jeeves" is a collection of short stories. I just read first two "Jeeves takes charge" and "The artistic career of Corky" - both are very humorous and enjoyable. The pair Bertie Wooster and Jeeves and their funny interactions - not a new concept to me - most comedy I have read or watched as movies involve two people, one a bit inferior in intellect, make funny interesting conversations. There is still seven or eight stories to read in this book and it should be a breeze. 
+Passing mentions of the period lock or re-open; probably no action, listed so nobody re-finds
+them: D-36, D-79, D-101, D-114, D-126, D-261, D-287.
+
+Related, already on record: T-553(4) accepted that dormant passages on FBR, inter-company and
+consolidation are rewritten "when next touched". That ruling covers specification passages. It
+does not cover the decision log's pointer obligation, which is "in the same pass".
+
+## 2. Functional Specification text still reads as live against D-311
+- H.2 (rules that changed meaning): "Intercompany was assumed at cost and is at margin."
+- Open item 64: still asks "which figure goes to the tax authority" and proceeds on "the
+  submitted figure is the rounded one". Nothing is submitted (D-311). The rounding-versus-tax
+  order part is still a live question; the submission part is not. D-126 has the same
+  wording.
+- MST-03 and MST-04 (the D-231 ✎ and the transfer card wording): see D-230 and D-231 above.
+
+## 3. ARCHITECT.md describes a matrix list that doesn't exist
+ARCHITECT.md ("Reading, not searching", step 4) says the Traceability Matrix's rule list is "a
+plain-language index of every rule due at go-live". Matrix v157 Part 1 traces mechanisms
+(Document/Master, Posting, Projection, Validation, Report) and has no plain-language column.
+Either the wording in ARCHITECT.md is wrong or the list was lost. This is a room-tooling
+observation: an ARC-* row, written on main (or its equivalent while there is no git).
+
+## 4. Carried, already on record (no new finding)
+- D-292, T-544 and T-545 are still reserved and not drawn (ARC-17, second half open).
+- D-23 and D-25 have no row in the Functional Specification's decision log because they live in
+  the Data Model's log. That is not a gap; listed so nobody chases it.
+
+## Suggested shape (only a proposal; needs the client's go)
+One corrections-only round:
+- decision log reissued with ✎ pointers on the rows in item 1
+- Functional Specification reissued only if H.2 and open item 64 are rewritten
+- no rule added, withdrawn or retagged; go-live count unchanged
+- Identifiers drawn: none
+- item 3 recorded as an ARC-* row
+Name who directed it.
