@@ -1,0 +1,79 @@
+TASK: Produce a user-friendly Functional Guide for Trellis (the LPG storage,
+filling and distribution plant ERP). This is a new, non-specification artifact.
+
+START HERE
+Read ARCHITECT.md in full, then MANIFEST.md, then map/. Print the session
+banner. MANIFEST.md names the current version of every document; trust it and
+nothing else. Do not carry version numbers over from this note.
+
+WHAT THE GUIDE IS
+A readable explanation of what the system does and why each decision was
+taken, and what each decision means for the people running the plant.
+- It is NOT a source of rules. Where it disagrees with the Functional
+  Specification, the Functional Specification wins. Say this in the guide's
+  opening, as the Statement of Understanding does.
+- It is organised BY TOPIC, not by decision. The decision log is chronological
+  and later decisions reverse earlier ones. Resolve each chain to the current
+  state, and use the earlier decisions only for the reason behind it.
+
+WRITING RULES
+- Write for plant staff and the owner, who are not software or accounting
+  specialists. Plain words first. Every point has to make sense to someone who
+  has never seen the specification set.
+- No rule IDs, decision IDs, section numbers or document names in the guide's
+  text. Not even as footnotes. (ARCHITECT.md allows IDs in chat, never inside
+  a document.)
+- Use worked examples with real quantities. Use the plant's own cases where
+  the record has them (e.g. the 29-tonne bowser that vanished into an
+  unformulated column, the Rs. 1,754 under-billed to rounding).
+- Lead each topic with the likely misunderstanding, then what the system does.
+- Each topic covers: what the system does; why it was decided that way; what
+  it means for the people who use it, including what they must now do or can
+  no longer do.
+- The client is one person: Zaheer Zafar. Never write "Zaheer and Zafar".
+- Scope is operations only. The system keeps no statutory books and makes no
+  tax-authority filings. Check how the operations-only scope decision is worded
+  in the current spec before writing any topic that touches tax or accounts.
+- Describe only what the current Functional Specification says. Anything
+  marked as an open item, deferred or parked is described as "not yet
+  decided" or "later". Never present it as settled.
+  Parked items in memory: the shed credit block and the go-live capture
+  template.
+
+PROCESS (consent is required before each step)
+1. PROPOSE ONLY, then wait for an explicit go. Read the current Functional
+   Specification, its decision log, and the matrix's plain-language rule list.
+   Propose a topic outline: chapter titles, which decisions fold into each,
+   and the order. Do not draft any chapter yet.
+2. After the go, write chapter by chapter. Parallel agents may do the reading
+   and condensing; one voice does the final pass.
+3. Fresh-session check: a different session spot-checks a sample of chapters
+   against the specification for quiet inaccuracy, which is the main risk
+   here. Plain-language summaries read as confident when they are wrong.
+
+OPEN CHOICES (defaults assumed; ask for a confirmation in the outline step)
+- Audience: plant staff and owner (assumed).
+- Format: Markdown, in a new folder `guide/` (assumed). Word or a shared doc
+  is possible.
+- Not entered in the version register or the gate's document checks, unless
+  the client directs otherwise. Confirm this at the outline step.
+- Maintenance: regenerate at stage boundaries rather than every round
+  (assumed), so the guide does not become another thing that drifts.
+
+SIZE (for planning)
+Functional Specification about 45k words; functional decision log about 300
+decisions. Estimate 8-12 focused sessions. The technical guide is a separate
+later job and is out of scope here.
+
+BRANCHING
+Work on a plain branch in the primary folder (git switch -c round/<slug>
+main), one round branch at a time. Name who directed the round in the merge.
+The gate runs in a separate fresh session on main. Nothing is pushed before
+the gate passes.
+Unmerged or ungated rounds exist on main (see memory notes on D-327..D-330).
+Do not start a guide branch while a gate is owed or a round branch is
+checked out. Check git status first.
+
+HANDOFF BACK
+End with a replacement-style note: files created, what was not covered and
+why, and any open item the guide had to describe as undecided.
